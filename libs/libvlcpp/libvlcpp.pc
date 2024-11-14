@@ -1,0 +1,10 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libvlcpp
+Description: libvlc C++ bindings
+Version: 0.1.0
+Cflags: -I${includedir}
+Requires: libvlc >= 3
