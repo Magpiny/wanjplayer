@@ -1,8 +1,11 @@
 #include "statusbar.hpp"
 
-/*void*/
-/*gui::StatusBar::create_status_bar()*/
-/*{*/
-/*CreateStatusBar(4);*/
-/*SetStatusText(wxT("Welcome to wxWidgets!"), 1);*/
-/*};*/
+gui::StatusBar::StatusBar(wxFrame* parent)
+  : _parent(parent) {};
+
+void
+gui::StatusBar::create_statusbar()
+{
+  _parent->CreateStatusBar(4);
+  _parent->SetStatusText(wxT("Welcome to wxWidgets!"), 1);
+};

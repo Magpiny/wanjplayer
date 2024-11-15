@@ -1,5 +1,14 @@
 #ifndef __SIDEBAR__H
 #define __SIDEBAR__H
-#include "gui"
+
+namespace gui {
+class Sidebar
+{
+public:
+  Sidebar();
+  void populate_sidebar();
+  ~Sidebar();
+};
+}
 
 #endif // !__SIDEBAR__H

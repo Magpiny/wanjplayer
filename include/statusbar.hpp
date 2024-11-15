@@ -1,16 +1,21 @@
-#ifndef __STATUSBAR__H
-#define __STATUSBAR__H
+#ifndef __STATUSBAR__HPP
+#define __STATUSBAR__HPP
+
+#include "wanjplayer.hpp"
 
 namespace gui {
 
 class StatusBar
 {
 public:
-  StatusBar() {};
-  static void create_status_bar();
+  StatusBar(wxFrame* parent);
+  void create_statusbar();
   ~StatusBar() {};
+
+private:
+  wxFrame* _parent;
 };
 
 }
 
-#endif // !__STATUSBAR__H
+#endif // !__STATUSBAR__HPP

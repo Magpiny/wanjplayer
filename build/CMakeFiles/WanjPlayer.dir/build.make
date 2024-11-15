@@ -111,11 +111,41 @@ CMakeFiles/WanjPlayer.dir/src/statusbar.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/WanjPlayer.dir/src/statusbar.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/statusbar.cpp -o CMakeFiles/WanjPlayer.dir/src/statusbar.cpp.s
 
+CMakeFiles/WanjPlayer.dir/src/about.cpp.o: CMakeFiles/WanjPlayer.dir/flags.make
+CMakeFiles/WanjPlayer.dir/src/about.cpp.o: /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/about.cpp
+CMakeFiles/WanjPlayer.dir/src/about.cpp.o: CMakeFiles/WanjPlayer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/WanjPlayer.dir/src/about.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/WanjPlayer.dir/src/about.cpp.o -MF CMakeFiles/WanjPlayer.dir/src/about.cpp.o.d -o CMakeFiles/WanjPlayer.dir/src/about.cpp.o -c /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/about.cpp
+
+CMakeFiles/WanjPlayer.dir/src/about.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/WanjPlayer.dir/src/about.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/about.cpp > CMakeFiles/WanjPlayer.dir/src/about.cpp.i
+
+CMakeFiles/WanjPlayer.dir/src/about.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/WanjPlayer.dir/src/about.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/about.cpp -o CMakeFiles/WanjPlayer.dir/src/about.cpp.s
+
+CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o: CMakeFiles/WanjPlayer.dir/flags.make
+CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o: /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/license_dialogbx.cpp
+CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o: CMakeFiles/WanjPlayer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o -MF CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o.d -o CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o -c /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/license_dialogbx.cpp
+
+CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/license_dialogbx.cpp > CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.i
+
+CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/license_dialogbx.cpp -o CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.s
+
 # Object files for target WanjPlayer
 WanjPlayer_OBJECTS = \
 "CMakeFiles/WanjPlayer.dir/src/wanjplayer.cpp.o" \
 "CMakeFiles/WanjPlayer.dir/src/menubar.cpp.o" \
-"CMakeFiles/WanjPlayer.dir/src/statusbar.cpp.o"
+"CMakeFiles/WanjPlayer.dir/src/statusbar.cpp.o" \
+"CMakeFiles/WanjPlayer.dir/src/about.cpp.o" \
+"CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o"
 
 # External object files for target WanjPlayer
 WanjPlayer_EXTERNAL_OBJECTS =
@@ -123,9 +153,11 @@ WanjPlayer_EXTERNAL_OBJECTS =
 WanjPlayer: CMakeFiles/WanjPlayer.dir/src/wanjplayer.cpp.o
 WanjPlayer: CMakeFiles/WanjPlayer.dir/src/menubar.cpp.o
 WanjPlayer: CMakeFiles/WanjPlayer.dir/src/statusbar.cpp.o
+WanjPlayer: CMakeFiles/WanjPlayer.dir/src/about.cpp.o
+WanjPlayer: CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o
 WanjPlayer: CMakeFiles/WanjPlayer.dir/build.make
 WanjPlayer: CMakeFiles/WanjPlayer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable WanjPlayer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable WanjPlayer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/WanjPlayer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
