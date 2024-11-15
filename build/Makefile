@@ -129,6 +129,54 @@ WanjPlayer/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/WanjPlayer.dir/build.make CMakeFiles/WanjPlayer.dir/build
 .PHONY : WanjPlayer/fast
 
+src/about.o: src/about.cpp.o
+.PHONY : src/about.o
+
+# target to build an object file
+src/about.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/WanjPlayer.dir/build.make CMakeFiles/WanjPlayer.dir/src/about.cpp.o
+.PHONY : src/about.cpp.o
+
+src/about.i: src/about.cpp.i
+.PHONY : src/about.i
+
+# target to preprocess a source file
+src/about.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/WanjPlayer.dir/build.make CMakeFiles/WanjPlayer.dir/src/about.cpp.i
+.PHONY : src/about.cpp.i
+
+src/about.s: src/about.cpp.s
+.PHONY : src/about.s
+
+# target to generate assembly for a file
+src/about.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/WanjPlayer.dir/build.make CMakeFiles/WanjPlayer.dir/src/about.cpp.s
+.PHONY : src/about.cpp.s
+
+src/license_dialogbx.o: src/license_dialogbx.cpp.o
+.PHONY : src/license_dialogbx.o
+
+# target to build an object file
+src/license_dialogbx.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/WanjPlayer.dir/build.make CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o
+.PHONY : src/license_dialogbx.cpp.o
+
+src/license_dialogbx.i: src/license_dialogbx.cpp.i
+.PHONY : src/license_dialogbx.i
+
+# target to preprocess a source file
+src/license_dialogbx.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/WanjPlayer.dir/build.make CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.i
+.PHONY : src/license_dialogbx.cpp.i
+
+src/license_dialogbx.s: src/license_dialogbx.cpp.s
+.PHONY : src/license_dialogbx.s
+
+# target to generate assembly for a file
+src/license_dialogbx.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/WanjPlayer.dir/build.make CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.s
+.PHONY : src/license_dialogbx.cpp.s
+
 src/menubar.o: src/menubar.cpp.o
 .PHONY : src/menubar.o
 
@@ -210,6 +258,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... WanjPlayer"
+	@echo "... src/about.o"
+	@echo "... src/about.i"
+	@echo "... src/about.s"
+	@echo "... src/license_dialogbx.o"
+	@echo "... src/license_dialogbx.i"
+	@echo "... src/license_dialogbx.s"
 	@echo "... src/menubar.o"
 	@echo "... src/menubar.i"
 	@echo "... src/menubar.s"

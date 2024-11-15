@@ -29,7 +29,7 @@ include_directories(${INCLUDE_DIR})
 include_directories(${LIBS_DIR}/libvlcpp)
 
 # Find wxWidgets
-find_package(wxWidgets REQUIRED COMPONENTS base core media net)
+find_package(wxWidgets REQUIRED COMPONENTS base core media net adv)
 
 include(${wxWidgets_USE_FILE})
 
@@ -38,6 +38,8 @@ add_executable(WanjPlayer
 ${SOURCE_DIR}/wanjplayer.cpp
 ${SOURCE_DIR}/menubar.cpp
 ${SOURCE_DIR}/statusbar.cpp
+${SOURCE_DIR}/about.cpp
+${SOURCE_DIR}/license_dialogbx.cpp
 
 )
 
@@ -51,6 +53,9 @@ target_link_libraries(WanjPlayer ${wxWidgets_LIBRARIES})
 set_target_properties(WanjPlayer PROPERTIES 
     RUNTIME_OUTPUT_DIRECTORY ${BIN_DIR}
 )
+
+# COPY Assets dir to binary dir
+file(COPY assets DESTINATION ${BIN_DIR})
 
 # Add Tests
 

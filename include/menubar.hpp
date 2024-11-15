@@ -2,6 +2,7 @@
 #define __MENUBAR__HPP
 
 #include "wanjplayer.hpp"
+
 namespace gui {
 class Menubar
 {
@@ -10,7 +11,7 @@ public:
   void create_menubar();
 
 private:
-  wxFrame* parent_;
+  wxFrame* _parent;
 };
 }
 

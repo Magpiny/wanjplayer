@@ -15,14 +15,18 @@ public:
   PlayerFrame();
 
 private:
-  void OnHello(wxCommandEvent& event);
   void OnExit(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
+  void OnFileOpen(wxCommandEvent& event);
+  void OnLicense(wxCommandEvent& event);
+  void OnPreferences(wxCommandEvent& event);
 };
 
 enum
 {
-  ID_Hello = 1
+  ID_OPENFILE = 100,
+  ID_PREFS,
+  ID_LICENSE
 };
 
 #endif // !__WANJPLAYER__H
