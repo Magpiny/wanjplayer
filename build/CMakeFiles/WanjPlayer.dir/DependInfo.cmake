@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/about.cpp" "CMakeFiles/WanjPlayer.dir/src/about.cpp.o" "gcc" "CMakeFiles/WanjPlayer.dir/src/about.cpp.o.d"
   "/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/license_dialogbx.cpp" "CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o" "gcc" "CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o.d"
   "/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/menubar.cpp" "CMakeFiles/WanjPlayer.dir/src/menubar.cpp.o" "gcc" "CMakeFiles/WanjPlayer.dir/src/menubar.cpp.o.d"
+  "/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/player.cpp" "CMakeFiles/WanjPlayer.dir/src/player.cpp.o" "gcc" "CMakeFiles/WanjPlayer.dir/src/player.cpp.o.d"
   "/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/statusbar.cpp" "CMakeFiles/WanjPlayer.dir/src/statusbar.cpp.o" "gcc" "CMakeFiles/WanjPlayer.dir/src/statusbar.cpp.o.d"
   "/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/src/wanjplayer.cpp" "CMakeFiles/WanjPlayer.dir/src/wanjplayer.cpp.o" "gcc" "CMakeFiles/WanjPlayer.dir/src/wanjplayer.cpp.o.d"
   )

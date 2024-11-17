@@ -81,12 +81,12 @@ clean: CMakeFiles/WanjPlayer.dir/clean
 CMakeFiles/WanjPlayer.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/WanjPlayer.dir/build.make CMakeFiles/WanjPlayer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/WanjPlayer.dir/build.make CMakeFiles/WanjPlayer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target WanjPlayer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target WanjPlayer"
 .PHONY : CMakeFiles/WanjPlayer.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/WanjPlayer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/WanjPlayer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles 0
 .PHONY : CMakeFiles/WanjPlayer.dir/rule

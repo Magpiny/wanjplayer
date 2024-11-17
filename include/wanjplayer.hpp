@@ -20,13 +20,15 @@ private:
   void OnFileOpen(wxCommandEvent& event);
   void OnLicense(wxCommandEvent& event);
   void OnPreferences(wxCommandEvent& event);
+  void OnMediaLoaded(wxCommandEvent& event);
 };
 
 enum
 {
   ID_OPENFILE = 100,
   ID_PREFS,
-  ID_LICENSE
+  ID_LICENSE,
+  ID_MEDIA_LOADED
 };
 
 #endif // !__WANJPLAYER__H

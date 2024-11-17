@@ -1,6 +1,8 @@
 #ifndef __PLAYER__H
 #define __PLAYER__H
 
+#include "wanjplayer.hpp"
+
 namespace player {
 class Controls
 {

@@ -8,6 +8,7 @@ gui::Menubar::create_menubar()
 {
   wxMenu* menuFile = new wxMenu;
   menuFile->Append(ID_OPENFILE, "&Open File\tCtrl-O");
+  menuFile->Append(ID_MEDIA_LOADED, "&Play");
   menuFile->AppendSeparator();
   menuFile->Append(wxID_EXIT);
 
