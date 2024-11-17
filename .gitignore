@@ -1,11 +1,8 @@
 # Build directory
-./build/*
-build
 build/
+build/**/*
 
-./assets/*
-assets
-assets/
+assets/sample-media/*
 # Prerequisites
 
 *.d
