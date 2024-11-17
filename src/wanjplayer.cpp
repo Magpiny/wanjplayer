@@ -2,6 +2,7 @@
 #include "wanjplayer.hpp"
 #include "player_ui.hpp"
 #include "wx_widgets.hpp"
+#include <algorithm>
 #include <memory>
 
 wxIMPLEMENT_APP(WanjPlayer);
@@ -20,7 +21,7 @@ PlayerFrame::PlayerFrame()
 {
   // SET APP Icon
   wxIcon icon;
-  if (!icon.LoadFile("./assets/logo/wanjplayer-64x64.png", wxBITMAP_TYPE_PNG))
+  if (!icon.LoadFile("../assets/logo/wanjplayer-64x64.png", wxBITMAP_TYPE_PNG))
     wxMessageBox(
       "Failed to load Icon", "Icon Failure", wxOK | wxICON_INFORMATION);
   SetIcon(icon);
@@ -42,23 +43,16 @@ PlayerFrame::PlayerFrame()
 
   // Right Window for the video canvas
   wxPanel* video_canvas_pane = new wxPanel(splitter, wxID_ANY);
-  wxMediaCtrl* media = new wxMediaCtrl(video_canvas_pane,
-                                       wxID_ANY,
-                                       wxEmptyString,
-                                       wxDefaultPosition,
-                                       wxDefaultSize,
-                                       wxMC_NO_AUTORESIZE,
-                                       wxMEDIABACKEND_GSTREAMER);
+  media_ctrl = new wxMediaCtrl(video_canvas_pane,
+                               wxID_ANY,
+                               wxEmptyString,
+                               wxDefaultPosition,
+                               wxDefaultSize,
+                               wxMC_NO_AUTORESIZE,
+                               wxMEDIABACKEND_GSTREAMER);
 
-  if (media->Load("../assets/sample-media/Oti.mp4")) {
-    media->ShowPlayerControls();
-    media->Play();
-  } else {
-    wxMessageBox(
-      "Failed to load media file", "PlayBackError", wxOK | wxICON_ERROR);
-  }
   wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
-  video_sizer->Add(media, 1, wxEXPAND);
+  video_sizer->Add(media_ctrl, 1, wxEXPAND);
   video_canvas_pane->SetSizer(video_sizer);
 
   // Left Pane for the midea queue
@@ -69,19 +63,22 @@ PlayerFrame::PlayerFrame()
   splitter->SetMinimumPaneSize(100);
   // splitter->Unsplit();
 
-  // Layout the splitter on the frame
-  wxBoxSizer* player_window_sizer = new wxBoxSizer(wxVERTICAL);
-  player_window_sizer->Add(splitter, 1, wxEXPAND);
-  this->SetSizer(player_window_sizer);
-  this->Layout();
-
   /**
    *
    * CREATE THE STATUS BAR
    *
    */
   gui::StatusBar* player_statusbar = new gui::StatusBar(this);
-  player_statusbar->create_statusbar();
+  player_statusbar->create_statusbar(
+    wxString::FromCDouble(media_ctrl->GetVolume() * 100, -1),
+    wxString::FromCDouble(media_ctrl->GetPlaybackRate()),
+    wxString::Format(_T("%lld"), media_ctrl->Length() / 60000));
+
+  // Layout the splitter on the frame
+  wxBoxSizer* player_window_sizer = new wxBoxSizer(wxVERTICAL);
+  player_window_sizer->Add(splitter, 1, wxEXPAND);
+  this->SetSizer(player_window_sizer);
+  this->Layout();
 
   /**
    * BIND GUI EVENTS HERE
@@ -111,8 +108,27 @@ PlayerFrame::OnAbout(wxCommandEvent& event)
 void
 PlayerFrame::OnFileOpen(wxCommandEvent& event)
 {
-  wxMessageBox(
-    "File Open dialog box", "From wanjare", wxOK | wxICON_INFORMATION);
+  wxFileDialog open_file_dialog(
+    this,
+    _("Open Media File"),
+    "",
+    "",
+    "Media files "
+    "(*.mp3;*.mp4;*.mkv;*.avi;*.wav;*.aac;*.m4a;*.flac;*.ogg)|*.avi;*.mp3;*."
+    "mp4;*.mkv;*.wav;*.aac;*.m4a;*.flac;*.ogg",
+    wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+  if (open_file_dialog.ShowModal() == wxID_CANCEL) {
+    return;
+  }
+
+  // set the file path dir
+  wxString file_path = open_file_dialog.GetPath();
+  if (media_ctrl && media_ctrl->Load(file_path)) {
+    media_ctrl->Play();
+    media_ctrl->ShowPlayerControls(wxMEDIACTRLPLAYERCONTROLS_VOLUME);
+  } else {
+    wxLogError("Failed to load media");
+  }
 };
 
 void
