@@ -9,7 +9,7 @@ class StatusBar
 {
 public:
   StatusBar(wxFrame* parent);
-  void create_statusbar(wxT mssg1, wxT mssg2, wxT mssg3);
+  void create_statusbar(wxString mssg1, wxString mssg2, wxString mssg3);
   ~StatusBar() {};
 
 private:

@@ -1,6 +1,7 @@
-#ifndef __WANJPLAYER__H
-#define __WANJPLAYER__H
+#ifndef __WANJPLAYER__HPP
+#define __WANJPLAYER__HPP
 
+#include "wx_widgets.hpp"
 #include <wx/wx.h>
 
 class WanjPlayer : public wxApp
@@ -15,6 +16,8 @@ public:
   PlayerFrame();
 
 private:
+  wxMediaCtrl* media_ctrl;
+
   void OnExit(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
   void OnFileOpen(wxCommandEvent& event);
@@ -31,4 +34,4 @@ enum
   ID_MEDIA_LOADED
 };
 
-#endif // !__WANJPLAYER__H
+#endif // !__WANJPLAYER__HPP
