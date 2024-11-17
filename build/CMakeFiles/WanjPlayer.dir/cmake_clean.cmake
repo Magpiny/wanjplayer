@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/WanjPlayer.dir/src/license_dialogbx.cpp.o.d"
   "CMakeFiles/WanjPlayer.dir/src/menubar.cpp.o"
   "CMakeFiles/WanjPlayer.dir/src/menubar.cpp.o.d"
+  "CMakeFiles/WanjPlayer.dir/src/player.cpp.o"
+  "CMakeFiles/WanjPlayer.dir/src/player.cpp.o.d"
   "CMakeFiles/WanjPlayer.dir/src/statusbar.cpp.o"
   "CMakeFiles/WanjPlayer.dir/src/statusbar.cpp.o.d"
   "CMakeFiles/WanjPlayer.dir/src/wanjplayer.cpp.o"

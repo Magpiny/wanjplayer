@@ -1,7 +1,11 @@
 # Build directory
 ./build/*
+build
+build/
 
 ./assets/*
+assets
+assets/
 # Prerequisites
 
 *.d

@@ -1,6 +1,5 @@
 // Start of wxWidgets "Hello World" Program
 #include "wanjplayer.hpp"
-#include "about.hpp"
 #include "player_ui.hpp"
 #include "wx_widgets.hpp"
 #include <memory>
@@ -21,7 +20,9 @@ PlayerFrame::PlayerFrame()
 {
   // SET APP Icon
   wxIcon icon;
-  icon.LoadFile("../assets/logo/wanjplayer-32x32.png", wxBITMAP_TYPE_PNG);
+  if (!icon.LoadFile("./assets/logo/wanjplayer-64x64.png", wxBITMAP_TYPE_PNG))
+    wxMessageBox(
+      "Failed to load Icon", "Icon Failure", wxOK | wxICON_INFORMATION);
   SetIcon(icon);
 
   /**
@@ -41,6 +42,24 @@ PlayerFrame::PlayerFrame()
 
   // Right Window for the video canvas
   wxPanel* video_canvas_pane = new wxPanel(splitter, wxID_ANY);
+  wxMediaCtrl* media = new wxMediaCtrl(video_canvas_pane,
+                                       wxID_ANY,
+                                       wxEmptyString,
+                                       wxDefaultPosition,
+                                       wxDefaultSize,
+                                       wxMC_NO_AUTORESIZE,
+                                       wxMEDIABACKEND_GSTREAMER);
+
+  if (media->Load("../assets/sample-media/Oti.mp4")) {
+    media->ShowPlayerControls();
+    media->Play();
+  } else {
+    wxMessageBox(
+      "Failed to load media file", "PlayBackError", wxOK | wxICON_ERROR);
+  }
+  wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
+  video_sizer->Add(media, 1, wxEXPAND);
+  video_canvas_pane->SetSizer(video_sizer);
 
   // Left Pane for the midea queue
   wxPanel* media_queue_pane = new wxPanel(splitter, wxID_ANY);
@@ -73,6 +92,7 @@ PlayerFrame::PlayerFrame()
   Bind(wxEVT_MENU, &PlayerFrame::OnPreferences, this, ID_PREFS);
   Bind(wxEVT_MENU, &PlayerFrame::OnLicense, this, ID_LICENSE);
   Bind(wxEVT_MENU, &PlayerFrame::OnAbout, this, wxID_ABOUT);
+  Bind(wxEVT_MENU, &PlayerFrame::OnMediaLoaded, this, ID_MEDIA_LOADED);
 };
 
 void
@@ -105,7 +125,25 @@ PlayerFrame::OnPreferences(wxCommandEvent& event)
 void
 PlayerFrame::OnLicense(wxCommandEvent& event)
 {
-  gui::LicenseDialog licence_dialog(this, wxID_ANY, "License Agreement");
+  gui::LicenseDialog license_dialog =
+    gui::LicenseDialog(this, "License Agreement");
   license_dialog.load_license("../assets/LICENSE");
+  license_dialog.DoLayoutAdaptation();
   license_dialog.ShowModal();
 };
+
+void
+PlayerFrame::OnMediaLoaded(wxCommandEvent& event)
+{
+  /* std::unique_ptr<wxMediaCtrl> media =*/
+  /*std::make_unique<wxMediaCtrl>(this,*/
+  /*ID_MEDIA_LOADED,*/
+  /*wxEmptyString,*/
+  /*wxDefaultPosition,*/
+  /*wxDefaultSize,*/
+  /*wxMC_NO_AUTORESIZE,*/
+  /*wxMEDIABACKEND_GSTREAMER);*/
+  /*media->Load("../assets/sample-media/FORM1Choir.mp4");*/
+  /*media->Play();*/
+  /*wxMessageBox(media->GetState, "PlayBackStatu", wxOK | wxERROR_ICON);*/
+}

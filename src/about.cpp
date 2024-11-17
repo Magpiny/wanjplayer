@@ -12,7 +12,6 @@ gui::About::create_about_page()
   aboutInfo.SetCopyright("(C) 2025 Samuel Wanjare");
   aboutInfo.SetWebSite("https://www.magpiny.dev");
   aboutInfo.AddDeveloper("Samuel Wanjare");
-  aboutInfo.AddDeveloper("Magpiny BO");
   aboutInfo.AddDocWriter("WSammy");
   aboutInfo.AddTranslator("Magpiny Bo");
   aboutInfo.AddArtist("Wanjman");
