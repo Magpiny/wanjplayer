@@ -1,3 +1,0 @@
-/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles/WanjPlayer.dir
-/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles/edit_cache.dir
-/home/wanjares/Documents/Devs/cpp/proj/wanjplayer/build/CMakeFiles/rebuild_cache.dir
