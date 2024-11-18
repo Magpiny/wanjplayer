@@ -3,9 +3,10 @@
 
 #include "wanjplayer.hpp"
 
-namespace player {
+namespace gui::player {
 class Controls
 {
+public:
   Controls() {};
   void pause();
   void next();

@@ -1,7 +1,7 @@
 // Start of wxWidgets "Hello World" Program
 #include "wanjplayer.hpp"
 #include "player_ui.hpp"
-#include "wx_widgets.hpp"
+#include "widgets.hpp"
 #include <algorithm>
 #include <memory>
 
@@ -10,20 +10,23 @@ wxIMPLEMENT_APP(WanjPlayer);
 bool
 WanjPlayer::OnInit()
 {
+  wxInitAllImageHandlers();
   PlayerFrame* frame = new PlayerFrame();
   frame->Show(true);
   return true;
 }
 
 PlayerFrame::PlayerFrame()
-  : wxFrame(nullptr, wxID_ANY, "WanjPlayer", wxPoint(100, 80), wxSize(800, 500))
+  : wxFrame(nullptr,
+            wxID_ANY,
+            "WanjPlayer",
+            wxPoint(100, 80),
+            wxSize(1000, 800))
 
 {
   // SET APP Icon
   wxIcon icon;
-  if (!icon.LoadFile("../assets/logo/wanjplayer-64x64.png", wxBITMAP_TYPE_PNG))
-    wxMessageBox(
-      "Failed to load Icon", "Icon Failure", wxOK | wxICON_INFORMATION);
+  icon.LoadFile("../assets/logo/wanjplayer-64x64.png", wxBITMAP_TYPE_PNG);
   SetIcon(icon);
 
   /**
@@ -42,7 +45,24 @@ PlayerFrame::PlayerFrame()
   wxSplitterWindow* splitter = new wxSplitterWindow(this, wxID_ANY);
 
   // Right Window for the video canvas
-  wxPanel* video_canvas_pane = new wxPanel(splitter, wxID_ANY);
+  video_canvas_pane = new wxPanel(splitter, wxID_ANY);
+
+  // Set images
+  default_image = new wxImage();
+  audio_banner = new wxImage();
+  default_image->LoadFile("../assets/logo/wanjplayer-256x256.png",
+                          wxBITMAP_TYPE_PNG);
+  audio_banner->LoadFile("../assets/logo/wanjplayer-64x64.png",
+                         wxBITMAP_TYPE_PNG);
+
+  canvas_banner = new wxStaticBitmap(
+    video_canvas_pane, wxID_ANY, wxBitmapBundle::FromImage(*default_image));
+
+  wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
+  video_sizer->Add(canvas_banner, 1, wxEXPAND);
+
+  video_canvas_pane->SetSizer(video_sizer);
+
   media_ctrl = new wxMediaCtrl(video_canvas_pane,
                                wxID_ANY,
                                wxEmptyString,
@@ -51,9 +71,10 @@ PlayerFrame::PlayerFrame()
                                wxMC_NO_AUTORESIZE,
                                wxMEDIABACKEND_GSTREAMER);
 
-  wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
   video_sizer->Add(media_ctrl, 1, wxEXPAND);
-  video_canvas_pane->SetSizer(video_sizer);
+
+  // Initially hide the media control
+  media_ctrl->Hide();
 
   // Left Pane for the midea queue
   wxPanel* media_queue_pane = new wxPanel(splitter, wxID_ANY);
@@ -89,77 +110,12 @@ PlayerFrame::PlayerFrame()
   Bind(wxEVT_MENU, &PlayerFrame::OnPreferences, this, ID_PREFS);
   Bind(wxEVT_MENU, &PlayerFrame::OnLicense, this, ID_LICENSE);
   Bind(wxEVT_MENU, &PlayerFrame::OnAbout, this, wxID_ABOUT);
-  Bind(wxEVT_MENU, &PlayerFrame::OnMediaLoaded, this, ID_MEDIA_LOADED);
+
+  // BIND MEDIA EVENTS
+  Bind(wxEVT_MEDIA_LOADED, &PlayerFrame::OnMediaLoaded, this, ID_MEDIA_LOADED);
+  Bind(wxEVT_MEDIA_PLAY, &PlayerFrame::OnMediaPlay, this, ID_MEDIA_PLAY);
+  Bind(wxEVT_MEDIA_PAUSE, &PlayerFrame::OnMediaPause, this, ID_MEDIA_PAUSE);
+  Bind(wxEVT_MEDIA_STOP, &PlayerFrame::OnMediaStop, this, ID_MEDIA_STOP);
+  Bind(
+    wxEVT_MEDIA_FINISHED, &PlayerFrame::OnMediaUnload, this, ID_MEDIA_FINISHED);
 };
-
-void
-PlayerFrame::OnExit(wxCommandEvent& event)
-{
-  Close(true);
-};
-
-void
-PlayerFrame::OnAbout(wxCommandEvent& event)
-{
-  std::unique_ptr<gui::About> about = std::make_unique<gui::About>();
-  about->create_about_page();
-};
-
-void
-PlayerFrame::OnFileOpen(wxCommandEvent& event)
-{
-  wxFileDialog open_file_dialog(
-    this,
-    _("Open Media File"),
-    "",
-    "",
-    "Media files "
-    "(*.mp3;*.mp4;*.mkv;*.avi;*.wav;*.aac;*.m4a;*.flac;*.ogg)|*.avi;*.mp3;*."
-    "mp4;*.mkv;*.wav;*.aac;*.m4a;*.flac;*.ogg",
-    wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-  if (open_file_dialog.ShowModal() == wxID_CANCEL) {
-    return;
-  }
-
-  // set the file path dir
-  wxString file_path = open_file_dialog.GetPath();
-  if (media_ctrl && media_ctrl->Load(file_path)) {
-    media_ctrl->Play();
-    media_ctrl->ShowPlayerControls(wxMEDIACTRLPLAYERCONTROLS_VOLUME);
-  } else {
-    wxLogError("Failed to load media");
-  }
-};
-
-void
-PlayerFrame::OnPreferences(wxCommandEvent& event)
-{
-  wxMessageBox(
-    "Opens App Preferences", "App preferences", wxOK | wxICON_INFORMATION);
-};
-
-void
-PlayerFrame::OnLicense(wxCommandEvent& event)
-{
-  gui::LicenseDialog license_dialog =
-    gui::LicenseDialog(this, "License Agreement");
-  license_dialog.load_license("../assets/LICENSE");
-  license_dialog.DoLayoutAdaptation();
-  license_dialog.ShowModal();
-};
-
-void
-PlayerFrame::OnMediaLoaded(wxCommandEvent& event)
-{
-  /* std::unique_ptr<wxMediaCtrl> media =*/
-  /*std::make_unique<wxMediaCtrl>(this,*/
-  /*ID_MEDIA_LOADED,*/
-  /*wxEmptyString,*/
-  /*wxDefaultPosition,*/
-  /*wxDefaultSize,*/
-  /*wxMC_NO_AUTORESIZE,*/
-  /*wxMEDIABACKEND_GSTREAMER);*/
-  /*media->Load("../assets/sample-media/FORM1Choir.mp4");*/
-  /*media->Play();*/
-  /*wxMessageBox(media->GetState, "PlayBackStatu", wxOK | wxERROR_ICON);*/
-}
