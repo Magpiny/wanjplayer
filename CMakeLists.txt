@@ -40,7 +40,8 @@ ${SOURCE_DIR}/menubar.cpp
 ${SOURCE_DIR}/statusbar.cpp
 ${SOURCE_DIR}/about.cpp
 ${SOURCE_DIR}/license_dialogbx.cpp
-${SOURCE_DIR}/player.cpp
+${SOURCE_DIR}/media_ctrls.cpp
+${SOURCE_DIR}/media_events.cpp
 
 )
 

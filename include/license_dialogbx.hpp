@@ -1,6 +1,6 @@
 #ifndef __LICENCE_DIALOG_BOX__HPP
 #define __LICENCE_DIALOG_BOX__HPP
-#include "wx_widgets.hpp"
+#include "widgets.hpp"
 #include <cstddef>
 
 namespace gui {

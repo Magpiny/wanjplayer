@@ -1,7 +1,7 @@
 #ifndef __ABOUT__H
 #define __ABOUT__H
 
-#include "wx_widgets.hpp"
+#include "widgets.hpp"
 
 namespace gui {
 class About
