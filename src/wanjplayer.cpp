@@ -59,9 +59,8 @@ PlayerFrame::PlayerFrame()
     video_canvas_pane, wxID_ANY, wxBitmapBundle::FromImage(*default_image));
 
   wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
-  video_sizer->Add(canvas_banner, 1, wxEXPAND);
 
-  video_canvas_pane->SetSizer(video_sizer);
+  player_ctrls = new gui::player::MediaControls(video_canvas_pane);
 
   media_ctrl = new wxMediaCtrl(video_canvas_pane,
                                wxID_ANY,
@@ -71,7 +70,11 @@ PlayerFrame::PlayerFrame()
                                wxMC_NO_AUTORESIZE,
                                wxMEDIABACKEND_GSTREAMER);
 
+  video_sizer->Add(canvas_banner, 1, wxEXPAND);
   video_sizer->Add(media_ctrl, 1, wxEXPAND);
+  video_sizer->Add(player_ctrls, 0, wxALL | wxEXPAND, 5);
+
+  video_canvas_pane->SetSizer(video_sizer);
 
   // Initially hide the media control
   media_ctrl->Hide();
@@ -118,4 +121,10 @@ PlayerFrame::PlayerFrame()
   Bind(wxEVT_MEDIA_STOP, &PlayerFrame::OnMediaStop, this, ID_MEDIA_STOP);
   Bind(
     wxEVT_MEDIA_FINISHED, &PlayerFrame::OnMediaUnload, this, ID_MEDIA_FINISHED);
+
+  // Bind hover events
+  video_canvas_pane->Bind(
+    wxEVT_ENTER_WINDOW, &PlayerFrame::OnVideoCanvasHover, this);
+  video_canvas_pane->Bind(
+    wxEVT_LEAVE_WINDOW, &PlayerFrame::OnVideoCanvasLeave, this);
 };
