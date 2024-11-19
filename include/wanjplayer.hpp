@@ -24,8 +24,7 @@ private: // UI
 
   wxPanel* video_canvas_pane;
   wxMediaCtrl* media_ctrl;
-  std::unique_ptr<gui::player::Controls> player_ctrls =
-    std::make_unique<gui::player::Controls>();
+  gui::player::MediaControls player_ctrls;
 
 private: // Events
          // UI Events

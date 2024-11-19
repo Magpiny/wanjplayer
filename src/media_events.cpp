@@ -70,6 +70,7 @@ void
 PlayerFrame::OnMediaLoaded(wxCommandEvent& event)
 {
   canvas_banner->Hide();
+  player_ctrls->Show();
   media_ctrl->Show();
 }
 
@@ -92,7 +93,7 @@ PlayerFrame::OnMediaUnload(wxCommandEvent& event)
       "../assets/logo/wanjplayer-256x256.svg", wxSize(200, 200)));
 
   media_ctrl->Hide();
-
+  player_ctrls->Show();
   canvas_banner->Show();
   canvas_banner->Refresh();
 }
@@ -100,10 +101,12 @@ PlayerFrame::OnMediaUnload(wxCommandEvent& event)
 void
 PlayerFrame::OnMediaPlay(wxCommandEvent& event)
 {
+  player_ctrls->Hide();
   media_ctrl->Show();
 }
 
 void
 PlayerFrame::OnMediaPause(wxCommandEvent& event)
 {
+  player_ctrls->Show();
 }

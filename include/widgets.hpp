@@ -2,7 +2,9 @@
 #define WX_WIDGETS_LIBRARY_HPP
 
 #include <wx/aboutdlg.h>
+#include <wx/aui/aui.h>
 #include <wx/bmpbndl.h>
+#include <wx/button.h>
 #include <wx/colour.h>
 #include <wx/dialog.h>
 #include <wx/filedlg.h>
@@ -17,6 +19,7 @@
 #include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <wx/sizer.h>
+#include <wx/slider.h>
 #include <wx/splitter.h>
 #include <wx/statbmp.h>
 #include <wx/stattext.h>
