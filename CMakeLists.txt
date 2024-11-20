@@ -29,7 +29,7 @@ include_directories(${INCLUDE_DIR})
 include_directories(${LIBS_DIR}/libvlcpp)
 
 # Find wxWidgets
-find_package(wxWidgets REQUIRED COMPONENTS base core media net adv)
+find_package(wxWidgets REQUIRED COMPONENTS base core media aui net adv)
 
 include(${wxWidgets_USE_FILE})
 
