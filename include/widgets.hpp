@@ -3,6 +3,7 @@
 
 #include <wx/aboutdlg.h>
 #include <wx/aui/aui.h>
+#include <wx/aui/framemanager.h>
 #include <wx/bmpbndl.h>
 #include <wx/button.h>
 #include <wx/colour.h>

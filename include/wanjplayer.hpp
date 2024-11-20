@@ -24,7 +24,9 @@ private: // UI
 
   wxPanel* video_canvas_pane;
   wxMediaCtrl* media_ctrl;
-  gui::player::MediaControls player_ctrls;
+  gui::player::MediaControls* player_ctrls;
+
+  wxAuiManager* aui_mgr;
 
 private: // Events
          // UI Events
@@ -44,14 +46,15 @@ private: // Events
 
 enum
 {
-  ID_OPENFILE = 100,
+  ID_OPENFILE = wxID_HIGHEST + 1,
   ID_PREFS,
   ID_LICENSE,
   ID_MEDIA_LOADED,
   ID_MEDIA_STOP,
   ID_MEDIA_PLAY,
   ID_MEDIA_PAUSE,
-  ID_MEDIA_FINISHED
+  ID_MEDIA_FINISHED,
+  ID_MEDIA_CANVAS
 };
 
 #endif // !__WANJPLAYER__HPP

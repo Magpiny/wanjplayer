@@ -1,24 +1,24 @@
-#ifndef __PLAYER__H
-#define __PLAYER__H
-
-#include "wanjplayer.hpp"
+#ifndef __MEDIA_CONTROLS__HPP
+#define __MEDIA_CONTROLS__HPP
+#include "widgets.hpp"
 
 namespace gui::player {
-class MediaControls::wxPanel
+class MediaControls : public wxPanel
 {
+  wxPanel* _parent;
+  wxMediaCtrl* _pmedia_ctrl;
+
 public:
-  MediaControls(wxWindow* parent);
+  MediaControls(wxPanel* parent, wxMediaCtrl* media_ctrl);
   // void BindEvents(wxMediaCtrl* mediactrl);
 
 private:
-  wxButton btn_play;
-  wxButton btn_pause;
-  wxButton btn_stop;
-  wxButton btn_next;
-  wxButton btn_prev;
-  wxSlider slider_volume;
-
-  wxAuiManger aui_manager;
+  wxButton* btn_play;
+  wxButton* btn_pause;
+  wxButton* btn_stop;
+  wxButton* btn_next;
+  wxButton* btn_prev;
+  wxSlider* slider_volume;
 
   void OnPlay(wxCommandEvent& event);
   void OnStop(wxCommandEvent& event);
@@ -27,10 +27,9 @@ private:
   void OnNext(wxCommandEvent& event);
   void OnPrevious(wxCommandEvent& event);
 
+private:
   void OnVideoCanvasHover(wxMouseEvent& event);
   void OnVideoCanvasLeave(wxMouseEvent& event);
-
-  ~MediaControls();
 };
 }
-#endif // !__PLAYER__H
+#endif // !__MEDIA_CONTROLS__HPP

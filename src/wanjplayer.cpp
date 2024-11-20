@@ -10,6 +10,9 @@ wxIMPLEMENT_APP(WanjPlayer);
 bool
 WanjPlayer::OnInit()
 {
+  if (!wxApp::OnInit())
+    return false;
+
   wxInitAllImageHandlers();
   PlayerFrame* frame = new PlayerFrame();
   frame->Show(true);
@@ -20,14 +23,33 @@ PlayerFrame::PlayerFrame()
   : wxFrame(nullptr,
             wxID_ANY,
             "WanjPlayer",
-            wxPoint(100, 80),
+            wxPoint(200, 200),
             wxSize(1000, 800))
 
 {
   // SET APP Icon
   wxIcon icon;
-  icon.LoadFile("../assets/logo/wanjplayer-64x64.png", wxBITMAP_TYPE_PNG);
+  if (!icon.LoadFile(wxString::FromUTF8("../assets/logo/wanjplayer-64x64.png"),
+                     wxBITMAP_TYPE_PNG)) {
+    wxLogError("Failed to load Icon");
+  };
   SetIcon(icon);
+
+  // Manage windows using wxAuiManager
+  aui_mgr = new wxAuiManager(
+    this,
+    wxAUI_MGR_ALLOW_FLOATING | wxAUI_MGR_ALLOW_ACTIVE_PANE |
+      wxAUI_MGR_TRANSPARENT_DRAG | wxAUI_MGR_LIVE_RESIZE | wxAUI_MGR_HINT_FADE);
+
+  // prop -> Stands for properties; properties of mediacontrols window i.e pane
+  // that contains play and pause buttons
+  wxAuiPaneInfo prop_mediactrls;
+  prop_mediactrls.BottomDockable();
+  prop_mediactrls.Caption("wanjplayer");
+  prop_mediactrls.Floatable();
+  prop_mediactrls.FloatingSize(wxSize(400, 80));
+  prop_mediactrls.Dockable();
+  prop_mediactrls.Layer(4);
 
   /**
    * CREATE THE MENU BAR
@@ -44,8 +66,15 @@ PlayerFrame::PlayerFrame()
   // Set the splitter
   wxSplitterWindow* splitter = new wxSplitterWindow(this, wxID_ANY);
 
+  aui_mgr->AddPane(
+    splitter,
+    wxAuiPaneInfo().Name("splitter").Caption("zakzee").Centre().Layer(0));
+
   // Right Window for the video canvas
-  video_canvas_pane = new wxPanel(splitter, wxID_ANY);
+  video_canvas_pane = new wxPanel(splitter, ID_MEDIA_CANVAS);
+  aui_mgr->AddPane(
+    video_canvas_pane,
+    wxAuiPaneInfo().Name("video_pane").Caption("").Floatable().Right());
 
   // Set images
   default_image = new wxImage();
@@ -58,9 +87,7 @@ PlayerFrame::PlayerFrame()
   canvas_banner = new wxStaticBitmap(
     video_canvas_pane, wxID_ANY, wxBitmapBundle::FromImage(*default_image));
 
-  wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
-
-  player_ctrls = new gui::player::MediaControls(video_canvas_pane);
+  // wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
 
   media_ctrl = new wxMediaCtrl(video_canvas_pane,
                                wxID_ANY,
@@ -69,23 +96,26 @@ PlayerFrame::PlayerFrame()
                                wxDefaultSize,
                                wxMC_NO_AUTORESIZE,
                                wxMEDIABACKEND_GSTREAMER);
+  aui_mgr->AddPane(media_ctrl,
+                   wxAuiPaneInfo().Name("media").Caption("wanjtunes").Layer(2));
 
-  video_sizer->Add(canvas_banner, 1, wxEXPAND);
-  video_sizer->Add(media_ctrl, 1, wxEXPAND);
-  video_sizer->Add(player_ctrls, 0, wxALL | wxEXPAND, 5);
+  player_ctrls = new gui::player::MediaControls(video_canvas_pane, media_ctrl);
+  aui_mgr->AddPane(player_ctrls, prop_mediactrls);
 
-  video_canvas_pane->SetSizer(video_sizer);
+  // video_sizer->Add(canvas_banner, 1, wxEXPAND);
+  /*video_sizer->Add(media_ctrl, 1, wxEXPAND);*/
+  /*video_sizer->Add(player_ctrls, 1, wxEXPAND);*/
 
-  // Initially hide the media control
-  media_ctrl->Hide();
+  /*video_canvas_pane->SetSizer(video_sizer);*/
 
   // Left Pane for the midea queue
   wxPanel* media_queue_pane = new wxPanel(splitter, wxID_ANY);
+  aui_mgr->AddPane(media_queue_pane,
+                   wxAuiPaneInfo().Name("playlist").Caption("").Left());
 
   // Set the splitter to split intwo two vertical panes
-  splitter->SplitVertically(media_queue_pane, video_canvas_pane, 250);
-  splitter->SetMinimumPaneSize(100);
-  // splitter->Unsplit();
+  // splitter->SplitVertically(media_queue_pane, video_canvas_pane, 250);
+  // splitter->SetMinimumPaneSize(100);
 
   /**
    *
@@ -99,11 +129,14 @@ PlayerFrame::PlayerFrame()
     wxString::Format(_T("%lld"), media_ctrl->Length() / 60000));
 
   // Layout the splitter on the frame
-  wxBoxSizer* player_window_sizer = new wxBoxSizer(wxVERTICAL);
-  player_window_sizer->Add(splitter, 1, wxEXPAND);
-  this->SetSizer(player_window_sizer);
-  this->Layout();
+  /*wxBoxSizer* player_window_sizer = new wxBoxSizer(wxVERTICAL);*/
+  /*player_window_sizer->Add(splitter, 1, wxEXPAND);*/
+  /*this->SetSizer(player_window_sizer);*/
+  /*this->Layout();*/
 
+  // Manage windows
+
+  aui_mgr->Update();
   /**
    * BIND GUI EVENTS HERE
    *
@@ -121,10 +154,4 @@ PlayerFrame::PlayerFrame()
   Bind(wxEVT_MEDIA_STOP, &PlayerFrame::OnMediaStop, this, ID_MEDIA_STOP);
   Bind(
     wxEVT_MEDIA_FINISHED, &PlayerFrame::OnMediaUnload, this, ID_MEDIA_FINISHED);
-
-  // Bind hover events
-  video_canvas_pane->Bind(
-    wxEVT_ENTER_WINDOW, &PlayerFrame::OnVideoCanvasHover, this);
-  video_canvas_pane->Bind(
-    wxEVT_LEAVE_WINDOW, &PlayerFrame::OnVideoCanvasLeave, this);
 };

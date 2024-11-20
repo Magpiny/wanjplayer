@@ -1,6 +1,7 @@
 
 // Media events
 
+#include "media_ctrls.hpp"
 #include "wanjplayer.hpp"
 
 void
@@ -110,3 +111,36 @@ PlayerFrame::OnMediaPause(wxCommandEvent& event)
 {
   player_ctrls->Show();
 }
+
+// Button events
+
+void
+gui::player::MediaControls::OnPlay(wxCommandEvent& event)
+{
+  _pmedia_ctrl->Play();
+};
+
+void
+gui::player::MediaControls::OnStop(wxCommandEvent& event)
+{
+  _pmedia_ctrl->Stop();
+};
+
+void
+gui::player::MediaControls::OnPause(wxCommandEvent& event)
+{
+  _pmedia_ctrl->Pause();
+};
+
+void
+gui::player::MediaControls::OnVolumeChange(wxScrollEvent& event)
+{
+  double media_volume = slider_volume->GetValue() / 100;
+  _pmedia_ctrl->SetVolume(media_volume);
+};
+
+void
+gui::player::MediaControls::OnNext(wxCommandEvent& event) {};
+
+void
+gui::player::MediaControls::OnPrevious(wxCommandEvent& event) {};
