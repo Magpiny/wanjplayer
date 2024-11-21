@@ -5,7 +5,6 @@
 namespace gui::player {
 class MediaControls : public wxPanel
 {
-  wxPanel* _parent;
   wxMediaCtrl* _pmedia_ctrl;
 
 public:

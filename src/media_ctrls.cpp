@@ -5,7 +5,7 @@
 
 gui::player::MediaControls::MediaControls(wxPanel* panel,
                                           wxMediaCtrl* media_ctrl)
-  : wxPanel(panel, wxID_ANY)
+  : wxPanel(panel, wxID_ANY, wxDefaultPosition, wxSize(600, 80))
   , _pmedia_ctrl(media_ctrl)
 {
 
@@ -34,6 +34,7 @@ gui::player::MediaControls::MediaControls(wxPanel* panel,
   // Set sizer for this media_control panel
   SetSizerAndFit(mc_sizer);
   Layout();
+  Raise();
 
   // Bind events
   Bind(wxEVT_BUTTON, &MediaControls::OnPlay, this, btn_play->GetId());
