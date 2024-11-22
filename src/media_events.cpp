@@ -72,6 +72,8 @@ PlayerFrame::OnMediaLoaded(wxCommandEvent& event)
 {
   canvas_banner->Hide();
   player_ctrls->Show();
+
+  media_ctrl->Refresh();
   media_ctrl->Show();
 }
 
@@ -133,9 +135,9 @@ gui::player::MediaControls::OnPause(wxCommandEvent& event)
 };
 
 void
-gui::player::MediaControls::OnVolumeChange(wxScrollEvent& event)
+gui::player::MediaControls::OnVolumeChange(wxCommandEvent& event)
 {
-  double media_volume = slider_volume->GetValue() / 100;
+  double media_volume = slider_volume->GetValue() / 100.0;
   _pmedia_ctrl->SetVolume(media_volume);
 };
 

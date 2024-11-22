@@ -17,12 +17,14 @@ private:
   wxButton* btn_stop;
   wxButton* btn_next;
   wxButton* btn_prev;
+
   wxSlider* slider_volume;
+  wxSlider* slider_playback_position;
 
   void OnPlay(wxCommandEvent& event);
   void OnStop(wxCommandEvent& event);
   void OnPause(wxCommandEvent& event);
-  void OnVolumeChange(wxScrollEvent& event);
+  void OnVolumeChange(wxCommandEvent& event);
   void OnNext(wxCommandEvent& event);
   void OnPrevious(wxCommandEvent& event);
 
