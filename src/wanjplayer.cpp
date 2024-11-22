@@ -85,10 +85,13 @@ PlayerFrame::PlayerFrame()
                                wxMEDIABACKEND_GSTREAMER);
 
   player_ctrls = new gui::player::MediaControls(video_canvas_pane, media_ctrl);
+  player_ctrls->Raise();
+  player_ctrls->SetSize(wxSize(400, 80));
+  player_ctrls->SetTransparent(100);
 
   //  video_sizer->Add(canvas_banner, 1, wxEXPAND);
-  video_sizer->Add(media_ctrl, 1, wxEXPAND);
-  video_sizer->Add(player_ctrls, 1, wxEXPAND);
+  video_sizer->Add(media_ctrl, 9.4, wxEXPAND);
+  video_sizer->Add(player_ctrls, 0.6, wxEXPAND);
 
   video_canvas_pane->SetSizer(video_sizer);
 
