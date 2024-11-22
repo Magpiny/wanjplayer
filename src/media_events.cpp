@@ -48,6 +48,32 @@ PlayerFrame::OnFileOpen(wxCommandEvent& event)
   } else {
     wxLogError("Failed to load media");
   }
+};
+
+void
+PlayerFrame::OnFilesOpen(wxCommandEvent& event)
+{
+  wxFileDialog open_file_dialog(
+    this,
+    _("Open files"),
+    "",
+    "",
+    "Media files "
+    "(*.mp3;*.mp4;*.mkv;*.avi;*.wav;*.aac;*.m4a;*.flac;*.ogg)|*.avi;*.mp3;*."
+    "mp4;*.mkv;*.wav;*.aac;*.m4a;*.flac;*.ogg",
+
+    wxFD_OPEN | wxFD_MULTIPLE | wxFD_FILE_MUST_EXIST);
+
+  if (open_file_dialog.ShowModal() == wxID_CANCEL)
+    return;
+
+  wxArrayString paths;
+  open_file_dialog.GetPaths(paths);
+
+  // Add files to the playlist
+  for (const wxString& path : paths) {
+    playlist->add_item(path);
+  }
 }
 
 void

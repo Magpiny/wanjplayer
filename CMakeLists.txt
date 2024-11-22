@@ -42,7 +42,7 @@ ${SOURCE_DIR}/about.cpp
 ${SOURCE_DIR}/license_dialogbx.cpp
 ${SOURCE_DIR}/media_ctrls.cpp
 ${SOURCE_DIR}/media_events.cpp
-
+${SOURCE_DIR}/playlist.cpp
 )
 
 # Link libraries
