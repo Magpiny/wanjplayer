@@ -85,9 +85,6 @@ PlayerFrame::PlayerFrame()
                                wxMEDIABACKEND_GSTREAMER);
 
   player_ctrls = new gui::player::MediaControls(video_canvas_pane, media_ctrl);
-  player_ctrls->Raise();
-  player_ctrls->SetSize(wxSize(400, 80));
-  player_ctrls->SetTransparent(100);
 
   //  video_sizer->Add(canvas_banner, 1, wxEXPAND);
   video_sizer->Add(media_ctrl, 9.4, wxEXPAND);
@@ -95,8 +92,13 @@ PlayerFrame::PlayerFrame()
 
   video_canvas_pane->SetSizer(video_sizer);
 
-  // Left Pane for the midea queue
+  // Left Pane for the media queue
   wxPanel* media_queue_pane = new wxPanel(splitter, wxID_ANY);
+  playlist = new gui::Playlist(media_queue_pane, wxID_ANY);
+
+  wxBoxSizer* md_queue_sizer = new wxBoxSizer(wxVERTICAL);
+  md_queue_sizer->Add(playlist, 1, wxEXPAND);
+  media_queue_pane->SetSizerAndFit(md_queue_sizer);
 
   // Set the splitter to split intwo two vertical panes
   splitter->SplitVertically(media_queue_pane, video_canvas_pane, 250);
@@ -125,6 +127,7 @@ PlayerFrame::PlayerFrame()
    */
   Bind(wxEVT_MENU, &PlayerFrame::OnExit, this, wxID_EXIT);
   Bind(wxEVT_MENU, &PlayerFrame::OnFileOpen, this, ID_OPENFILE);
+  Bind(wxEVT_MENU, &PlayerFrame::OnFilesOpen, this, ID_OPEN_FILES);
   Bind(wxEVT_MENU, &PlayerFrame::OnPreferences, this, ID_PREFS);
   Bind(wxEVT_MENU, &PlayerFrame::OnLicense, this, ID_LICENSE);
   Bind(wxEVT_MENU, &PlayerFrame::OnAbout, this, wxID_ABOUT);

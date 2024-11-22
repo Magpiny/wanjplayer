@@ -2,7 +2,9 @@
 #define __WANJPLAYER__HPP
 
 #include "player_ui.hpp"
+#include "playlist.hpp"
 #include "widgets.hpp"
+#include <cstddef>
 #include <memory>
 #include <wx/wx.h>
 
@@ -24,15 +26,19 @@ private: // UI
 
   wxPanel* video_canvas_pane;
   wxMediaCtrl* media_ctrl;
+
   gui::player::MediaControls* player_ctrls;
+  gui::Playlist* playlist;
 
   wxAuiManager* aui_mgr;
+  std::size_t current_index;
 
 private: // Events
          // UI Events
   void OnExit(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
   void OnFileOpen(wxCommandEvent& event);
+  void OnFilesOpen(wxCommandEvent& event);
   void OnLicense(wxCommandEvent& event);
   void OnPreferences(wxCommandEvent& event);
 
@@ -46,7 +52,9 @@ private: // Events
 
 enum
 {
+
   ID_OPENFILE = wxID_HIGHEST + 1,
+  ID_OPEN_FILES,
   ID_PREFS,
   ID_LICENSE,
   ID_MEDIA_LOADED,

@@ -1,6 +1,7 @@
 #ifndef WX_WIDGETS_LIBRARY_HPP
 #define WX_WIDGETS_LIBRARY_HPP
 
+#include <vector>
 #include <wx/aboutdlg.h>
 #include <wx/aui/aui.h>
 #include <wx/aui/framemanager.h>
@@ -14,6 +15,7 @@
 #include <wx/icon.h>
 #include <wx/iconloc.h>
 #include <wx/imagpng.h>
+#include <wx/listbox.h>
 #include <wx/log.h>
 #include <wx/mediactrl.h>
 #include <wx/menu.h>
