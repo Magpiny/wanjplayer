@@ -94,7 +94,7 @@ PlayerFrame::PlayerFrame()
 
   // Left Pane for the media queue
   wxPanel* media_queue_pane = new wxPanel(splitter, wxID_ANY);
-  playlist = new gui::Playlist(media_queue_pane, wxID_ANY);
+  playlist = new gui::player::Playlist(media_queue_pane, wxID_ANY);
 
   wxBoxSizer* md_queue_sizer = new wxBoxSizer(wxVERTICAL);
   md_queue_sizer->Add(playlist, 1, wxEXPAND);

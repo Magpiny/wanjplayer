@@ -20,7 +20,7 @@ gui::player::MediaControls::MediaControls(wxPanel* panel,
 
   // Add a volume slider
   slider_volume = new wxSlider(this, wxID_ANY, 35, 0, 100);
-  slider_playback_position = new wxSlider(this, wxID_ANY, 35, 0, 100);
+  slider_playback_position = new wxSlider(this, wxID_ANY, 0, 0, 100);
 
   // Create a horizontal box sizer for the buttons and slider
   // mc ---> media controls

@@ -9,7 +9,6 @@ class MediaControls : public wxPanel
 
 public:
   MediaControls(wxPanel* parent, wxMediaCtrl* media_ctrl);
-  // void BindEvents(wxMediaCtrl* mediactrl);
 
 private:
   wxButton* btn_play;

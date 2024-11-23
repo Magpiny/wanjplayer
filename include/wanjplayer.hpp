@@ -2,11 +2,14 @@
 #define __WANJPLAYER__HPP
 
 #include "player_ui.hpp"
-#include "playlist.hpp"
 #include "widgets.hpp"
 #include <cstddef>
 #include <memory>
 #include <wx/wx.h>
+
+namespace gui::player {
+class Playlist; // Forward declaration to avoid circular reference
+}
 
 class WanjPlayer : public wxApp
 {
@@ -28,7 +31,7 @@ private: // UI
   wxMediaCtrl* media_ctrl;
 
   gui::player::MediaControls* player_ctrls;
-  gui::Playlist* playlist;
+  gui::player::Playlist* playlist;
 
   wxAuiManager* aui_mgr;
   std::size_t current_index;
