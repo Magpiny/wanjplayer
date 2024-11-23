@@ -1,6 +1,6 @@
 #include "playlist.hpp"
 
-gui::Playlist::Playlist(wxWindow* parent, wxWindowID id)
+gui::player::Playlist::Playlist(wxWindow* parent, wxWindowID id)
   : wxListBox(parent,
               id,
               wxDefaultPosition,
@@ -15,7 +15,7 @@ gui::Playlist::Playlist(wxWindow* parent, wxWindowID id)
 };
 
 void
-gui::Playlist::add_item(const wxString& path)
+gui::player::Playlist::add_item(const wxString& path)
 {
   wxFileName file_name(path);
   items.push_back(path);
@@ -23,14 +23,14 @@ gui::Playlist::add_item(const wxString& path)
 };
 
 void
-gui::Playlist::clear_items()
+gui::player::Playlist::clear_items()
 {
   items.clear();
   Clear();
 };
 
 wxString
-gui::Playlist::get_item(size_t index) const
+gui::player::Playlist::get_item(size_t index) const
 {
   if (index < items.size()) {
     return items[index];
@@ -39,33 +39,32 @@ gui::Playlist::get_item(size_t index) const
 };
 
 size_t
-gui::Playlist::get_count() const
+gui::player::Playlist::get_count() const
 {
   return items.size();
 };
 
 bool
-gui::Playlist::is_empty() const
+gui::player::Playlist::is_empty() const
 {
   return items.empty();
 };
 
-/*void*/
-/*gui::Playlist::OnItemSelected(wxCommandEvent& event)*/
-/*{*/
-/*// Change background color of selected items*/
-/*for (size_t i = 0; i < GetCount(); ++i) {*/
-/*if (IsSelected(i)) {*/
-/*SetItemBackgroundColour(i, *wxBLUE); // Change to desired color*/
-/*} else {*/
-/*SetItemBackgroundColour(i, *wxWHITE); // Default color*/
-/*}*/
-/*}*/
-/*Refresh();*/
-/*};*/
+void
+gui::player::Playlist::OnItemSelected(wxCommandEvent& event) {
+  // Change background color of selected items
+  /* for (size_t i = 0; i < GetCount(); ++i) {*/
+  /*if (IsSelected(i)) {*/
+  /*SetItemBackgroundColour(i, *wxBLUE); // Change to desired color*/
+  /*} else {*/
+  /*SetItemBackgroundColour(i, *wxWHITE); // Default color*/
+  /*}*/
+  /*}*/
+  /*Refresh();*/
+};
 
 void
-gui::Playlist::OnKeyDown(wxKeyEvent& event)
+gui::player::Playlist::OnKeyDown(wxKeyEvent& event)
 {
   if (event.GetKeyCode() == WXK_SPACE) {
     // Play the selected item
@@ -79,7 +78,7 @@ gui::Playlist::OnKeyDown(wxKeyEvent& event)
 };
 
 void
-gui::Playlist::OnDoubleClick(wxMouseEvent& event)
+gui::player::Playlist::OnDoubleClick(wxMouseEvent& event)
 {
   long index = HitTest(event.GetPosition());
   if (index != wxNOT_FOUND) {
@@ -89,7 +88,7 @@ gui::Playlist::OnDoubleClick(wxMouseEvent& event)
 };
 
 void
-gui::Playlist::play_item(const wxString& path)
+gui::player::Playlist::play_item(const wxString& path)
 {
   // Implement the logic to play the selected item
   wxMediaCtrl* media_ctrl = dynamic_cast<wxMediaCtrl*>(

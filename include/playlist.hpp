@@ -1,10 +1,9 @@
-#ifndef PLAYLIST__HPP
-#define PLAYLIST__HPP
+#ifndef __PLAYLIST__HPP
+#define __PLAYLIST__HPP
 
 #include "wanjplayer.hpp"
-#include "widgets.hpp"
 
-namespace gui {
+namespace gui::player {
 class Playlist : public wxListBox
 {
 public:
@@ -27,4 +26,4 @@ private:
 };
 }
 
-#endif // PLAYLIST_HPP
+#endif // __PLAYLIST_HPP
