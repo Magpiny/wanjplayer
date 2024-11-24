@@ -1,4 +1,10 @@
+# Build directory
+build/
+build/**/*
+
+assets/sample-media/*
 # Prerequisites
+
 *.d
 
 # Compiled Object files
