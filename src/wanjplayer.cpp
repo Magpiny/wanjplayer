@@ -77,7 +77,7 @@ PlayerFrame::PlayerFrame()
   wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
 
   media_ctrl = new wxMediaCtrl(video_canvas_pane,
-                               wxID_ANY,
+                               ID_MEDIA_CTRL,
                                wxEmptyString,
                                wxDefaultPosition,
                                wxDefaultSize,

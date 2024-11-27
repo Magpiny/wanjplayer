@@ -10,17 +10,18 @@ public:
   Playlist(wxWindow* parent, wxWindowID id);
 
   void add_item(const wxString& path);
-  void clear_items();
+  void clear_play_queue();
   wxString get_item(size_t index) const;
   size_t get_count() const;
   bool is_empty() const;
+  void play_next_item_in_queue();
+  wxMediaCtrl* GetMediaCtrl();
 
 private:
-  std::vector<wxString> items;
+  std::vector<wxString> play_queue;
 
-  void OnItemSelected(wxCommandEvent& event);
   void OnKeyDown(wxKeyEvent& event);
-  void OnDoubleClick(wxMouseEvent& event);
+  void OnDoubleClick(wxCommandEvent& event);
 
   void play_item(const wxString& path);
 };

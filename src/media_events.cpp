@@ -2,6 +2,7 @@
 // Media events
 
 #include "media_ctrls.hpp"
+#include "playlist.hpp"
 #include "wanjplayer.hpp"
 
 void
@@ -59,8 +60,9 @@ PlayerFrame::OnFilesOpen(wxCommandEvent& event)
     "",
     "",
     "Media files "
-    "(*.mp3;*.mp4;*.mkv;*.avi;*.wav;*.aac;*.m4a;*.flac;*.ogg)|*.avi;*.mp3;*."
-    "mp4;*.mkv;*.wav;*.aac;*.m4a;*.flac;*.ogg",
+    "(*.mp3;*.mp4;*.mkv;*.avi;*.wav;*.aac;*.m4a;*.flac;*.ogg;*.3gp)|*.avi;*."
+    "mp3;*."
+    "mp4;*.mkv;*.wav;*.aac;*.m4a;*.flac;*.ogg;*.3gp",
 
     wxFD_OPEN | wxFD_MULTIPLE | wxFD_FILE_MUST_EXIST);
 
@@ -117,14 +119,10 @@ PlayerFrame::OnMediaStop(wxCommandEvent& event)
 void
 PlayerFrame::OnMediaUnload(wxCommandEvent& event)
 {
-  if (audio_banner->IsOk())
-    canvas_banner->SetBitmap(wxBitmapBundle::FromSVGFile(
-      "../assets/logo/wanjplayer-256x256.svg", wxSize(200, 200)));
+  gui::player::Playlist* playlist = new gui::player::Playlist(this, wxID_ANY);
+  playlist->play_next_item_in_queue();
 
-  media_ctrl->Hide();
-  player_ctrls->Show();
-  canvas_banner->Show();
-  canvas_banner->Refresh();
+  event.Skip();
 }
 
 void

@@ -7,33 +7,39 @@ gui::player::Playlist::Playlist(wxWindow* parent, wxWindowID id)
               wxDefaultSize,
               0,
               nullptr,
-              wxLB_MULTIPLE)
+              wxLB_MULTIPLE | wxLB_SORT)
 {
-  Bind(wxEVT_LISTBOX, &Playlist::OnItemSelected, this);
   Bind(wxEVT_KEY_DOWN, &Playlist::OnKeyDown, this);
-  Bind(wxEVT_LEFT_DCLICK, &Playlist::OnDoubleClick, this);
+  Bind(wxEVT_LISTBOX_DCLICK, &Playlist::OnDoubleClick, this);
 };
+
+wxMediaCtrl*
+gui::player::Playlist::GetMediaCtrl()
+{
+  return dynamic_cast<wxMediaCtrl*>(
+    GetParent()->GetParent()->FindWindowById(ID_MEDIA_CTRL));
+}
 
 void
 gui::player::Playlist::add_item(const wxString& path)
 {
   wxFileName file_name(path);
-  items.push_back(path);
+  play_queue.push_back(path);
   Append(file_name.GetFullName());
 };
 
 void
-gui::player::Playlist::clear_items()
+gui::player::Playlist::clear_play_queue()
 {
-  items.clear();
+  play_queue.clear();
   Clear();
 };
 
 wxString
 gui::player::Playlist::get_item(size_t index) const
 {
-  if (index < items.size()) {
-    return items[index];
+  if (index < play_queue.size()) {
+    return play_queue[index];
   }
   return "";
 };
@@ -41,60 +47,48 @@ gui::player::Playlist::get_item(size_t index) const
 size_t
 gui::player::Playlist::get_count() const
 {
-  return items.size();
+  return play_queue.size();
 };
 
 bool
 gui::player::Playlist::is_empty() const
 {
-  return items.empty();
-};
-
-void
-gui::player::Playlist::OnItemSelected(wxCommandEvent& event) {
-  // Change background color of selected items
-  /* for (size_t i = 0; i < GetCount(); ++i) {*/
-  /*if (IsSelected(i)) {*/
-  /*SetItemBackgroundColour(i, *wxBLUE); // Change to desired color*/
-  /*} else {*/
-  /*SetItemBackgroundColour(i, *wxWHITE); // Default color*/
-  /*}*/
-  /*}*/
-  /*Refresh();*/
+  return play_queue.empty();
 };
 
 void
 gui::player::Playlist::OnKeyDown(wxKeyEvent& event)
 {
   if (event.GetKeyCode() == WXK_SPACE) {
-    // Play the selected item
     wxArrayInt selections;
     GetSelections(selections);
     for (int sel : selections) {
-      play_item(items[sel]);
+      play_queue.push_back(play_queue[sel]);
     }
+    play_next_item_in_queue(); // Start playing the first item in the queue
   }
   event.Skip();
 };
 
 void
-gui::player::Playlist::OnDoubleClick(wxMouseEvent& event)
+gui::player::Playlist::OnDoubleClick(wxCommandEvent& event)
 {
-  long index = HitTest(event.GetPosition());
-  if (index != wxNOT_FOUND) {
-    play_item(items[index]);
+  int index = event.GetSelection();
+  if (index >= 0) {
+    play_queue.push_back(play_queue[index]); // Add to play queue
+    play_next_item_in_queue();               // Start playing if queue was empty
   }
   event.Skip();
 };
 
 void
-gui::player::Playlist::play_item(const wxString& path)
+gui::player::Playlist::play_next_item_in_queue()
 {
-  // Implement the logic to play the selected item
-  wxMediaCtrl* media_ctrl = dynamic_cast<wxMediaCtrl*>(
-    GetParent()->GetParent()->FindWindow(ID_MEDIA_CANVAS));
-  if (media_ctrl) {
-    media_ctrl->Load(path);
+  if (!play_queue.empty()) {
+    wxString next_item = play_queue.front();
+    play_queue.erase(play_queue.begin());
+    wxMediaCtrl* media_ctrl = GetMediaCtrl();
+    media_ctrl->Load(next_item);
     media_ctrl->Play();
   }
 };
