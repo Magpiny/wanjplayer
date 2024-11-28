@@ -30,5 +30,6 @@
 #include <wx/string.h>
 #include <wx/textctrl.h>
 #include <wx/textfile.h>
+#include <wx/uri.h>
 #include <wx/wx.h>
 #endif // !WX_WIDGETS_LIBRARY_HPP

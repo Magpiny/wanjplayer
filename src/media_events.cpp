@@ -44,7 +44,6 @@ PlayerFrame::OnFileOpen(wxCommandEvent& event)
   if (media_ctrl && media_ctrl->Load(file_path)) {
 
     media_ctrl->Play();
-    media_ctrl->ShowPlayerControls(wxMEDIACTRLPLAYERCONTROLS_VOLUME);
 
   } else {
     wxLogError("Failed to load media");
@@ -76,6 +75,12 @@ PlayerFrame::OnFilesOpen(wxCommandEvent& event)
   for (const wxString& path : paths) {
     playlist->add_item(path);
   }
+  // Bind event to play next item when current one finishes
+  Bind(wxEVT_MEDIA_FINISHED,
+       &PlayerFrame::OnMediaFinished,
+       this,
+       ID_MEDIA_FINISHED);
+  playlist->play_next_item_in_queue();
 }
 
 void
@@ -96,44 +101,34 @@ PlayerFrame::OnLicense(wxCommandEvent& event)
 };
 
 void
-PlayerFrame::OnMediaLoaded(wxCommandEvent& event)
+PlayerFrame::OnMediaLoaded(wxMediaEvent& event)
 {
-  canvas_banner->Hide();
-  player_ctrls->Show();
-
-  media_ctrl->Refresh();
-  media_ctrl->Show();
+  // playlist->play_next_item_in_queue();
 }
 
 void
-PlayerFrame::OnMediaStop(wxCommandEvent& event)
+PlayerFrame::OnMediaStop(wxMediaEvent& event)
 {
   // Show the static bitmap when media stops playing
-  canvas_banner->Show();
-  if (default_image->IsOk()) {
-    canvas_banner->SetBitmap(wxBitmapBundle::FromImage(*default_image));
-  }
-  canvas_banner->Refresh();
+  media_ctrl->Refresh();
 }
 
 void
-PlayerFrame::OnMediaUnload(wxCommandEvent& event)
+PlayerFrame::OnMediaFinished(wxMediaEvent& event)
 {
-  gui::player::Playlist* playlist = new gui::player::Playlist(this, wxID_ANY);
   playlist->play_next_item_in_queue();
 
   event.Skip();
 }
 
 void
-PlayerFrame::OnMediaPlay(wxCommandEvent& event)
+PlayerFrame::OnMediaPlay(wxMediaEvent& event)
 {
-  player_ctrls->Hide();
-  media_ctrl->Show();
+  // Display media file name and the playback rate
 }
 
 void
-PlayerFrame::OnMediaPause(wxCommandEvent& event)
+PlayerFrame::OnMediaPause(wxMediaEvent& event)
 {
   player_ctrls->Show();
 }

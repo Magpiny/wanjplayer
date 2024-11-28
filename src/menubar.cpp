@@ -8,7 +8,7 @@ gui::Menubar::create_menubar()
 {
   wxMenu* menu_file = new wxMenu;
   menu_file->Append(ID_OPENFILE, "&Open File\tCtrl-O");
-  menu_file->Append(ID_OPEN_FILES, "&OpenFiles");
+  menu_file->Append(ID_OPEN_FILES, "&OpenFiles\tCtrl-Shift-O");
   menu_file->AppendSeparator();
   menu_file->Append(wxID_EXIT);
 

@@ -22,8 +22,7 @@ private:
 
   void OnKeyDown(wxKeyEvent& event);
   void OnDoubleClick(wxCommandEvent& event);
-
-  void play_item(const wxString& path);
+  void OnMediaFinished(wxMediaEvent& event);
 };
 }
 

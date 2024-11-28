@@ -9,7 +9,7 @@ gui::player::MediaControls::MediaControls(wxPanel* panel,
   , _pmedia_ctrl(media_ctrl)
 {
 
-  SetBackgroundColour(wxTransparentColour);
+  SetBackgroundColour(wxColour(3, 4, 96, 100));
 
   // Create the three buttons
   btn_play = new wxButton(this, wxID_ANY, "play");

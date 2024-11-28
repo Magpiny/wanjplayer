@@ -23,27 +23,17 @@ PlayerFrame::PlayerFrame()
   : wxFrame(nullptr,
             wxID_ANY,
             "WanjPlayer",
-            wxPoint(200, 200),
-            wxSize(1000, 800))
+            wxPoint(200, 150),
+            wxSize(950, 700))
 
 {
   // SET APP Icon
   wxIcon icon;
-  if (!icon.LoadFile(wxString::FromUTF8("../assets/logo/wanjplayer-64x64.png"),
+  if (!icon.LoadFile("../assets/logo/wanjplayer-64x64.png",
                      wxBITMAP_TYPE_PNG)) {
     wxLogError("Failed to load Icon");
   };
   SetIcon(icon);
-
-  // prop -> Stands for properties; properties of mediacontrols window i.e pane
-  // that contains play and pause buttons
-  wxAuiPaneInfo prop_mediactrls;
-  prop_mediactrls.BottomDockable();
-  prop_mediactrls.Caption("wanjplayer");
-  prop_mediactrls.Floatable();
-  prop_mediactrls.FloatingSize(wxSize(400, 80));
-  prop_mediactrls.Dockable();
-  prop_mediactrls.Layer(4);
 
   /**
    * CREATE THE MENU BAR
@@ -63,17 +53,6 @@ PlayerFrame::PlayerFrame()
   // Right Window for the video canvas
   video_canvas_pane = new wxPanel(splitter, ID_MEDIA_CANVAS);
 
-  // Set images
-  default_image = new wxImage();
-  audio_banner = new wxImage();
-  default_image->LoadFile("../assets/logo/wanjplayer-256x256.png",
-                          wxBITMAP_TYPE_PNG);
-  audio_banner->LoadFile("../assets/logo/wanjplayer-64x64.png",
-                         wxBITMAP_TYPE_PNG);
-
-  canvas_banner = new wxStaticBitmap(
-    video_canvas_pane, wxID_ANY, wxBitmapBundle::FromImage(*default_image));
-
   wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
 
   media_ctrl = new wxMediaCtrl(video_canvas_pane,
@@ -86,7 +65,6 @@ PlayerFrame::PlayerFrame()
 
   player_ctrls = new gui::player::MediaControls(video_canvas_pane, media_ctrl);
 
-  //  video_sizer->Add(canvas_banner, 1, wxEXPAND);
   video_sizer->Add(media_ctrl, 9.4, wxEXPAND);
   video_sizer->Add(player_ctrls, 0.6, wxEXPAND);
 
@@ -102,7 +80,7 @@ PlayerFrame::PlayerFrame()
 
   // Set the splitter to split intwo two vertical panes
   splitter->SplitVertically(media_queue_pane, video_canvas_pane, 250);
-  splitter->SetMinimumPaneSize(100);
+  splitter->SetMinimumPaneSize(10);
 
   /**
    *
@@ -137,6 +115,8 @@ PlayerFrame::PlayerFrame()
   Bind(wxEVT_MEDIA_PLAY, &PlayerFrame::OnMediaPlay, this, ID_MEDIA_PLAY);
   Bind(wxEVT_MEDIA_PAUSE, &PlayerFrame::OnMediaPause, this, ID_MEDIA_PAUSE);
   Bind(wxEVT_MEDIA_STOP, &PlayerFrame::OnMediaStop, this, ID_MEDIA_STOP);
-  Bind(
-    wxEVT_MEDIA_FINISHED, &PlayerFrame::OnMediaUnload, this, ID_MEDIA_FINISHED);
+  Bind(wxEVT_MEDIA_FINISHED,
+       &PlayerFrame::OnMediaFinished,
+       this,
+       ID_MEDIA_FINISHED);
 };
