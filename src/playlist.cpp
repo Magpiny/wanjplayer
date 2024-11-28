@@ -16,8 +16,7 @@ gui::player::Playlist::Playlist(wxWindow* parent, wxWindowID id)
 wxMediaCtrl*
 gui::player::Playlist::GetMediaCtrl()
 {
-  return dynamic_cast<wxMediaCtrl*>(
-    GetParent()->GetParent()->FindWindowById(ID_MEDIA_CTRL));
+  return dynamic_cast<wxMediaCtrl*>(GetParent()->FindWindowById(ID_MEDIA_CTRL));
 }
 
 void
@@ -63,9 +62,14 @@ gui::player::Playlist::OnKeyDown(wxKeyEvent& event)
     wxArrayInt selections;
     GetSelections(selections);
     for (int sel : selections) {
-      play_queue.push_back(play_queue[sel]);
+      wxString media_item = play_queue[sel];
+
+      wxMediaCtrl* media_ctrl = GetMediaCtrl();
+      media_ctrl->Load(media_item);
+      media_ctrl->Play();
+
+      play_next_item_in_queue();
     }
-    play_next_item_in_queue(); // Start playing the first item in the queue
   }
   event.Skip();
 };
@@ -75,8 +79,15 @@ gui::player::Playlist::OnDoubleClick(wxCommandEvent& event)
 {
   int index = event.GetSelection();
   if (index >= 0) {
-    play_queue.push_back(play_queue[index]); // Add to play queue
-    play_next_item_in_queue();               // Start playing if queue was empty
+
+    wxString media_item = play_queue[index];
+    wxMediaCtrl* media_ctrl = GetMediaCtrl();
+    if (media_ctrl->Load(media_item)) {
+      media_ctrl->Play();
+    } else {
+      wxLogError("Failed to load media file: " + media_item);
+    }
+    play_next_item_in_queue();
   }
   event.Skip();
 };
@@ -86,9 +97,19 @@ gui::player::Playlist::play_next_item_in_queue()
 {
   if (!play_queue.empty()) {
     wxString next_item = play_queue.front();
-    play_queue.erase(play_queue.begin());
+
     wxMediaCtrl* media_ctrl = GetMediaCtrl();
     media_ctrl->Load(next_item);
     media_ctrl->Play();
+  } else {
+    wxLogStatus("No media to play");
   }
 };
+
+void
+gui::player::Playlist::OnMediaFinished(wxMediaEvent& event)
+{
+  play_next_item_in_queue();
+
+  event.Skip();
+}

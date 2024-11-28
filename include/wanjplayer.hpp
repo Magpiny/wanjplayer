@@ -23,17 +23,12 @@ public:
   PlayerFrame();
 
 private: // UI
-  wxImage* default_image;
-  wxImage* audio_banner;
-  wxStaticBitmap* canvas_banner;
-
   wxPanel* video_canvas_pane;
   wxMediaCtrl* media_ctrl;
 
   gui::player::MediaControls* player_ctrls;
   gui::player::Playlist* playlist;
 
-  wxAuiManager* aui_mgr;
   std::size_t current_index;
 
 private: // Events
@@ -46,11 +41,11 @@ private: // Events
   void OnPreferences(wxCommandEvent& event);
 
   // Media Events
-  void OnMediaLoaded(wxCommandEvent& event);
-  void OnMediaPlay(wxCommandEvent& event);
-  void OnMediaPause(wxCommandEvent& event);
-  void OnMediaStop(wxCommandEvent& event);
-  void OnMediaUnload(wxCommandEvent& event);
+  void OnMediaLoaded(wxMediaEvent& event);
+  void OnMediaPlay(wxMediaEvent& event);
+  void OnMediaPause(wxMediaEvent& event);
+  void OnMediaStop(wxMediaEvent& event);
+  void OnMediaFinished(wxMediaEvent& event);
 };
 
 enum
