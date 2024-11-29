@@ -10,6 +10,9 @@
 namespace gui::player {
 class Playlist; // Forward declaration to avoid circular reference
 }
+namespace gui {
+class StatusBar;
+}
 
 class WanjPlayer : public wxApp
 {
@@ -28,6 +31,8 @@ private: // UI
 
   gui::player::MediaControls* player_ctrls;
   gui::player::Playlist* playlist;
+
+  gui::StatusBar* player_statusbar;
 
   std::size_t current_index;
 

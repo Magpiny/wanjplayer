@@ -7,7 +7,6 @@
 #include "media_ctrls.hpp"
 #include "menubar.hpp"
 #include "playlist.hpp"
-#include "sidebar.hpp"
 #include "statusbar.hpp"
 #include "wanjplayer.hpp"
 

@@ -74,8 +74,21 @@ PlayerFrame::PlayerFrame()
   wxPanel* media_queue_pane = new wxPanel(splitter, wxID_ANY);
   playlist = new gui::player::Playlist(media_queue_pane, wxID_ANY);
 
+  wxStaticBoxSizer* sidebar_bottom =
+    new wxStaticBoxSizer(wxHORIZONTAL, media_queue_pane, "wanjplayer");
+
+  wxButton* btn_clear = new wxButton(media_queue_pane, wxID_CLEAR);
+
+  wxStaticText* num_of_loaded_files =
+    new wxStaticText(media_queue_pane, wxID_ANY, "3 files loaded");
+
+  sidebar_bottom->Add(num_of_loaded_files);
+  sidebar_bottom->Add(btn_clear);
+  sidebar_bottom->AddStretchSpacer(5);
+
   wxBoxSizer* md_queue_sizer = new wxBoxSizer(wxVERTICAL);
-  md_queue_sizer->Add(playlist, 1, wxEXPAND);
+  md_queue_sizer->Add(playlist, 9.5, wxEXPAND);
+  md_queue_sizer->Add(sidebar_bottom, 0.5, wxEXPAND);
   media_queue_pane->SetSizerAndFit(md_queue_sizer);
 
   // Set the splitter to split intwo two vertical panes
@@ -87,11 +100,7 @@ PlayerFrame::PlayerFrame()
    * CREATE THE STATUS BAR
    *
    */
-  gui::StatusBar* player_statusbar = new gui::StatusBar(this);
-  player_statusbar->create_statusbar(
-    wxString::FromCDouble(media_ctrl->GetVolume() * 100, -1),
-    wxString::FromCDouble(media_ctrl->GetPlaybackRate()),
-    wxString::Format(_T("%lld"), media_ctrl->Length() / 60000));
+  player_statusbar = new gui::StatusBar(this);
 
   // Layout the splitter on the frame
   wxBoxSizer* player_window_sizer = new wxBoxSizer(wxVERTICAL);

@@ -29,7 +29,7 @@ include_directories(${INCLUDE_DIR})
 include_directories(${LIBS_DIR}/libvlcpp)
 
 # Find wxWidgets
-find_package(wxWidgets REQUIRED COMPONENTS base core media aui net adv)
+find_package(wxWidgets REQUIRED COMPONENTS base core media)
 
 include(${wxWidgets_USE_FILE})
 
@@ -37,9 +37,10 @@ include(${wxWidgets_USE_FILE})
 add_executable(WanjPlayer 
 ${SOURCE_DIR}/wanjplayer.cpp
 ${SOURCE_DIR}/menubar.cpp
-${SOURCE_DIR}/statusbar.cpp
 ${SOURCE_DIR}/about.cpp
 ${SOURCE_DIR}/license_dialogbx.cpp
+${SOURCE_DIR}/w_timer.cpp
+${SOURCE_DIR}/statusbar.cpp
 ${SOURCE_DIR}/media_ctrls.cpp
 ${SOURCE_DIR}/playlist.cpp
 ${SOURCE_DIR}/media_events.cpp

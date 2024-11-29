@@ -3,6 +3,7 @@
 
 #include "media_ctrls.hpp"
 #include "playlist.hpp"
+#include "w_timer.hpp"
 #include "wanjplayer.hpp"
 
 void
@@ -40,6 +41,11 @@ PlayerFrame::OnFileOpen(wxCommandEvent& event)
   // Check if the media is audio or video
   wxFileName file_name(file_path);
 
+  logic::Timer show_time;
+
+  player_statusbar->create_statusbar(
+    "", show_time.time_convert(890000), file_name.GetName());
+
   // Play media
   if (media_ctrl && media_ctrl->Load(file_path)) {
 
@@ -71,10 +77,22 @@ PlayerFrame::OnFilesOpen(wxCommandEvent& event)
   wxArrayString paths;
   open_file_dialog.GetPaths(paths);
 
+  wxFileName file_name;
+  logic::Timer* show_time = new logic::Timer();
+
   // Add files to the playlist
   for (const wxString& path : paths) {
     playlist->add_item(path);
+
+    playlist->play_next_item_in_queue();
+
+    // update the status bar
+    file_name.FileName(path);
   }
+
+  player_statusbar->create_statusbar(
+    "", show_time->time_convert(media_ctrl->Tell()), file_name.GetName());
+
   // Bind event to play next item when current one finishes
   Bind(wxEVT_MEDIA_FINISHED,
        &PlayerFrame::OnMediaFinished,
