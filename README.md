@@ -6,7 +6,9 @@ This software uses wxWidgets for GUI and libvlcpp to handle media files
 I did this version to make it easy to port to windows as gstreamer does not work on windows.
 
 NOTE: There are two versions of this app;
-The first version in dev branch uses 
+The first version in dev branch uses platform specific media files handlers 
+while the second version uses libvlcpp library to handle media files in all
+platforms.
 
 ## Dependencies
 1. wxWidgets 3.2.6
