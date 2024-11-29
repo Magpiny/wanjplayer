@@ -105,11 +105,3 @@ gui::player::Playlist::play_next_item_in_queue()
     wxLogStatus("No media to play");
   }
 };
-
-void
-gui::player::Playlist::OnMediaFinished(wxMediaEvent& event)
-{
-  play_next_item_in_queue();
-
-  event.Skip();
-}

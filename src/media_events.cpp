@@ -75,11 +75,7 @@ PlayerFrame::OnFilesOpen(wxCommandEvent& event)
   for (const wxString& path : paths) {
     playlist->add_item(path);
   }
-  // Bind event to play next item when current one finishes
-  Bind(wxEVT_MEDIA_FINISHED,
-       &PlayerFrame::OnMediaFinished,
-       this,
-       ID_MEDIA_FINISHED);
+
   playlist->play_next_item_in_queue();
 }
 
@@ -116,6 +112,7 @@ PlayerFrame::OnMediaStop(wxMediaEvent& event)
 void
 PlayerFrame::OnMediaFinished(wxMediaEvent& event)
 {
+  media_ctrl->Refresh();
   playlist->play_next_item_in_queue();
 
   event.Skip();
