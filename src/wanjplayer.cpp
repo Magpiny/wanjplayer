@@ -77,7 +77,12 @@ PlayerFrame::PlayerFrame()
   wxStaticBoxSizer* sidebar_bottom =
     new wxStaticBoxSizer(wxHORIZONTAL, media_queue_pane, "wanjplayer");
 
-  wxButton* btn_clear = new wxButton(media_queue_pane, wxID_CLEAR);
+  wxButton* btn_clear = new wxButton(media_queue_pane,
+                                     wxID_CLEAR,
+                                     wxEmptyString,
+                                     wxDefaultPosition,
+                                     wxDefaultSize,
+                                     wxBU_EXACTFIT);
 
   wxStaticText* num_of_loaded_files =
     new wxStaticText(media_queue_pane, wxID_ANY, "3 files loaded");

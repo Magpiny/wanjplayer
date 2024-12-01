@@ -3,32 +3,32 @@
 logic::Timer::Timer() {}
 
 wxString
-logic::Timer::time_convert(wxFileOffset m_time)
+logic::Timer::time_convert(wxLongLong m_time)
 {
   // Calculate the number of days, hours, minutes, and seconds
-  wxFileOffset days = m_time / TimeConstants::DAY;
-  m_time %= TimeConstants::DAY;
-  wxFileOffset hours = m_time / TimeConstants::HOUR;
-  m_time %= TimeConstants::HOUR;
-  wxFileOffset minutes = m_time / TimeConstants::MINUTE;
-  m_time %= TimeConstants::MINUTE;
-  wxFileOffset seconds = m_time / TimeConstants::SECOND;
+  int days = (int)(m_time / TimeConstants::DAY).GetValue();
+  m_time = (int)(m_time % TimeConstants::DAY).GetValue();
+  int hours = (int)(m_time / TimeConstants::HOUR).GetValue();
+  m_time = (int)(m_time % TimeConstants::HOUR).GetValue();
+  int minutes = (int)(m_time / TimeConstants::MINUTE).GetValue();
+  m_time = (int)(m_time % TimeConstants::MINUTE).GetValue();
+  int seconds = (int)(m_time / TimeConstants::SECOND).GetValue();
 
   // Create a vector to hold the time components
-  std::vector<std::string> time_components;
+  std::vector<wxString> time_components;
 
   if (days > 0) {
-    time_components.push_back(wxString::Format("%lld", days));
+    time_components.push_back(wxString::Format("%2i d", days));
   }
   if (hours > 0) {
-    time_components.push_back(wxString::Format("%lld h", hours));
+    time_components.push_back(wxString::Format("%2i h", hours));
   }
   if (minutes > 0) {
-    time_components.push_back(wxString::Format("%lld m", minutes));
+    time_components.push_back(wxString::Format("%2i m", minutes));
   }
   if (seconds > 0 || time_components.empty()) {
     // Include seconds if it's the only component
-    time_components.push_back(wxString::Format("%lld s", seconds));
+    time_components.push_back(wxString::Format("%02i s", seconds));
   }
 
   // Join the time components with spaces

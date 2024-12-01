@@ -17,10 +17,10 @@ namespace logic {
 
 struct TimeConstants
 {
-  static constexpr wxFileOffset SECOND = 1000; // 1000 milliseconds
-  static constexpr wxFileOffset MINUTE = 60 * SECOND;
-  static constexpr wxFileOffset HOUR = 60 * MINUTE;
-  static constexpr wxFileOffset DAY = 24 * HOUR;
+  static constexpr int SECOND = 1000; // 1000 milliseconds
+  static constexpr int MINUTE = 60 * SECOND;
+  static constexpr int HOUR = 60 * MINUTE;
+  static constexpr int DAY = 24 * HOUR;
 };
 
 class Timer
@@ -29,7 +29,7 @@ class Timer
   //  this
 public:
   Timer();
-  wxString time_convert(wxFileOffset m_time); // Takes int time in milliseconds
+  wxString time_convert(wxLongLong m_time); // Takes int time in milliseconds
   ~Timer();
 };
 }

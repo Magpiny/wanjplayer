@@ -13,10 +13,10 @@ gui::player::MediaControls::MediaControls(wxPanel* panel,
 
   // Create the three buttons
   btn_play = new wxButton(this, wxID_ANY, "play");
-  btn_stop = new wxButton(this, wxID_STOP, "stop");
+  btn_stop = new wxButton(this, wxID_STOP);
   btn_pause = new wxButton(this, wxID_ANY, "pause");
-  btn_next = new wxButton(this, wxID_FORWARD, "next");
-  btn_prev = new wxButton(this, wxID_BACKWARD, "prev");
+  btn_next = new wxButton(this, wxID_FORWARD);
+  btn_prev = new wxButton(this, wxID_BACKWARD);
 
   // Add a volume slider
   slider_volume = new wxSlider(this, wxID_ANY, 35, 0, 100);

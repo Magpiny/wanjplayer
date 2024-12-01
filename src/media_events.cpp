@@ -43,13 +43,17 @@ PlayerFrame::OnFileOpen(wxCommandEvent& event)
 
   logic::Timer show_time;
 
-  player_statusbar->create_statusbar(
-    "", show_time.time_convert(890000), file_name.GetName());
-
   // Play media
   if (media_ctrl && media_ctrl->Load(file_path)) {
 
     media_ctrl->Play();
+
+    player_statusbar->create_statusbar(
+      "hello world",
+      show_time.time_convert(media_ctrl->Length()),
+      file_name.GetName());
+
+    wxLogStatus(wxString::Format("%lld", media_ctrl->Length()));
 
   } else {
     wxLogError("Failed to load media");
