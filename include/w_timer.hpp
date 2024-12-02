@@ -8,10 +8,12 @@
  * It may also have some timing functions in future
  */
 
-#include "widgets.hpp"
 #include <sstream>
 #include <string>
 #include <vector>
+#include <wx/filefn.h>
+#include <wx/longlong.h>
+#include <wx/string.h>
 
 namespace logic {
 

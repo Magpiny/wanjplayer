@@ -67,9 +67,9 @@ gui::player::Playlist::OnKeyDown(wxKeyEvent& event)
       wxMediaCtrl* media_ctrl = GetMediaCtrl();
       media_ctrl->Load(media_item);
       media_ctrl->Play();
-
-      play_next_item_in_queue();
     }
+
+    play_next_item_in_queue();
   }
   event.Skip();
 };

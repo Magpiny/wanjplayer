@@ -3,8 +3,11 @@
 
 #include "player_ui.hpp"
 #include "widgets.hpp"
+#include <algorithm>
 #include <cstddef>
 #include <memory>
+
+#include "w_timer.hpp"
 #include <wx/wx.h>
 
 namespace gui::player {
@@ -29,12 +32,20 @@ private: // UI
   wxPanel* video_canvas_pane;
   wxMediaCtrl* media_ctrl;
 
+  wxFileName file_name;
+
   gui::player::MediaControls* player_ctrls;
   gui::player::Playlist* playlist;
 
   gui::StatusBar* player_statusbar;
 
+  wxLongLong media_length;
+  wxLongLong current_position;
+
   std::size_t current_index;
+  logic::Timer* tm;
+
+  friend class gui::player::Playlist;
 
 private: // Events
          // UI Events

@@ -1,9 +1,5 @@
 // Start of wxWidgets "Hello World" Program
 #include "wanjplayer.hpp"
-#include "player_ui.hpp"
-#include "widgets.hpp"
-#include <algorithm>
-#include <memory>
 
 wxIMPLEMENT_APP(WanjPlayer);
 
@@ -29,10 +25,11 @@ PlayerFrame::PlayerFrame()
 {
   // SET APP Icon
   wxIcon icon;
-  if (!icon.LoadFile("../assets/logo/wanjplayer-64x64.png",
+  if (!icon.LoadFile("../assets/logo/wanjplayer-32x32.png",
                      wxBITMAP_TYPE_PNG)) {
     wxLogError("Failed to load Icon");
   };
+  icon.LoadFile("../assets/logo/wanjplayer-32x32.png", wxBITMAP_TYPE_PNG);
   SetIcon(icon);
 
   /**
@@ -77,35 +74,38 @@ PlayerFrame::PlayerFrame()
   wxStaticBoxSizer* sidebar_bottom =
     new wxStaticBoxSizer(wxHORIZONTAL, media_queue_pane, "wanjplayer");
 
-  wxButton* btn_clear = new wxButton(media_queue_pane,
-                                     wxID_CLEAR,
-                                     wxEmptyString,
-                                     wxDefaultPosition,
-                                     wxDefaultSize,
-                                     wxBU_EXACTFIT);
+  wxButton* btn_clear = new wxButton(media_queue_pane, wxID_CLEAR);
 
   wxStaticText* num_of_loaded_files =
-    new wxStaticText(media_queue_pane, wxID_ANY, "3 files loaded");
+    new wxStaticText(media_queue_pane,
+                     wxID_ANY,
+                     "3 files loaded",
+                     wxDefaultPosition,
+                     wxDefaultSize,
+                     wxALIGN_CENTRE_HORIZONTAL);
+  num_of_loaded_files->SetForegroundColour(wxColour(23, 109, 210));
 
-  sidebar_bottom->Add(num_of_loaded_files);
-  sidebar_bottom->Add(btn_clear);
-  sidebar_bottom->AddStretchSpacer(5);
+  sidebar_bottom->Add(num_of_loaded_files, 2, wxEXPAND);
+  sidebar_bottom->Add(btn_clear, 1, wxEXPAND | wxALL);
 
   wxBoxSizer* md_queue_sizer = new wxBoxSizer(wxVERTICAL);
-  md_queue_sizer->Add(playlist, 9.5, wxEXPAND);
-  md_queue_sizer->Add(sidebar_bottom, 0.5, wxEXPAND);
+  md_queue_sizer->Add(playlist, 9, wxEXPAND);
+  md_queue_sizer->Add(sidebar_bottom, 1, wxEXPAND);
   media_queue_pane->SetSizerAndFit(md_queue_sizer);
 
   // Set the splitter to split intwo two vertical panes
-  splitter->SplitVertically(media_queue_pane, video_canvas_pane, 250);
-  splitter->SetMinimumPaneSize(10);
+  splitter->SplitVertically(media_queue_pane, video_canvas_pane, 200);
+  splitter->SetMinimumPaneSize(5);
 
   /**
    *
    * CREATE THE STATUS BAR
    *
    */
+
   player_statusbar = new gui::StatusBar(this);
+
+  wxLogStatus(wxString::Format("%lld", media_ctrl->Length()));
 
   // Layout the splitter on the frame
   wxBoxSizer* player_window_sizer = new wxBoxSizer(wxVERTICAL);
