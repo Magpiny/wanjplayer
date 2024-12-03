@@ -1,6 +1,6 @@
 # Author: Wanjare Samuel
-# Date: Tuesday 12th November 2024
-# LICENSE: MIT
+# Date: Tuesday 6th December 2024
+# LICENSE: GPLv3
 # Description: A simple media player
 # Special Thanks To: C++, wxWidgets-3.2.6, libvlcpp and I
 
@@ -23,30 +23,32 @@ set(INCLUDE_DIR ${PROJECT_ROOT}/include)
 set(LIBS_DIR ${PROJECT_ROOT}/libs)
 set(TEST_DIR  ${PROJECT_ROOT}/tests)
 set(ASSETS_DIR ${PROJECT_ROOT}/assets)
-set(BIN_DIR ${PROJECT_ROOT}/build)
+set(BIN_DIR ${PROJECT_ROOT}/bin)
 
 include_directories(${INCLUDE_DIR})
 include_directories(${LIBS_DIR}/libvlcpp)
 
 # Find wxWidgets
-find_package(wxWidgets REQUIRED COMPONENTS base core media aui net adv)
+find_package(wxWidgets REQUIRED COMPONENTS core base aui net)
 
 include(${wxWidgets_USE_FILE})
 
 # Add executable
 add_executable(WanjPlayer 
 ${SOURCE_DIR}/wanjplayer.cpp
+${SOURCE_DIR}/main_window.cpp
 ${SOURCE_DIR}/menubar.cpp
-${SOURCE_DIR}/statusbar.cpp
 ${SOURCE_DIR}/about.cpp
-${SOURCE_DIR}/license_dialogbx.cpp
-${SOURCE_DIR}/media_ctrls.cpp
-${SOURCE_DIR}/playlist.cpp
-${SOURCE_DIR}/media_events.cpp
+${SOURCE_DIR}/license_dlgbx.cpp
+${SOURCE_DIR}/sidebar.cpp
+${SOURCE_DIR}/media_pane.cpp
+${SOURCE_DIR}/media_ctrl.cpp
+${SOURCE_DIR}/statusbar.cpp
+${SOURCE_DIR}/events.cpp
 )
 
 # Link libraries
-target_link_libraries(WanjPlayer ${wxWidgets_LIBRARIES})
+target_link_libraries(WanjPlayer ${wxWidgets_LIBRARIES} -lpthread -ldl)
 
 
 # target_include_directories(WanjPlayerTests PRIVATE ${LIBS_DIR}/wxWidgets/include)

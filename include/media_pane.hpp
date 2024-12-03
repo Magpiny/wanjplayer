@@ -1,7 +1,6 @@
-
 /*
     WanjPlayer: A simple media player
-    Copyright (C) 2024  Wanjare Samuel
+Copyright (C) 2025  Wanjare Samuel
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,19 +16,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  */
-#ifndef STATUSBAR__HPP
-#define STATUSBAR__HPP
+#ifndef MEDIA_PANE__HPP
+#define MEDIA_PANE__HPP
 
 #include "widgets.hpp"
-class StatusBar
+
+class MediaPane : public wxPanel
 {
 public:
-  StatusBar(wxFrame* parent);
-  void create_statusbar(wxString mssg1, wxString mssg2, wxString mssg3);
-  ~StatusBar() {};
+  MediaPane(wxWindow* parent);
+  void create_mediapane();
 
 private:
-  wxFrame* _parent;
+  wxStaticText* mediaInfoTxt;
 };
 
-#endif // !STATUSBAR__HPP
+#endif

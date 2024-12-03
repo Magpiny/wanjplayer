@@ -1,6 +1,6 @@
 # Build directory
-build/
-build/**/*
+bin/
+bin/**/*
 
 assets/sample-media/*
 # Prerequisites

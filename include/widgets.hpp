@@ -4,6 +4,7 @@
 #include <vector>
 #include <wx/aboutdlg.h>
 #include <wx/aui/aui.h>
+#include <wx/aui/dockart.h>
 #include <wx/aui/framemanager.h>
 #include <wx/bmpbndl.h>
 #include <wx/button.h>
@@ -12,10 +13,12 @@
 #include <wx/filedlg.h>
 #include <wx/filefn.h>
 #include <wx/filename.h>
+#include <wx/frame.h>
 #include <wx/icon.h>
 #include <wx/iconloc.h>
 #include <wx/imagpng.h>
 #include <wx/listbox.h>
+#include <wx/listctrl.h>
 #include <wx/log.h>
 #include <wx/mediactrl.h>
 #include <wx/menu.h>

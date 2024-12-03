@@ -1,4 +1,3 @@
-
 /*
     WanjPlayer: A simple media player
     Copyright (C) 2024  Wanjare Samuel
@@ -17,19 +16,22 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  */
-#ifndef STATUSBAR__HPP
-#define STATUSBAR__HPP
-
+#ifndef __LICENCE_DIALOG_BOX__HPP
+#define __LICENCE_DIALOG_BOX__HPP
 #include "widgets.hpp"
-class StatusBar
+#include <cstddef>
+
+namespace gui {
+class LicenseDialog : public wxDialog
 {
 public:
-  StatusBar(wxFrame* parent);
-  void create_statusbar(wxString mssg1, wxString mssg2, wxString mssg3);
-  ~StatusBar() {};
+  LicenseDialog(wxWindow* parent, const wxString& title);
+  void load_license(const wxString& file_path);
+  ~LicenseDialog();
 
 private:
-  wxFrame* _parent;
+  wxStaticText* license_text_ctrl;
 };
+}
 
-#endif // !STATUSBAR__HPP
+#endif // !__LICENCE_DIALOG_BOX__HPP
