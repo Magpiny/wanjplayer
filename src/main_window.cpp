@@ -20,7 +20,7 @@
 
 #include "main_window.hpp"
 
-MainWindow::MainWindow(wxWindow* parent)
+MainWindow::MainWindow(wxWindow *parent)
     : wxFrame(parent, wxID_ANY, "WanjPlayer", wxDefaultPosition,
               wxSize(800, 650)) {
   // Set Icon here
@@ -52,9 +52,9 @@ MainWindow::MainWindow(wxWindow* parent)
   _aui_mgr->AddPane(_side_bar,
                     wxAuiPaneInfo().Name("Playlist").Left().Layer(1));
   _aui_mgr->AddPane(_media_pane,
-                    wxAuiPaneInfo().Name("Media").Center().Layer(1));
-  _aui_mgr->AddPane(
-      _media_ctrl, wxAuiPaneInfo().Name("Controls").Center().Bottom().Layer(2));
+                    wxAuiPaneInfo().Name("Media").Right().Layer(1));
+  _aui_mgr->AddPane(_media_ctrl,
+                    wxAuiPaneInfo().Name("Controls").Right().Bottom().Layer(2));
 
   _aui_mgr->Update();
   // CREATE STATUS BAR
@@ -65,6 +65,8 @@ MainWindow::MainWindow(wxWindow* parent)
   Bind(wxEVT_MENU, &MainWindow::OnExit, this, wxID_EXIT);
   Bind(wxEVT_MENU, &MainWindow::OnAbout, this, wxID_ABOUT);
 
-  Bind(wxEVT_MOUSE_EVENT, &MainWindow::OnMouseEnter, this, wxID_ANY, wxID_ANY);
-  Bind(wxEVT_MOUSE_EVENT, &MainWindow::OnMouseLeave, this, wxID_ANY, wxID_ANY);
-}
+  Bind(wxEVT_ENTER_WINDOW, &MainWindow::OnMouseEnter, this, wxID_ANY, wxID_ANY);
+  Bind(wxEVT_LEAVE_WINDOW, &MainWindow::OnMouseLeave, this, wxID_ANY, wxID_ANY);
+};
+
+MainWindow::~MainWindow() {};

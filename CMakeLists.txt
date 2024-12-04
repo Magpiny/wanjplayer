@@ -48,10 +48,7 @@ ${SOURCE_DIR}/events.cpp
 )
 
 # Link libraries
-target_link_libraries(WanjPlayer ${wxWidgets_LIBRARIES} -lpthread -ldl)
-
-
-# target_include_directories(WanjPlayerTests PRIVATE ${LIBS_DIR}/wxWidgets/include)
+target_link_libraries(WanjPlayer ${wxWidgets_LIBRARIES} -lpthread)
 
 # set output directory for the binary
 set_target_properties(WanjPlayer PROPERTIES 

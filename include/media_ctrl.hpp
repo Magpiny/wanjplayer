@@ -21,14 +21,13 @@
 #define MEDIA_CTRL__HPP
 
 #include "widgets.hpp"
-class MediaCtrl : public wxPanel
-{
-public:
+class MediaCtrl : public wxPanel {
+ public:
   MediaCtrl(wxWindow* parent);
   void create_mediactrl();
   ~MediaCtrl();
 
-private:
+ private:
   wxButton* btn_play_pause;
   wxButton* btn_stop;
   wxButton* btn_next;
@@ -41,10 +40,11 @@ private:
   wxStaticText* label_seek;
 
   // Event Managers
+ private:
   void OnPlayPause(wxCommandEvent& event);
   void OnStop(wxCommandEvent& event);
   void OnNext(wxCommandEvent& event);
-  void OnPrev(wxCommandEvent& event);
+  void OnPrevious(wxCommandEvent& event);
   void OnVolumeChange(wxCommandEvent& event);
   void OnSeekChange(wxCommandEvent& event);
 };

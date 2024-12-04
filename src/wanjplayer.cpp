@@ -21,8 +21,8 @@
 wxIMPLEMENT_APP(WanjPlayer);
 
 bool WanjPlayer::OnInit() {
-  MainWindow* frame = new MainWindow(nullptr);
+  MainWindow *frame = new MainWindow(nullptr);
+  // frame->EnableFullScreenView();
   frame->Show(true);
-  frame->EnableFullScreenView();
   return true;
 };

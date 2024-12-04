@@ -21,13 +21,12 @@ WanjPlayer: A simple media player
 #define SIDE_BAR__HPP
 
 #include "widgets.hpp"
-class SideBar : public wxPanel
-{
-public:
+class SideBar : public wxPanel {
+ public:
   SideBar(wxWindow* parent);
   void create_sidebar();
 
-private:
+ private:
   wxButton* clear_playlist;
   wxButton* remove_item;
   wxButton* add_item;
@@ -35,4 +34,4 @@ private:
   wxListCtrl* list_ctrl;
 };
 
-#endif // SIDE_BAR__HPP
+#endif  // SIDE_BAR__HPP

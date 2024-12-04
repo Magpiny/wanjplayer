@@ -1,16 +1,16 @@
-#include "license_dialogbx.hpp"
+#include "license_dlgbx.hpp"
 //
-gui::LicenseDialog::LicenseDialog(wxWindow* parent, const wxString& title)
+LicenseDialog::LicenseDialog(wxWindow *parent, const wxString &title)
     : wxDialog(parent, wxID_ANY, title, wxDefaultPosition, wxSize(650, 450)) {
   license_text_ctrl = new wxStaticText(this, wxID_ANY, wxEmptyString);
-  wxBoxSizer* text_sizer = new wxBoxSizer(wxVERTICAL);
+  wxBoxSizer *text_sizer = new wxBoxSizer(wxVERTICAL);
   text_sizer->Add(license_text_ctrl, 1, wxEXPAND | wxALL, 10);
   SetSizer(text_sizer);
 
   CenterOnParent();
 };
 
-void gui::LicenseDialog::load_license(const wxString& file_path) {
+void LicenseDialog::load_license(const wxString &file_path) {
   wxTextFile file(file_path);
   if (file.Open()) {
     wxString content;
@@ -25,4 +25,4 @@ void gui::LicenseDialog::load_license(const wxString& file_path) {
   }
 };
 
-gui::LicenseDialog::~LicenseDialog() {};
+LicenseDialog::~LicenseDialog() {};

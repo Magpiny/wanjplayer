@@ -1,7 +1,6 @@
 #ifndef WX_WIDGETS_LIBRARY_HPP
 #define WX_WIDGETS_LIBRARY_HPP
 
-#include <vector>
 #include <wx/aboutdlg.h>
 #include <wx/aui/aui.h>
 #include <wx/aui/dockart.h>
@@ -10,6 +9,7 @@
 #include <wx/button.h>
 #include <wx/colour.h>
 #include <wx/dialog.h>
+#include <wx/event.h>
 #include <wx/filedlg.h>
 #include <wx/filefn.h>
 #include <wx/filename.h>
@@ -35,4 +35,6 @@
 #include <wx/textfile.h>
 #include <wx/uri.h>
 #include <wx/wx.h>
-#endif // !WX_WIDGETS_LIBRARY_HPP
+
+#include <vector>
+#endif  // !WX_WIDGETS_LIBRARY_HPP

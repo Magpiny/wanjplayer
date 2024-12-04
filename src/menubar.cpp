@@ -19,21 +19,21 @@
 
 #include "menubar.hpp"
 
-MenuBar::MenuBar(wxFrame* parent) : _parent(parent) {};
+MenuBar::MenuBar(wxFrame *parent) : _parent(parent) {};
 
-void Menubar::create_menubar() {
-  wxMenu* menu_file = new wxMenu;
+void MenuBar::create_menubar() {
+  wxMenu *menu_file = new wxMenu;
   menu_file->Append(ID_OPENFILE, "&Open File\tCtrl-O");
-  menu_file->Append(ID_OPEN_FILES, "&OpenFiles\tCtrl-Shift-O");
+  menu_file->Append(ID_OPENFILES, "&OpenFiles\tCtrl-Shift-O");
   menu_file->AppendSeparator();
   menu_file->Append(wxID_EXIT);
 
-  wxMenu* menu_help = new wxMenu;
+  wxMenu *menu_help = new wxMenu;
   menu_help->Append(ID_PREFS, "&Preferences");
   menu_help->Append(wxID_ABOUT);
   menu_help->Append(ID_LICENSE, "&Licence", "Read License");
 
-  wxMenuBar* menuBar = new wxMenuBar;
+  wxMenuBar *menuBar = new wxMenuBar(wxMB_DOCKABLE);
   menuBar->Append(menu_file, "&File");
   menuBar->Append(menu_help, "&Help");
 

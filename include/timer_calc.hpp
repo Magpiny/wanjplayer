@@ -23,8 +23,9 @@
 #ifndef WANJ_TIMER__HPP
 #define WANJ_TIMER__HPP
 
-#include <iostream>
 #include <wx/longlong.h>
+
+#include <iostream>
 namespace logic::player {
 
 struct TimeConstants
@@ -38,9 +39,9 @@ struct TimeConstants
 class Timer
 {
   Timer();
-  wxString time_convert(wxLongLong time); // Takes int time in milliseconds
+  wxString time_convert(wxLongLong time);  // Takes int time in milliseconds
   ~Timer();
 };
 }
 
-#endif // !WANJ_TIMER__HPP
+#endif  // !WANJ_TIMER__HPP

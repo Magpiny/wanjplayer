@@ -16,22 +16,20 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  */
-#ifndef __LICENCE_DIALOG_BOX__HPP
-#define __LICENCE_DIALOG_BOX__HPP
-#include "widgets.hpp"
+#ifndef LICENCE_DIALOG_BOX__HPP
+#define LICENCE_DIALOG_BOX__HPP
 #include <cstddef>
 
-namespace gui {
-class LicenseDialog : public wxDialog
-{
-public:
+#include "widgets.hpp"
+
+class LicenseDialog : public wxDialog {
+ public:
   LicenseDialog(wxWindow* parent, const wxString& title);
   void load_license(const wxString& file_path);
   ~LicenseDialog();
 
-private:
+ private:
   wxStaticText* license_text_ctrl;
 };
-}
 
-#endif // !__LICENCE_DIALOG_BOX__HPP
+#endif  // !LICENCE_DIALOG_BOX__HPP

@@ -19,18 +19,17 @@
 
 #ifndef WANJPLAYER__HPP
 #define WANJPLAYER__HPP
-#include "main_window.hpp"
-#include "widgets.hpp"
 #include <wx/wx.h>
 
-class WanjPlayer : public wxApp
-{
-public:
+#include "main_window.hpp"
+#include "widgets.hpp"
+
+class WanjPlayer : public wxApp {
+ public:
   bool OnInit() override;
 };
 
-enum
-{
+enum {
   ID_OPENFILE = wxID_HIGHEST + 1,
   ID_OPENFILES,
   ID_PREFS,
@@ -45,4 +44,4 @@ enum
 
 // wxDECLARE_APP(WanjPlayer);
 
-#endif // WANJPLAYER__HPP
+#endif  // WANJPLAYER__HPP

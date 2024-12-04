@@ -1,6 +1,6 @@
 #include "about.hpp"
 
-About::About(wxFrame* parent) : _parent(parent) {};
+About::About(wxFrame *parent) : _parent(parent) {};
 
 void About::create_about_page() {
   wxAboutDialogInfo aboutInfo;

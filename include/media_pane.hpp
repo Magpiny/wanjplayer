@@ -21,13 +21,12 @@ Copyright (C) 2025  Wanjare Samuel
 
 #include "widgets.hpp"
 
-class MediaPane : public wxPanel
-{
-public:
+class MediaPane : public wxPanel {
+ public:
   MediaPane(wxWindow* parent);
   void create_mediapane();
 
-private:
+ private:
   wxStaticText* mediaInfoTxt;
 };
 

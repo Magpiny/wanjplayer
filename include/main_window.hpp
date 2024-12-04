@@ -20,6 +20,8 @@
 #ifndef MAIN_WINDOW__HPP
 #define MAIN_WINDOW__HPP
 
+#include <wx/wx.h>
+
 #include "media_ctrl.hpp"
 #include "media_pane.hpp"
 #include "menubar.hpp"
@@ -27,16 +29,18 @@
 #include "statusbar.hpp"
 #include "timer_calc.hpp"
 #include "widgets.hpp"
-#include <wx/wx.h>
 
-class MainWindow : public wxFrame
-{
-public:
+// Forward declaration
+class MenuBar;
+
+class MainWindow : public wxFrame {
+ public:
   MainWindow(wxWindow* parent);
   void OnMouseEnter(wxMouseEvent& event);
   void OnMouseLeave(wxMouseEvent& event);
+  ~MainWindow();
 
-private:
+ private:
   wxAuiManager* _aui_mgr;
 
   MenuBar* _menu_bar;
@@ -46,7 +50,7 @@ private:
   StatusBar* _status_bar;
 
   // Event handlers
-private:
+ private:
   void OnExit(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
   /* void OnHelp(wxCommandEvent& event);*/

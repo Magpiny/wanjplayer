@@ -20,15 +20,16 @@
 #ifndef MENUBAR__HPP
 #define MENUBAR__HPP
 
+#include "wanjplayer.hpp"
 #include "widgets.hpp"
-class MenuBar
-{
-public:
+
+class MenuBar {
+ public:
   MenuBar(wxFrame* parent);
   void create_menubar();
 
-private:
+ private:
   wxFrame* _parent;
 };
 
-#endif // !MENUBAR__H
+#endif  // !MENUBAR__H
