@@ -1,7 +1,7 @@
 #include "media_ctrl.hpp"
 
 MediaCtrl::MediaCtrl(wxWindow *parent)
-    : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(800, 100),
+    : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(600, 80),
               wxNO_BORDER | wxTRANSPARENT_WINDOW) {
   Bind(wxEVT_BUTTON, &MediaCtrl::OnPlayPause, this, btn_play_pause->GetId());
   Bind(wxEVT_BUTTON, &MediaCtrl::OnStop, this, btn_stop->GetId());

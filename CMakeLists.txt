@@ -29,9 +29,13 @@ include_directories(${INCLUDE_DIR})
 include_directories(${LIBS_DIR}/libvlcpp)
 
 # Find wxWidgets
-find_package(wxWidgets REQUIRED COMPONENTS core base aui net)
+find_package(wxWidgets REQUIRED COMPONENTS core base aui adv net)
 
 include(${wxWidgets_USE_FILE})
+
+#Find VLC
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(libvlcpp REQUIRED libvlcpp)
 
 # Add executable
 add_executable(WanjPlayer 
@@ -48,7 +52,7 @@ ${SOURCE_DIR}/events.cpp
 )
 
 # Link libraries
-target_link_libraries(WanjPlayer ${wxWidgets_LIBRARIES} -lpthread)
+target_link_libraries(WanjPlayer ${wxWidgets_LIBRARIES} ${libvlcpp_LIBRARIES})
 
 # set output directory for the binary
 set_target_properties(WanjPlayer PROPERTIES 

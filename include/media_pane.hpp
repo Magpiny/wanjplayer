@@ -19,6 +19,9 @@ Copyright (C) 2025  Wanjare Samuel
 #ifndef MEDIA_PANE__HPP
 #define MEDIA_PANE__HPP
 
+// #include "vlcpp/Instance.hpp"
+// #include "vlcpp/MediaPlayer.hpp"
+#include "vlcpp/vlc.hpp"
 #include "widgets.hpp"
 
 class MediaPane : public wxPanel {
@@ -27,7 +30,9 @@ class MediaPane : public wxPanel {
   void create_mediapane();
 
  private:
-  wxStaticText* mediaInfoTxt;
+  wxStaticText* media_info_txt;
+  VLC::Instance vlc_instance;
+  VLC::MediaPlayer vlc_media_player;
 };
 
 #endif
