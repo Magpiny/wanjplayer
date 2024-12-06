@@ -22,7 +22,7 @@
 
 MainWindow::MainWindow(wxWindow *parent)
     : wxFrame(parent, wxID_ANY, "WanjPlayer", wxDefaultPosition,
-              wxSize(800, 650)) {
+              wxSize(820, 670)) {
   // Set Icon here
 
   // Set window manager here i.e wxAuiManager
@@ -50,16 +50,30 @@ MainWindow::MainWindow(wxWindow *parent)
 
   // MANAGE WINDOWS
   _aui_mgr->AddPane(_side_bar,
-                    wxAuiPaneInfo().Name("Playlist").Left().Layer(1));
-  _aui_mgr->AddPane(_media_pane,
-                    wxAuiPaneInfo().Name("Media").Right().Layer(1));
-  _aui_mgr->AddPane(_media_ctrl,
-                    wxAuiPaneInfo().Name("Controls").Right().Bottom().Layer(2));
+                    wxAuiPaneInfo().Name("Playlist").LeftDockable().Layer(1));
+  _aui_mgr->AddPane(_media_pane, wxAuiPaneInfo()
+                                     .Name("Media")
+                                     .Caption("WanjPlayer")
+                                     .Center()
+                                     .MinimizeButton()
+                                     .MaximizeButton()
+                                     .PinButton()
+                                     .Resizable()
+                                     .Dockable()
+                                     .Floatable()
+                                     .Layer(1));
+  _aui_mgr->AddPane(_media_ctrl, wxAuiPaneInfo()
+                                     .Name("Controls")
+                                     .Bottom()
+                                     .BottomDockable()
+                                     .Floatable()
+                                     .Layer(2));
 
   _aui_mgr->Update();
   // CREATE STATUS BAR
   _status_bar = new StatusBar(this);
-  _status_bar->create_statusbar("Hello", "Hello", "Hello");
+  _status_bar->create_statusbar("StatusBar Text1", "StatusBar Text2",
+                                "StatusBar Text3");
 
   // Bind Events
   Bind(wxEVT_MENU, &MainWindow::OnExit, this, wxID_EXIT);

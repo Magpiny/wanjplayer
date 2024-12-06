@@ -21,6 +21,7 @@
 #define MEDIA_CTRL__HPP
 
 #include "widgets.hpp"
+
 class MediaCtrl : public wxPanel {
  public:
   MediaCtrl(wxWindow* parent);
@@ -28,6 +29,9 @@ class MediaCtrl : public wxPanel {
   ~MediaCtrl();
 
  private:
+  // Colour DB
+  wxColourDatabase m_color;
+
   wxButton* btn_play_pause;
   wxButton* btn_stop;
   wxButton* btn_next;

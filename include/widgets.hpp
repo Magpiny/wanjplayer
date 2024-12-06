@@ -14,6 +14,7 @@
 #include <wx/filefn.h>
 #include <wx/filename.h>
 #include <wx/frame.h>
+#include <wx/gdicmn.h>
 #include <wx/icon.h>
 #include <wx/iconloc.h>
 #include <wx/imagpng.h>

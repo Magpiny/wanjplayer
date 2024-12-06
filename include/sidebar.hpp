@@ -27,11 +27,16 @@ class SideBar : public wxPanel {
   void create_sidebar();
 
  private:
-  wxButton* clear_playlist;
-  wxButton* remove_item;
-  wxButton* add_item;
+  wxButton* btn_clear_playlist;
+  wxButton* btn_rmv_track;
+  wxButton* btn_add_track;
 
   wxListCtrl* list_ctrl;
+
+  // Events
+ private:
+  void OnAddTrack(wxCommandEvent& event);
+  void OnRemoveTrack(wxCommandEvent& event);
 };
 
 #endif  // SIDE_BAR__HPP

@@ -41,6 +41,11 @@ class MainWindow : public wxFrame {
   ~MainWindow();
 
  private:
+  int window_width = GetSize().GetWidth();
+  int sidebar_width = (window_width * 25) / 100;
+  int mediapane_width = (window_width * 75) / 100;
+
+ private:
   wxAuiManager* _aui_mgr;
 
   MenuBar* _menu_bar;

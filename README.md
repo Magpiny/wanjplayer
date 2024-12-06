@@ -61,4 +61,5 @@ platforms.
 ## Extend the app and share with your friends
 ## Submit a PR or feature request
 
-
+### Sample
+![Sampe-ui](./assets/ui-design/sample-ui.png)
