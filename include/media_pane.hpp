@@ -33,6 +33,11 @@ class MediaPane : public wxPanel {
   wxStaticText* media_info_txt;
   VLC::Instance vlc_instance;
   VLC::MediaPlayer vlc_media_player;
+
+  wxWindow* video_window;
+
+  void OnSize(wxSizeEvent& event);
+  void OnPaint(wxPaintEvent& event);
 };
 
 #endif

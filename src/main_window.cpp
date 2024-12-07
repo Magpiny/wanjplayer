@@ -44,6 +44,7 @@ MainWindow::MainWindow(wxWindow *parent)
 
   _media_pane = new MediaPane(this);
   _media_pane->create_mediapane();
+  _media_pane->EnableFullScreenView();
 
   _media_ctrl = new MediaCtrl(this);
   _media_ctrl->create_mediactrl();
