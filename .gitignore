@@ -2,6 +2,10 @@
 bin/
 bin/**/*
 
+build/
+build/**
+build/**/*
+
 assets/sample-media/*
 # Prerequisites
 
