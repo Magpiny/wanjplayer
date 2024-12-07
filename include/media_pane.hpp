@@ -28,6 +28,9 @@ class MediaPane : public wxPanel {
  public:
   MediaPane(wxWindow* parent);
   void create_mediapane();
+  void OnPlay(const wxString path);
+  void OnPause();
+  void OnStop();
 
  private:
   wxStaticText* media_info_txt;
@@ -36,6 +39,7 @@ class MediaPane : public wxPanel {
 
   wxWindow* video_window;
 
+ private:
   void OnSize(wxSizeEvent& event);
   void OnPaint(wxPaintEvent& event);
 };
