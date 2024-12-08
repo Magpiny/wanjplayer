@@ -44,7 +44,6 @@ MainWindow::MainWindow(wxWindow *parent)
 
   _media_pane = new MediaPane(this);
   _media_pane->create_mediapane();
-  _media_pane->EnableFullScreenView();
 
   _media_ctrl = new MediaCtrl(this);
   _media_ctrl->create_mediactrl();
@@ -79,6 +78,7 @@ MainWindow::MainWindow(wxWindow *parent)
   // Bind Events
   Bind(wxEVT_MENU, &MainWindow::OnExit, this, wxID_EXIT);
   Bind(wxEVT_MENU, &MainWindow::OnAbout, this, wxID_ABOUT);
+  Bind(wxEVT_MENU, &MainWindow::OnFileOpen, this, wxID_OPEN);
 
   Bind(wxEVT_ENTER_WINDOW, &MainWindow::OnMouseEnter, this, wxID_ANY, wxID_ANY);
   Bind(wxEVT_LEAVE_WINDOW, &MainWindow::OnMouseLeave, this, wxID_ANY, wxID_ANY);

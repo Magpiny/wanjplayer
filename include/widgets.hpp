@@ -35,7 +35,9 @@
 #include <wx/textctrl.h>
 #include <wx/textfile.h>
 #include <wx/uri.h>
+#include <wx/utils.h>
 #include <wx/wx.h>
 
 #include <vector>
+
 #endif  // !WX_WIDGETS_LIBRARY_HPP

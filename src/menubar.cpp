@@ -23,7 +23,7 @@ MenuBar::MenuBar(wxFrame *parent) : _parent(parent) {};
 
 void MenuBar::create_menubar() {
   wxMenu *menu_file = new wxMenu;
-  menu_file->Append(ID_OPENFILE, "&Open File\tCtrl-O");
+  menu_file->Append(wxID_OPEN);
   menu_file->Append(ID_OPENFILES, "&OpenFiles\tCtrl-Shift-O");
   menu_file->AppendSeparator();
   menu_file->Append(wxID_EXIT);

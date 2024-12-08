@@ -28,8 +28,12 @@ set(BIN_DIR ${PROJECT_ROOT}/bin)
 include_directories(${INCLUDE_DIR})
 include_directories(${LIBS_DIR}/libvlcpp)
 
+# SET debugging ON or OFF
+# set(wxWidgets_USE_DEBUG ON)
+
 # Find wxWidgets
 find_package(wxWidgets REQUIRED COMPONENTS core base aui adv net)
+set(wxWidgets_CONFIGURATION gtk3)
 
 include(${wxWidgets_USE_FILE})
 
@@ -53,6 +57,22 @@ ${SOURCE_DIR}/events.cpp
 
 # Link libraries
 target_link_libraries(WanjPlayer ${wxWidgets_LIBRARIES} ${libvlcpp_LIBRARIES})
+
+# Set platform-specific preprocessor definitions
+if(WIN32)
+    target_compile_definitions(WanjPlayer PRIVATE __WXMSW__)
+elseif(UNIX AND NOT APPLE)  # Linux or other Unix-like systems but not macOS
+    # Assuming you're using GTK for wxWidgets on Linux
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GTK REQUIRED gtk+-3.0)
+    target_include_directories(WanjPlayer PRIVATE ${GTK_INCLUDE_DIRS})
+    target_link_libraries(WanjPlayer ${GTK_LIBRARIES})
+
+    target_compile_definitions(WanjPlayer PRIVATE __WXGTK__)
+elseif(APPLE)
+    # If you're using wxWidgets with GTK on macOS, otherwise adjust as needed
+    target_compile_definitions(WanjPlayer PRIVATE __WXGTK__)
+endif()
 
 # set output directory for the binary
 set_target_properties(WanjPlayer PROPERTIES 

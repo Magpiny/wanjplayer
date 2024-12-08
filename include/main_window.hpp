@@ -60,7 +60,7 @@ class MainWindow : public wxFrame {
   void OnAbout(wxCommandEvent& event);
   /* void OnHelp(wxCommandEvent& event);*/
 
-  /*void OnFileOpen(wxCommandEvent& event);*/
+  void OnFileOpen(wxCommandEvent& event);
   /*void OnFilesOpen(wxCommandEvent& event);*/
   /*void OnLicense(wxCommandEvent& event);*/
   /*void OnPreferences(wxCommandEvent& event);*/

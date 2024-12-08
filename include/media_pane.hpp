@@ -19,8 +19,11 @@ Copyright (C) 2025  Wanjare Samuel
 #ifndef MEDIA_PANE__HPP
 #define MEDIA_PANE__HPP
 
-// #include "vlcpp/Instance.hpp"
-// #include "vlcpp/MediaPlayer.hpp"
+#include <gdk/gdkx.h>
+#include <gtk/gtk.h>
+
+// #include <wx/gtk/window.h>  // For GTK-specific window handling
+
 #include "vlcpp/vlc.hpp"
 #include "widgets.hpp"
 
@@ -28,9 +31,9 @@ class MediaPane : public wxPanel {
  public:
   MediaPane(wxWindow* parent);
   void create_mediapane();
-  void OnPlay(const wxString path);
-  void OnPause();
-  void OnStop();
+  void Play(const wxString path);
+  void Pause();
+  void Stop();
 
  private:
   wxStaticText* media_info_txt;
@@ -39,9 +42,13 @@ class MediaPane : public wxPanel {
 
   wxWindow* video_window;
 
+  // Set VLC player
+  void SetVLCPlayerHandle();
+
  private:
-  void OnSize(wxSizeEvent& event);
+  void OnResize(wxSizeEvent& event);
   void OnPaint(wxPaintEvent& event);
+  void OnShow(wxShowEvent& event);
 };
 
 #endif
