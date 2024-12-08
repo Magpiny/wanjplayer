@@ -28,6 +28,10 @@ set(BIN_DIR ${PROJECT_ROOT}/build)
 include_directories(${INCLUDE_DIR})
 include_directories(${LIBS_DIR}/libvlcpp)
 
+# SET debugging ON or OFF
+set(wxWidgets_USE_DEBUG ON)
+
+
 # Find wxWidgets
 find_package(wxWidgets REQUIRED COMPONENTS base core media)
 
