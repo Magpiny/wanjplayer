@@ -21,15 +21,14 @@
 #define ABOUT__H
 
 #include "widgets.hpp"
-class About
-{
+class About {
 public:
- About(wxFrame* parent);
- void create_about_page();
- ~About();
+    About(wxFrame* parent);
+    void create_about_page();
+    ~About();
 
 private:
- wxFrame* _parent;
+    wxFrame* _parent;
 };
 
 #endif // !__ABOUT__H

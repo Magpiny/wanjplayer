@@ -1,13 +1,15 @@
 #include "statusbar.hpp"
 
-StatusBar::StatusBar(wxFrame *parent) : _parent(parent) {};
+StatusBar::StatusBar(wxFrame* parent)
+    : _parent(parent) { };
 
 void StatusBar::create_statusbar(wxString mssg1, wxString mssg2,
-                                 wxString mssg3) {
-  _parent->CreateStatusBar(4);
-  _parent->SetStatusText(mssg1, 1);
-  _parent->SetStatusText(mssg2, 2);
-  _parent->SetStatusText(mssg3, 3);
+    wxString mssg3)
+{
+    _parent->CreateStatusBar(4);
+    _parent->SetStatusText(mssg1, 1);
+    _parent->SetStatusText(mssg2, 2);
+    _parent->SetStatusText(mssg3, 3);
 };
 
-StatusBar::~StatusBar() {};
+StatusBar::~StatusBar() { };

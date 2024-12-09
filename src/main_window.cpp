@@ -20,68 +20,54 @@
 
 #include "main_window.hpp"
 
-MainWindow::MainWindow(wxWindow *parent)
+MainWindow::MainWindow(wxWindow* parent)
     : wxFrame(parent, wxID_ANY, "WanjPlayer", wxDefaultPosition,
-              wxSize(820, 670)) {
-  // Set Icon here
+          wxSize(820, 670))
+{
+    // Set Icon here
 
-  // Set window manager here i.e wxAuiManager
-  _aui_mgr = new wxAuiManager();
-  _aui_mgr->SetManagedWindow(this);
+    // Set window manager here i.e wxAuiManager
+    _aui_mgr = new wxAuiManager();
+    _aui_mgr->SetManagedWindow(this);
 
-  // SET APP UI COMPONENTS HERE
-  // Menu bar
-  _menu_bar = new MenuBar(this);
-  _menu_bar->create_menubar();
+    // SET APP UI COMPONENTS HERE
+    // Menu bar
+    _menu_bar = new MenuBar(this);
+    _menu_bar->create_menubar();
 
-  /* APP UI */
-  // Our App has a sidebar(left) and main window (left)
-  // plus a floating buttons pane on the right window
+    /* APP UI */
+    // Our App has a sidebar(left) and main window (left)
+    // plus a floating buttons pane on the right window
 
-  // Main App Window
-  _side_bar = new SideBar(this);
-  _side_bar->create_sidebar();
+    // Main App Window
+    _side_bar = new SideBar(this);
+    _side_bar->create_sidebar();
 
-  _media_pane = new MediaPane(this);
-  _media_pane->create_mediapane();
+    _media_pane = new MediaPane(this);
+    _media_pane->create_mediapane();
 
-  _media_ctrl = new MediaCtrl(this);
-  _media_ctrl->create_mediactrl();
+    _media_ctrl = new MediaCtrl(this);
+    _media_ctrl->create_mediactrl();
 
-  // MANAGE WINDOWS
-  _aui_mgr->AddPane(_side_bar,
-                    wxAuiPaneInfo().Name("Playlist").LeftDockable().Layer(1));
-  _aui_mgr->AddPane(_media_pane, wxAuiPaneInfo()
-                                     .Name("Media")
-                                     .Caption("WanjPlayer")
-                                     .Center()
-                                     .MinimizeButton()
-                                     .MaximizeButton()
-                                     .PinButton()
-                                     .Resizable()
-                                     .Dockable()
-                                     .Floatable()
-                                     .Layer(1));
-  _aui_mgr->AddPane(_media_ctrl, wxAuiPaneInfo()
-                                     .Name("Controls")
-                                     .Bottom()
-                                     .BottomDockable()
-                                     .Floatable()
-                                     .Layer(2));
+    // MANAGE WINDOWS
+    _aui_mgr->AddPane(_side_bar,
+        wxAuiPaneInfo().Name("Playlist").LeftDockable().Layer(1));
+    _aui_mgr->AddPane(_media_pane, wxAuiPaneInfo().Name("Media").Caption("WanjPlayer").Center().MinimizeButton().MaximizeButton().PinButton().Resizable().Dockable().Floatable().Layer(1));
+    _aui_mgr->AddPane(_media_ctrl, wxAuiPaneInfo().Name("Controls").Bottom().BottomDockable().Floatable().Layer(2));
 
-  _aui_mgr->Update();
-  // CREATE STATUS BAR
-  _status_bar = new StatusBar(this);
-  _status_bar->create_statusbar("StatusBar Text1", "StatusBar Text2",
-                                "StatusBar Text3");
+    _aui_mgr->Update();
+    // CREATE STATUS BAR
+    _status_bar = new StatusBar(this);
+    _status_bar->create_statusbar("StatusBar Text1", "StatusBar Text2",
+        "StatusBar Text3");
 
-  // Bind Events
-  Bind(wxEVT_MENU, &MainWindow::OnExit, this, wxID_EXIT);
-  Bind(wxEVT_MENU, &MainWindow::OnAbout, this, wxID_ABOUT);
-  Bind(wxEVT_MENU, &MainWindow::OnFileOpen, this, wxID_OPEN);
+    // Bind Events
+    Bind(wxEVT_MENU, &MainWindow::OnExit, this, wxID_EXIT);
+    Bind(wxEVT_MENU, &MainWindow::OnAbout, this, wxID_ABOUT);
+    Bind(wxEVT_MENU, &MainWindow::OnFileOpen, this, wxID_OPEN);
 
-  Bind(wxEVT_ENTER_WINDOW, &MainWindow::OnMouseEnter, this, wxID_ANY, wxID_ANY);
-  Bind(wxEVT_LEAVE_WINDOW, &MainWindow::OnMouseLeave, this, wxID_ANY, wxID_ANY);
+    Bind(wxEVT_ENTER_WINDOW, &MainWindow::OnMouseEnter, this, wxID_ANY, wxID_ANY);
+    Bind(wxEVT_LEAVE_WINDOW, &MainWindow::OnMouseLeave, this, wxID_ANY, wxID_ANY);
 };
 
-MainWindow::~MainWindow() {};
+MainWindow::~MainWindow() { };

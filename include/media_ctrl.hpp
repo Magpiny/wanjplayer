@@ -23,34 +23,34 @@
 #include "widgets.hpp"
 
 class MediaCtrl : public wxPanel {
- public:
-  MediaCtrl(wxWindow* parent);
-  void create_mediactrl();
-  ~MediaCtrl();
+public:
+    MediaCtrl(wxWindow* parent);
+    void create_mediactrl();
+    ~MediaCtrl();
 
- private:
-  // Colour DB
-  wxColourDatabase m_color;
+private:
+    // Colour DB
+    wxColourDatabase m_color;
 
-  wxButton* btn_play_pause;
-  wxButton* btn_stop;
-  wxButton* btn_next;
-  wxButton* btn_prev;
+    wxButton* btn_play_pause;
+    wxButton* btn_stop;
+    wxButton* btn_next;
+    wxButton* btn_prev;
 
-  wxSlider* slider_vol;
-  wxSlider* slider_seek;
+    wxSlider* slider_vol;
+    wxSlider* slider_seek;
 
-  wxStaticText* label_vol;
-  wxStaticText* label_seek;
+    wxStaticText* label_vol;
+    wxStaticText* label_seek;
 
-  // Event Managers
- private:
-  void OnPlayPause(wxCommandEvent& event);
-  void OnStop(wxCommandEvent& event);
-  void OnNext(wxCommandEvent& event);
-  void OnPrevious(wxCommandEvent& event);
-  void OnVolumeChange(wxCommandEvent& event);
-  void OnSeekChange(wxCommandEvent& event);
+    // Event Managers
+private:
+    void OnPlayPause(wxCommandEvent& event);
+    void OnStop(wxCommandEvent& event);
+    void OnNext(wxCommandEvent& event);
+    void OnPrevious(wxCommandEvent& event);
+    void OnVolumeChange(wxCommandEvent& event);
+    void OnSeekChange(wxCommandEvent& event);
 };
 
 #endif

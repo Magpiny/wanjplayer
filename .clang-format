@@ -1,7 +1,7 @@
 ---
 Language:        Cpp
-AccessModifierOffset: -2
-AlignAfterOpenBracket: Align
+AccessModifierOffset: -4
+AlignAfterOpenBracket: DontAlign
 AlignArrayOfStructures: None
 AlignConsecutiveAssignments:
   Enabled:         false
@@ -59,19 +59,19 @@ AlignConsecutiveTableGenDefinitionColons:
   AlignFunctionPointers: false
   PadOperators:    false
 AlignEscapedNewlines: Right
-AlignOperands:   Align
+AlignOperands:   DontAlign
 AlignTrailingComments:
-  Kind:            Always
+  Kind:            Never
   OverEmptyLines:  0
 AllowAllArgumentsOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowBreakBeforeNoexceptSpecifier: Never
-AllowShortBlocksOnASingleLine: Never
+AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseExpressionOnASingleLine: true
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortCompoundRequirementOnASingleLine: true
-AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: None
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: false
@@ -84,17 +84,17 @@ BinPackParameters: true
 BitFieldColonSpacing: Both
 BraceWrapping:
   AfterCaseLabel:  false
-  AfterClass:      true
-  AfterControlStatement: Always
-  AfterEnum:       true
-  AfterExternBlock: true
+  AfterClass:      false
+  AfterControlStatement: Never
+  AfterEnum:       false
+  AfterExternBlock: false
   AfterFunction:   true
-  AfterNamespace:  true
-  AfterObjCDeclaration: true
-  AfterStruct:     true
+  AfterNamespace:  false
+  AfterObjCDeclaration: false
+  AfterStruct:     false
   AfterUnion:      false
-  BeforeCatch:     true
-  BeforeElse:      true
+  BeforeCatch:     false
+  BeforeElse:      false
   BeforeLambdaBody: false
   BeforeWhile:     false
   IndentBraces:    false
@@ -106,28 +106,28 @@ BreakAfterAttributes: Leave
 BreakAfterJavaFieldAnnotations: false
 BreakAfterReturnType: None
 BreakArrays:     true
-BreakBeforeBinaryOperators: None
+BreakBeforeBinaryOperators: All
 BreakBeforeConceptDeclarations: Always
-BreakBeforeBraces: Custom
+BreakBeforeBraces: WebKit
 BreakBeforeInlineASMColon: OnlyMultiline
 BreakBeforeTernaryOperators: true
-BreakConstructorInitializers: BeforeColon
+BreakConstructorInitializers: BeforeComma
 BreakFunctionDefinitionParameters: false
 BreakInheritanceList: BeforeColon
 BreakStringLiterals: true
 BreakTemplateDeclarations: MultiLine
-ColumnLimit:     120
+ColumnLimit:     0
 CommentPragmas:  '^ IWYU pragma:'
 CompactNamespaces: false
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
-Cpp11BracedListStyle: true
+Cpp11BracedListStyle: false
 DerivePointerAlignment: false
 DisableFormat:   false
 EmptyLineAfterAccessModifier: Never
 EmptyLineBeforeAccessModifier: LogicalBlock
 ExperimentalAutoDetectBinPacking: false
-FixNamespaceComments: true
+FixNamespaceComments: false
 ForEachMacros:
   - foreach
   - Q_FOREACH
@@ -181,11 +181,11 @@ MacroBlockBegin: ''
 MacroBlockEnd:   ''
 MainIncludeChar: Quote
 MaxEmptyLinesToKeep: 1
-NamespaceIndentation: None
+NamespaceIndentation: Inner
 ObjCBinPackProtocolList: Auto
-ObjCBlockIndentWidth: 2
+ObjCBlockIndentWidth: 4
 ObjCBreakBeforeNestedBlockParam: true
-ObjCSpaceAfterProperty: false
+ObjCSpaceAfterProperty: true
 ObjCSpaceBeforeProtocolList: true
 PackConstructorInitializers: BinPack
 PenaltyBreakAssignment: 2
@@ -198,8 +198,8 @@ PenaltyBreakString: 1000
 PenaltyBreakTemplateDeclaration: 10
 PenaltyExcessCharacter: 1000000
 PenaltyIndentedWhitespace: 0
-PenaltyReturnTypeOnItsOwnLine: 1000
-PointerAlignment: Right
+PenaltyReturnTypeOnItsOwnLine: 60
+PointerAlignment: Left
 PPIndentWidth:   -1
 QualifierAlignment: Leave
 ReferenceAlignment: Pointer
@@ -221,7 +221,7 @@ SpaceAfterTemplateKeyword: true
 SpaceAroundPointerQualifiers: Default
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeCaseColon: false
-SpaceBeforeCpp11BracedList: false
+SpaceBeforeCpp11BracedList: true
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeInheritanceColon: true
 SpaceBeforeJsonColon: false
@@ -239,7 +239,7 @@ SpaceBeforeParensOptions:
   BeforeNonEmptyParentheses: false
 SpaceBeforeRangeBasedForLoopColon: true
 SpaceBeforeSquareBrackets: false
-SpaceInEmptyBlock: false
+SpaceInEmptyBlock: true
 SpacesBeforeTrailingComments: 1
 SpacesInAngles:  Never
 SpacesInContainerLiterals: true
@@ -261,7 +261,7 @@ StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
 TableGenBreakInsideDAGArg: DontBreak
-TabWidth:        4
+TabWidth:        8
 UseTab:          Never
 VerilogBreakBetweenInstancePorts: true
 WhitespaceSensitiveMacros:

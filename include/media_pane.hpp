@@ -28,27 +28,27 @@ Copyright (C) 2025  Wanjare Samuel
 #include "widgets.hpp"
 
 class MediaPane : public wxPanel {
- public:
-  MediaPane(wxWindow* parent);
-  void create_mediapane();
-  void Play(const wxString path);
-  void Pause();
-  void Stop();
+public:
+    MediaPane(wxWindow* parent);
+    void create_mediapane();
+    void Play(const wxString path);
+    void Pause();
+    void Stop();
 
- private:
-  wxStaticText* media_info_txt;
-  VLC::Instance vlc_instance;
-  VLC::MediaPlayer vlc_media_player;
+private:
+    wxStaticText* media_info_txt;
+    VLC::Instance vlc_instance;
+    VLC::MediaPlayer vlc_media_player;
 
-  wxWindow* video_window;
+    wxWindow* video_window;
 
-  // Set VLC player
-  void SetVLCPlayerHandle();
+    // Set VLC player
+    void SetVLCPlayerHandle();
 
- private:
-  void OnResize(wxSizeEvent& event);
-  void OnPaint(wxPaintEvent& event);
-  void OnShow(wxShowEvent& event);
+private:
+    void OnResize(wxSizeEvent& event);
+    void OnPaint(wxPaintEvent& event);
+    void OnShow(wxShowEvent& event);
 };
 
 #endif

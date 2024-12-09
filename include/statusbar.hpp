@@ -22,13 +22,13 @@
 
 #include "widgets.hpp"
 class StatusBar : public wxFrame {
- public:
-  StatusBar(wxFrame* parent);
-  void create_statusbar(wxString mssg1, wxString mssg2, wxString mssg3);
-  ~StatusBar();
+public:
+    StatusBar(wxFrame* parent);
+    void create_statusbar(wxString mssg1, wxString mssg2, wxString mssg3);
+    ~StatusBar();
 
- private:
-  wxFrame* _parent;
+private:
+    wxFrame* _parent;
 };
 
-#endif  // !STATUSBAR__HPP
+#endif // !STATUSBAR__HPP

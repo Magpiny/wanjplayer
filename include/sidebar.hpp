@@ -22,21 +22,21 @@ WanjPlayer: A simple media player
 
 #include "widgets.hpp"
 class SideBar : public wxPanel {
- public:
-  SideBar(wxWindow* parent);
-  void create_sidebar();
+public:
+    SideBar(wxWindow* parent);
+    void create_sidebar();
 
- private:
-  wxButton* btn_clear_playlist;
-  wxButton* btn_rmv_track;
-  wxButton* btn_add_track;
+private:
+    wxButton* btn_clear_playlist;
+    wxButton* btn_rmv_track;
+    wxButton* btn_add_track;
 
-  wxListCtrl* list_ctrl;
+    wxListCtrl* list_ctrl;
 
-  // Events
- private:
-  void OnAddTrack(wxCommandEvent& event);
-  void OnRemoveTrack(wxCommandEvent& event);
+    // Events
+private:
+    void OnAddTrack(wxCommandEvent& event);
+    void OnRemoveTrack(wxCommandEvent& event);
 };
 
-#endif  // SIDE_BAR__HPP
+#endif // SIDE_BAR__HPP

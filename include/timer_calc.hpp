@@ -28,20 +28,18 @@
 #include <iostream>
 namespace logic::player {
 
-struct TimeConstants
-{
-  static constexpr int SECOND = 1000;
-  static constexpr int MINUTE = 60 * SECOND;
-  static constexpr int HOUR = 60 * MINUTE;
-  static constexpr int DAY = 24 * HOUR;
+struct TimeConstants {
+    static constexpr int SECOND = 1000;
+    static constexpr int MINUTE = 60 * SECOND;
+    static constexpr int HOUR = 60 * MINUTE;
+    static constexpr int DAY = 24 * HOUR;
 };
 
-class Timer
-{
-  Timer();
-  wxString time_convert(wxLongLong time);  // Takes int time in milliseconds
-  ~Timer();
+class Timer {
+    Timer();
+    wxString time_convert(wxLongLong time); // Takes int time in milliseconds
+    ~Timer();
 };
 }
 
-#endif  // !WANJ_TIMER__HPP
+#endif // !WANJ_TIMER__HPP

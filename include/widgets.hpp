@@ -40,4 +40,4 @@
 
 #include <vector>
 
-#endif  // !WX_WIDGETS_LIBRARY_HPP
+#endif // !WX_WIDGETS_LIBRARY_HPP
