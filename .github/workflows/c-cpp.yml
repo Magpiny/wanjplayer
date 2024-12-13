@@ -17,7 +17,8 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libwxgtk3.2-dev libvlcpp-dev
+        sudo apt-get wxWidgets
+        sudo apt-get install -y libwxgtk3.2-dev
 
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -S ${{github.workspace}}
