@@ -1,7 +1,8 @@
 #include "media_ctrl.hpp"
 
 MediaCtrl::MediaCtrl(wxWindow* parent)
-    : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(600, 40),
+    : wxPanel(parent, wxID_ANY, wxDefaultPosition,
+          wxSize(MCDimensions::pane_length, MCDimensions::pane_width),
           wxNO_BORDER | wxTRANSPARENT_WINDOW)
 {
     Bind(wxEVT_BUTTON, &MediaCtrl::OnPlayPause, this, btn_play_pause->GetId());
@@ -16,11 +17,13 @@ void MediaCtrl::create_mediactrl()
 {
     // Setup UI
     btn_play_pause = new wxButton(this, wxID_ANY, "Play/Pause", wxDefaultPosition,
-        wxSize(90, 30));
-    btn_stop = new wxButton(this, wxID_ANY, "Stop", wxDefaultPosition, wxSize(70, 30));
-    btn_next = new wxButton(this, wxID_ANY, "Next", wxDefaultPosition, wxSize(70, 30));
+        wxSize(MCDimensions::btn2_length, MCDimensions::btn1_width));
+    btn_stop = new wxButton(this, wxID_ANY, "Stop", wxDefaultPosition,
+        wxSize(MCDimensions::btn1_length, MCDimensions::btn1_width));
+    btn_next = new wxButton(this, wxID_ANY, "Next", wxDefaultPosition,
+        wxSize(MCDimensions::btn1_length, MCDimensions::btn1_width));
     btn_prev = new wxButton(this, wxID_ANY, "Previous", wxDefaultPosition,
-        wxSize(80, 30));
+        wxSize(80, MCDimensions::btn1_width));
     slider_vol = new wxSlider(this, wxID_ANY, 50, 0, 100, wxDefaultPosition,
         wxSize(150, 5));
     slider_seek = new wxSlider(this, wxID_ANY, 0, 0, 100, wxDefaultPosition,
@@ -50,5 +53,3 @@ void MediaCtrl::create_mediactrl()
     SetTransparent(100); // Adjust transparency
     SetForegroundColour(m_color.Find("MEDIUM FOREST GREEN"));
 };
-
-MediaCtrl::~MediaCtrl() { };

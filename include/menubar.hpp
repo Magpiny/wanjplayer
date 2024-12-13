@@ -23,13 +23,14 @@
 #include "wanjplayer.hpp"
 #include "widgets.hpp"
 
-class MenuBar {
-public:
-    MenuBar(wxFrame* parent);
-    void create_menubar();
+class MenuBar
+{
+    public:
+        MenuBar(wxFrame* parent);
+        void create_menubar();
 
-private:
-    wxFrame* _parent;
+    private:
+        wxFrame* _parent;
 };
 
 #endif // !MENUBAR__H

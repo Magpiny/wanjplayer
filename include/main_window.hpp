@@ -33,37 +33,38 @@
 // Forward declaration
 class MenuBar;
 
-class MainWindow : public wxFrame {
-public:
-    MainWindow(wxWindow* parent);
-    void OnMouseEnter(wxMouseEvent& event);
-    void OnMouseLeave(wxMouseEvent& event);
-    ~MainWindow();
+class MainWindow : public wxFrame
+{
+    public:
+        MainWindow(wxWindow* parent);
+        void OnMouseEnter(wxMouseEvent& event);
+        void OnMouseLeave(wxMouseEvent& event);
+        ~MainWindow();
 
-private:
-    int window_width = GetSize().GetWidth();
-    int sidebar_width = (window_width * 25) / 100;
-    int mediapane_width = (window_width * 75) / 100;
+    private:
+        int window_width = GetSize().GetWidth();
+        int sidebar_width = (window_width * 25) / 100;
+        int mediapane_width = (window_width * 75) / 100;
 
-private:
-    wxAuiManager* _aui_mgr;
+    private:
+        wxAuiManager* _aui_mgr;
 
-    MenuBar* _menu_bar;
-    SideBar* _side_bar;
-    MediaPane* _media_pane;
-    MediaCtrl* _media_ctrl;
-    StatusBar* _status_bar;
+        MenuBar* _menu_bar;
+        SideBar* _side_bar;
+        MediaPane* _media_pane;
+        MediaCtrl* _media_ctrl;
+        StatusBar* _status_bar;
 
-    // Event handlers
-private:
-    void OnExit(wxCommandEvent& event);
-    void OnAbout(wxCommandEvent& event);
-    /* void OnHelp(wxCommandEvent& event);*/
+        // Event handlers
+    private:
+        void OnExit(wxCommandEvent& event);
+        void OnAbout(wxCommandEvent& event);
+        /* void OnHelp(wxCommandEvent& event);*/
 
-    void OnFileOpen(wxCommandEvent& event);
-    /*void OnFilesOpen(wxCommandEvent& event);*/
-    /*void OnLicense(wxCommandEvent& event);*/
-    /*void OnPreferences(wxCommandEvent& event);*/
+        void OnFileOpen(wxCommandEvent& event);
+        /*void OnFilesOpen(wxCommandEvent& event);*/
+        /*void OnLicense(wxCommandEvent& event);*/
+        /*void OnPreferences(wxCommandEvent& event);*/
 };
 
 #endif

@@ -24,24 +24,25 @@
 #include "main_window.hpp"
 #include "widgets.hpp"
 
-class WanjPlayer : public wxApp {
- public:
-  bool OnInit() override;
+class WanjPlayer : public wxApp
+{
+    public:
+        bool OnInit() override;
 };
 
 enum {
-  ID_OPENFILE = wxID_HIGHEST + 1,
-  ID_OPENFILES,
-  ID_PREFS,
-  ID_LICENSE,
-  ID_MEDIA_LOADED,
-  ID_MEDIA_STOP,
-  ID_MEDIA_PLAY,
-  ID_MEDIA_PAUSE,
-  ID_MEDIA_FINISHED,
-  ID_MEDIA_CANVAS
+    ID_OPENFILE = wxID_HIGHEST + 1,
+    ID_OPENFILES,
+    ID_PREFS,
+    ID_LICENSE,
+    ID_MEDIA_LOADED,
+    ID_MEDIA_STOP,
+    ID_MEDIA_PLAY,
+    ID_MEDIA_PAUSE,
+    ID_MEDIA_FINISHED,
+    ID_MEDIA_CANVAS
 };
 
 // wxDECLARE_APP(WanjPlayer);
 
-#endif  // WANJPLAYER__HPP
+#endif // WANJPLAYER__HPP

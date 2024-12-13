@@ -22,14 +22,15 @@
 
 #include "widgets.hpp"
 
-class LicenseDialog : public wxDialog {
-public:
-    LicenseDialog(wxWindow* parent, const wxString& title);
-    void load_license(const wxString& file_path);
-    ~LicenseDialog();
+class LicenseDialog : public wxDialog
+{
+    public:
+        LicenseDialog(wxWindow* parent, const wxString& title);
+        void load_license(const wxString& file_path);
+        ~LicenseDialog();
 
-private:
-    wxStaticText* license_text_ctrl;
+    private:
+        wxStaticText* license_text_ctrl;
 };
 
 #endif // !LICENCE_DIALOG_BOX__HPP

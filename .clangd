@@ -1,2 +1,14 @@
 CompileFlags:
-  Add: [-std=c++23]
+  CompilationDatabase: "bin"
+  Add: [-Wshadow, -Werror]
+    
+Diagnostics:
+  ClangTidy:
+    Add: [modernize-*, bugprone-*, cppcoreguidelines-*, readability-braces-around-statements]
+    Remove: [modernize-avoid-bind]
+
+Index:
+  Background: Build
+
+InlayHints:
+    Enabled: Yes

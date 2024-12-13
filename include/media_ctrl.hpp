@@ -22,35 +22,53 @@
 
 #include "widgets.hpp"
 
-class MediaCtrl : public wxPanel {
-public:
-    MediaCtrl(wxWindow* parent);
-    void create_mediactrl();
-    ~MediaCtrl();
+namespace MCDimensions
+{
+const int btn1_length = 70;
+const int btn2_length = 90;
+const int btn1_width = 30;
+const int pane_length = 600;
+const int pane_width = 40;
 
-private:
-    // Colour DB
-    wxColourDatabase m_color;
+// Sizers dimenension
+const int sz_vol_start = 0;
+const int sz_vol_end = 100;
+const int sz_vol_curr = 45;
 
-    wxButton* btn_play_pause;
-    wxButton* btn_stop;
-    wxButton* btn_next;
-    wxButton* btn_prev;
+const int sz_seek_start = 0;
+const int sz_seek_msize = 100;
+const int sz_seek_curr = 0;
+}; // namespace MCDimensions
 
-    wxSlider* slider_vol;
-    wxSlider* slider_seek;
+class MediaCtrl : public wxPanel
+{
+    public:
+        MediaCtrl(wxWindow* parent);
+        void create_mediactrl();
 
-    wxStaticText* label_vol;
-    wxStaticText* label_seek;
+    private:
+        // Colour DB
+        wxColourDatabase m_color;
 
-    // Event Managers
-private:
-    void OnPlayPause(wxCommandEvent& event);
-    void OnStop(wxCommandEvent& event);
-    void OnNext(wxCommandEvent& event);
-    void OnPrevious(wxCommandEvent& event);
-    void OnVolumeChange(wxCommandEvent& event);
-    void OnSeekChange(wxCommandEvent& event);
+        wxButton* btn_play_pause;
+        wxButton* btn_stop;
+        wxButton* btn_next;
+        wxButton* btn_prev;
+
+        wxSlider* slider_vol;
+        wxSlider* slider_seek;
+
+        wxStaticText* label_vol;
+        wxStaticText* label_seek;
+
+        // Event Managers
+    private:
+        void OnPlayPause(wxCommandEvent& event);
+        void OnStop(wxCommandEvent& event);
+        void OnNext(wxCommandEvent& event);
+        void OnPrevious(wxCommandEvent& event);
+        void OnVolumeChange(wxCommandEvent& event);
+        void OnSeekChange(wxCommandEvent& event);
 };
 
 #endif

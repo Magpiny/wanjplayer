@@ -17,18 +17,19 @@
 
  */
 
-#ifndef ABOUT__H
-#define ABOUT__H
+#ifndef ABOUT__HPP
+#define ABOUT__HPP
 
 #include "widgets.hpp"
-class About {
-public:
-    About(wxFrame* parent);
-    void create_about_page();
-    ~About();
+class About
+{
+    public:
+        About(wxFrame* parent);
+        void create_about_page();
+        ~About();
 
-private:
-    wxFrame* _parent;
+    private:
+        wxFrame* _parent;
 };
 
-#endif // !__ABOUT__H
+#endif // !__ABOUT__HPP

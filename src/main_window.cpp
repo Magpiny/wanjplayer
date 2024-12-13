@@ -44,7 +44,6 @@ MainWindow::MainWindow(wxWindow* parent)
     _side_bar->create_sidebar();
 
     _media_pane = new MediaPane(this);
-    _media_pane->create_mediapane();
 
     _media_ctrl = new MediaCtrl(this);
     _media_ctrl->create_mediactrl();
@@ -52,7 +51,9 @@ MainWindow::MainWindow(wxWindow* parent)
     // MANAGE WINDOWS
     _aui_mgr->AddPane(_side_bar,
         wxAuiPaneInfo().Name("Playlist").LeftDockable().Layer(1));
+
     _aui_mgr->AddPane(_media_pane, wxAuiPaneInfo().Name("Media").Caption("WanjPlayer").Center().MinimizeButton().MaximizeButton().PinButton().Resizable().Dockable().Floatable().Layer(1));
+
     _aui_mgr->AddPane(_media_ctrl, wxAuiPaneInfo().Name("Controls").Bottom().BottomDockable().Floatable().Layer(2));
 
     _aui_mgr->Update();
