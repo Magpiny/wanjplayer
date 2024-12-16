@@ -15,6 +15,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install CMake
+      uses: ssrobins/install-cmake@v1
+      with:
+        version: 3.30.3
+
     - name: Install dependencies
       run: |
         sudo apt-get update
@@ -29,7 +34,7 @@ jobs:
       env:
         WX_CONFIG: /usr/bin/wx-config
         wxWidgets_CONFIGURATION: gtk3
-      run: cmake -B ${{github.workspace}}/build -S ${{github.workspace}}
+      run: cmake -B ${{github.workspace}}/build -S ${{github.workspace}} -DwxWidgets_CONFIG_EXECUTABLE=/usr/bin/wx-config-gtk3
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config Release
