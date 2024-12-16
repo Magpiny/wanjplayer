@@ -17,8 +17,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y software-properties-common
+        sudo apt update
+        sudo apt install -y software-properties-common
         sudo add-apt-reposotitory universe
         sudo apt-get update
         sudo apt-get install -y build-essential
