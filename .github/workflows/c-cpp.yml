@@ -17,13 +17,10 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt update
-        sudo apt install -y software-properties-common
-        sudo add-apt-reposotitory universe
         sudo apt-get update
         sudo apt-get install -y build-essential
         sudo apt-get install -y libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools
-        sudo apt-get install -y libwxgtk3.2-dev libwxbase3.2-dev
+        sudo apt-get install -y libwxgtk3.2-dev libwxbase3.2-1
 
     - name: Check wx-config
       run: wx-config --version
