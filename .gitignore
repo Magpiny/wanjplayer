@@ -1,11 +1,6 @@
 # Build directory
-build
-build/
-build/**/*
-
 bin
-bin/
-bin/**/*
+build
 
 # git modules
 .git
