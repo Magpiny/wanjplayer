@@ -8,6 +8,7 @@ bin/**/*
 
 # git modules
 .git
+.git/
 
 assets/sample-media/*
 # Prerequisites
