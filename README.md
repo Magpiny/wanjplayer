@@ -1,3 +1,5 @@
+# [![Codacy Badge](https://app.codacy.com/project/badge/Grade/51580f11c9ff43b0903a98a2ae77d323)](https://app.codacy.com/gh/Magpiny/wanjplayer/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![C++ Build CI](https://github.com/Magpiny/wanjplayer/actions/workflows/c-cpp.yml/badge.svg?branch=main)](https://github.com/Magpiny/wanjplayer/actions/workflows/c-cpp.yml)
+
 # wanjplayer
 Media player in C++
 
