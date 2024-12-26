@@ -6,6 +6,9 @@ bin
 bin/
 bin/**/*
 
+# git modules
+.git
+
 assets/sample-media/*
 # Prerequisites
 
