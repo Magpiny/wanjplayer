@@ -86,3 +86,4 @@ tests/build/
 # Logs
 *.log
 *.mp4
+assets/sample-media/*.mp4
