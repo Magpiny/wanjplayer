@@ -76,7 +76,6 @@ Testing/
 tests/build/
 
 # Sample media files
-assets/sample-media/
 *.mp3
 *.mp4
 *.avi
