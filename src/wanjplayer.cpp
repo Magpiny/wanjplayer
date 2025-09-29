@@ -1,7 +1,10 @@
 // Start of wxWidgets "Hello World" Program
 #include "wanjplayer.hpp"
 #include "player_ui.hpp"
+#include "statusbar.hpp"
 #include "widgets.hpp"
+#include "sidebar.hpp"
+#include "utils.hpp"
 #include <algorithm>
 #include <memory>
 
@@ -13,6 +16,15 @@ WanjPlayer::OnInit()
   if (!wxApp::OnInit())
     return false;
 
+  // Set essential environment variables for video compatibility
+  wxSetEnv("GDK_BACKEND", "x11");
+  wxSetEnv("GST_GL_DISABLED", "1");
+  wxSetEnv("LIBGL_ALWAYS_SOFTWARE", "1");
+  wxSetEnv("GST_VIDEO_SINK", "ximagesink");
+  wxSetEnv("GST_PLUGIN_FEATURE_DISABLE", "glimagesink,glsinkbin,gtkglsink");
+
+  utils::LogUtils::LogInfo("WanjPlayer starting up");
+  
   wxInitAllImageHandlers();
   PlayerFrame* frame = new PlayerFrame();
   frame->Show(true);
@@ -25,98 +37,109 @@ PlayerFrame::PlayerFrame()
             "WanjPlayer",
             wxPoint(200, 150),
             wxSize(950, 700))
-
+  , playlist_visible(true)
+  , playlist_pane(nullptr)
+  , sidebar(nullptr)
 {
+  utils::LogUtils::LogInfo("Initializing PlayerFrame");
+  
   // SET APP Icon
   wxIcon icon;
-  if (!icon.LoadFile("../assets/logo/wanjplayer-64x64.png",
+  if (!icon.LoadFile("assets/logo/wanjplayer-64x64.png",
                      wxBITMAP_TYPE_PNG)) {
-    wxLogError("Failed to load Icon");
-  };
-  SetIcon(icon);
+    utils::LogUtils::LogError("Failed to load application icon");
+  } else {
+    SetIcon(icon);
+    utils::LogUtils::LogInfo("Application icon loaded successfully");
+  }
 
   /**
    * CREATE THE MENU BAR
-   *
    */
   gui::Menubar* player_menubar = new gui::Menubar(this);
   player_menubar->create_menubar();
 
   /**
-   *
-   * DESIGN THE MAIN APP WINDOW
-   *
+   * CREATE THE SIDEBAR AND MAIN LAYOUT
    */
-  // Set the splitter
-  wxSplitterWindow* splitter = new wxSplitterWindow(this, wxID_ANY);
-
-  // Right Window for the video canvas
-  video_canvas_pane = new wxPanel(splitter, ID_MEDIA_CANVAS);
-
-  wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
-
-  media_ctrl = new wxMediaCtrl(video_canvas_pane,
-                               ID_MEDIA_CTRL,
-                               wxEmptyString,
-                               wxDefaultPosition,
-                               wxDefaultSize,
-                               wxMC_NO_AUTORESIZE,
-                               wxMEDIABACKEND_GSTREAMER);
-
-  player_ctrls = new gui::player::MediaControls(video_canvas_pane, media_ctrl);
-
-  video_sizer->Add(media_ctrl, 9.4, wxEXPAND);
-  video_sizer->Add(player_ctrls, 0.6, wxEXPAND);
-
-  video_canvas_pane->SetSizer(video_sizer);
-
-  // Left Pane for the media queue
-  wxPanel* media_queue_pane = new wxPanel(splitter, wxID_ANY);
-  playlist = new gui::player::Playlist(media_queue_pane, wxID_ANY);
-
-  wxBoxSizer* md_queue_sizer = new wxBoxSizer(wxVERTICAL);
-  md_queue_sizer->Add(playlist, 1, wxEXPAND);
-  media_queue_pane->SetSizerAndFit(md_queue_sizer);
-
-  // Set the splitter to split intwo two vertical panes
-  splitter->SplitVertically(media_queue_pane, video_canvas_pane, 250);
-  splitter->SetMinimumPaneSize(10);
+  sidebar = new gui::Sidebar(this);
+  if (!sidebar) {
+    utils::LogUtils::LogError("Failed to create sidebar");
+    return;
+  }
+  
+  // Create the main layout using the sidebar
+  sidebar->CreateMainLayout();
+  
+  // Get references to components created by sidebar
+  splitter = sidebar->GetMainSplitter();
+  playlist_pane = sidebar->GetPlaylistPane();
+  video_canvas_pane = sidebar->GetVideoPane();
+  playlist = sidebar->GetPlaylist();
+  player_ctrls = sidebar->GetMediaControls();
+  media_ctrl = sidebar->GetMediaCtrl();
 
   /**
-   *
    * CREATE THE STATUS BAR
-   *
    */
-  gui::StatusBar* player_statusbar = new gui::StatusBar(this);
-  player_statusbar->create_statusbar(
-    wxString::FromCDouble(media_ctrl->GetVolume() * 100, -1),
-    wxString::FromCDouble(media_ctrl->GetPlaybackRate()),
-    wxString::Format(_T("%lld"), media_ctrl->Length() / 60000));
-
-  // Layout the splitter on the frame
-  wxBoxSizer* player_window_sizer = new wxBoxSizer(wxVERTICAL);
-  player_window_sizer->Add(splitter, 1, wxEXPAND);
-  this->SetSizer(player_window_sizer);
-  this->Layout();
+  status_bar = new gui::StatusBar(this);
+  status_bar->create_statusbar();
+  
+  // Connect status bar to sidebar components
+  sidebar->SetStatusBar(status_bar);
+  
+  // Connect all components
+  sidebar->ConnectComponents();
+  
+  // Show video backend status in status bar
+  status_bar->set_system_message("Ready - Video mode: Wayland-safe");
 
   /**
    * BIND GUI EVENTS HERE
-   *
    */
+  BindMenuEvents();
+  BindMediaEvents();
+  
+  // Setup accessibility
+  sidebar->SetupAccessibility();
+  
+  utils::LogUtils::LogInfo("PlayerFrame initialization complete");
+}
+
+void PlayerFrame::BindMenuEvents()
+{
   Bind(wxEVT_MENU, &PlayerFrame::OnExit, this, wxID_EXIT);
   Bind(wxEVT_MENU, &PlayerFrame::OnFileOpen, this, ID_OPENFILE);
   Bind(wxEVT_MENU, &PlayerFrame::OnFilesOpen, this, ID_OPEN_FILES);
   Bind(wxEVT_MENU, &PlayerFrame::OnPreferences, this, ID_PREFS);
   Bind(wxEVT_MENU, &PlayerFrame::OnLicense, this, ID_LICENSE);
   Bind(wxEVT_MENU, &PlayerFrame::OnAbout, this, wxID_ABOUT);
+  
+  // Playlist toggle is now handled by sidebar
+  Bind(wxEVT_MENU, &PlayerFrame::OnTogglePlaylist, this, ID_TOGGLE_PLAYLIST);
+}
 
-  // BIND MEDIA EVENTS
-  Bind(wxEVT_MEDIA_LOADED, &PlayerFrame::OnMediaLoaded, this, ID_MEDIA_LOADED);
-  Bind(wxEVT_MEDIA_PLAY, &PlayerFrame::OnMediaPlay, this, ID_MEDIA_PLAY);
-  Bind(wxEVT_MEDIA_PAUSE, &PlayerFrame::OnMediaPause, this, ID_MEDIA_PAUSE);
-  Bind(wxEVT_MEDIA_STOP, &PlayerFrame::OnMediaStop, this, ID_MEDIA_STOP);
-  Bind(wxEVT_MEDIA_FINISHED,
-       &PlayerFrame::OnMediaFinished,
-       this,
-       ID_MEDIA_FINISHED);
-};
+void PlayerFrame::BindMediaEvents()
+{
+  Bind(wxEVT_MEDIA_LOADED, &PlayerFrame::OnMediaLoaded, this);
+  Bind(wxEVT_MEDIA_PLAY, &PlayerFrame::OnMediaPlay, this);
+  Bind(wxEVT_MEDIA_PAUSE, &PlayerFrame::OnMediaPause, this);
+  Bind(wxEVT_MEDIA_STOP, &PlayerFrame::OnMediaStop, this);
+  Bind(wxEVT_MEDIA_FINISHED, &PlayerFrame::OnMediaFinished, this);
+}
+
+void PlayerFrame::OnTogglePlaylist(wxCommandEvent& event)
+{
+  if (sidebar) {
+    sidebar->TogglePlaylistVisibility();
+  }
+  event.Skip();
+}
+
+PlayerFrame::~PlayerFrame()
+{
+  utils::LogUtils::LogInfo("PlayerFrame shutting down");
+  
+  // Components are automatically cleaned up by wxWidgets
+  // The sidebar will save its layout settings in its destructor
+}

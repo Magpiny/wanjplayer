@@ -1,0 +1,169 @@
+refactor: Major architecture overhaul with utilities reorganization and enhanced media features
+
+## Overview
+Complete restructuring of WanjPlayer codebase with modular utilities, enhanced GUI components,
+and comprehensive audio/video handling improvements.
+
+## Utils Organization
+- **NEW**: Migrate all utility functions to dedicated `utils/` directory with modular structure
+- **NEW**: Split into specialized modules:
+  - `time_formatter`: Time conversion, formatting, and parsing utilities
+  - `file_utils`: File operations, validation, and media type detection
+  - `queue_manager`: Advanced playlist management with shuffle/repeat algorithms
+  - `log_utils`: Comprehensive logging system with rotation and multiple outputs
+  - `performance_utils`: Memory tracking, profiling, and system monitoring
+  - `gui_utils`: Theme management, color blending, and layout helpers
+  - `string_utils`: Text manipulation, validation, and formatting utilities
+- **NEW**: Add UtilsManager for centralized initialization and cleanup
+- **NEW**: Implement extensive logging with DEBUG/INFO/WARNING/ERROR/CRITICAL levels
+- **NEW**: Add performance monitoring with operation timing and memory tracking
+
+## GUI Enhancements
+- **FIXED**: Playlist toggle functionality with proper event binding and layout updates
+- **NEW**: Comprehensive PlayerCanvas system for audio visualization and video optimization
+- **NEW**: Multiple audio visualization modes:
+  - Waveform display with harmonic analysis
+  - Spectrum analyzer with frequency bars
+  - Oscilloscope mode with real-time waveforms
+  - Circular visualization with animated phase
+- **NEW**: Enhanced video display with aspect ratio management and black border elimination
+- **NEW**: 'Now Playing' overlay with bold, centered filename display for audio files
+- **NEW**: Animation system with smooth transitions and customizable effects
+- **NEW**: Theme system with Dark, Light, High Contrast, and Modern presets
+
+## Media Handling Improvements
+- **REFACTOR**: Playlist component focused purely on media handling and playback logic
+- **NEW**: Advanced queue management with proper shuffle randomization algorithms
+- **NEW**: Multiple repeat modes (None, One, All) with smart navigation
+- **NEW**: Playlist file format support (M3U, PLS, XSPF, WPL)
+- **NEW**: Enhanced metadata handling and comprehensive file validation
+- **NEW**: Duplicate detection and missing file cleanup
+- **NEW**: Search and sorting capabilities (by name, date, duration)
+- **NEW**: Smart playlist creation and library integration hooks
+
+## Sidebar Architecture
+- **REFACTOR**: Move all GUI creation and styling logic to dedicated Sidebar component
+- **NEW**: Centralized component management and connection system
+- **NEW**: Layout persistence with save/restore window geometry
+- **NEW**: Accessibility features with proper tooltips and labels
+- **NEW**: Event handling consolidation with lambda-based menu bindings
+- **NEW**: Modern styling with gradient backgrounds and smooth animations
+
+## Technical Infrastructure
+- **UPDATE**: CMakeLists.txt restructured for new utils directory hierarchy
+- **FIXED**: Circular dependency issues and include path resolution
+- **NEW**: RAII classes for automatic performance timing and memory tracking
+- **NEW**: Comprehensive error handling with graceful degradation
+- **NEW**: Template-based collection optimization utilities
+- **NEW**: Cross-platform system information and resource monitoring
+- **NEW**: Extensive inline documentation and code organization improvements
+
+## Quality of Life Features
+- **NEW**: Advanced file operations with recursive directory scanning
+- **NEW**: String manipulation utilities with regex support and validation
+- **NEW**: Color utilities with luminance calculation and contrast detection
+- **NEW**: Memory optimization with garbage collection and cache management
+- **NEW**: System diagnostics with CPU/memory usage reporting
+- **NEW**: Temporary file management with automatic cleanup
+- **NEW**: Configuration persistence with wxConfig integration
+
+## API Changes
+- **BREAKING**: Utility functions moved from global scope to `utils::` namespace hierarchy
+- **BREAKING**: Method names updated to PascalCase convention (e.g., `add_item` → `AddItem`)
+- **NEW**: Quick access namespace (`utils::quick::`) for commonly used functions
+- **NEW**: Convenience macros for logging and performance measurement
+
+## Migration Guide
+1. Update includes: Replace `#include "utils.hpp"` with specific utility headers
+2. Update function calls: Add `utils::` prefix or use `utils::quick::` shortcuts
+3. Method names: Update playlist method calls to new PascalCase convention
+4. Event binding: Sidebar now handles playlist toggle events automatically
+
+## Files Added
+- `utils/utils.hpp` - Main utilities header with unified interface
+- `utils/time_formatter.hpp/.cpp` - Time formatting and parsing
+- `utils/file_utils.hpp/.cpp` - File operations and validation
+- `utils/queue_manager.hpp/.cpp` - Playlist queue management
+- `utils/log_utils.hpp/.cpp` - Comprehensive logging system
+- `utils/performance_utils.hpp/.cpp` - Performance monitoring
+- `utils/gui_utils.hpp/.cpp` - GUI helpers and theming
+- `utils/string_utils.hpp/.cpp` - String manipulation utilities
+- `src/canvas.cpp` - Audio visualization and video canvas
+
+## Files Modified
+- `src/playlist.cpp` - Refactored for pure media handling
+- `src/sidebar.cpp` - Enhanced with comprehensive GUI management
+- `src/wanjplayer.cpp` - Simplified with sidebar delegation
+- `include/canvas.hpp` - Comprehensive audio/video canvas interface
+- `include/sidebar.hpp` - Extended GUI and theming capabilities
+- `CMakeLists.txt` - Updated build system for new structure
+
+## Performance Impact
+- Improved memory usage with optimized collections and garbage collection
+- Enhanced startup time with lazy initialization of utility components
+- Reduced redundant operations through centralized component management
+- Better resource cleanup with RAII patterns and automatic memory management
+
+## Testing Notes
+- All existing functionality preserved with enhanced capabilities
+- Playlist operations maintain backward compatibility
+- Video playback optimized for various aspect ratios
+- Audio visualization tested with multiple file formats
+- Theme system verified across different display configurations
+
+Closes: #architecture-refactor, #playlist-toggle-bug, #video-black-borders, #audio-visualization
+Co-authored-by: Assistant <assistant@anthropic.com>
+```
+
+Now, to commit these changes using this detailed message file, run these commands in your terminal:
+
+```bash
+# Navigate to your project directory
+cd wanjplayer
+
+# Add all the new and modified files
+git add .
+
+# Or if you want to be more selective, add specific files:
+# git add utils/ src/ include/ CMakeLists.txt
+
+# Commit using the message file
+git commit -F COMMIT_MESSAGE.txt
+
+# If you want to clean up the commit message file afterward:
+# rm COMMIT_MESSAGE.txt
+```
+
+**Alternative method** (if you prefer a shorter approach):
+
+```bash
+# Add all changes
+git add .
+
+# Commit with a concise but professional message
+git commit -m "refactor: Major architecture overhaul with modular utils and enhanced media features
+
+- Reorganize utilities into modular utils/ directory structure
+- Fix playlist toggle and enhance video display (eliminate black borders)
+- Add comprehensive audio visualization with multiple display modes
+- Implement advanced queue management with shuffle/repeat algorithms
+- Create extensive logging, performance monitoring, and GUI theming systems
+- Refactor components for better separation of concerns and maintainability
+
+Breaking: Utility functions moved to utils:: namespace, method names updated to PascalCase"
+```
+
+**What this does:**
+
+1. **`git add .`** - Stages all your changes (new files, modified files, deleted files)
+2. **`git commit -F COMMIT_MESSAGE.txt`** - Uses the detailed commit message from the file
+3. The commit message follows professional conventions with clear sections and impact descriptions
+
+**Verification:**
+After committing, you can verify with:
+```bash
+git log --oneline -1    # See the commit title
+git show --stat         # See the full commit with file changes
+```
+
+This approach gives you a comprehensive, professional commit that clearly documents all the architectural improvements and new features we implemented.

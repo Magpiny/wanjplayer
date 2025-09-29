@@ -7,6 +7,11 @@
 #include <memory>
 #include <wx/wx.h>
 
+namespace gui {
+class StatusBar; // Forward declaration
+class Sidebar;   // Forward declaration
+}
+
 namespace gui::player {
 class Playlist; // Forward declaration to avoid circular reference
 }
@@ -15,24 +20,36 @@ class WanjPlayer : public wxApp
 {
 public:
   bool OnInit() override;
+  
+private:
 };
 
 class PlayerFrame : public wxFrame
 {
 public:
   PlayerFrame();
+  ~PlayerFrame();
 
-private: // UI
+private: // UI Components
   wxPanel* video_canvas_pane;
   wxMediaCtrl* media_ctrl;
 
   gui::player::MediaControls* player_ctrls;
   gui::player::Playlist* playlist;
+  gui::StatusBar* status_bar;
+  gui::Sidebar* sidebar;
+  wxSplitterWindow* splitter;
+  wxPanel* playlist_pane;
+  bool playlist_visible;
 
   std::size_t current_index;
 
+private: // Helper methods
+  void BindMenuEvents();
+  void BindMediaEvents();
+
 private: // Events
-         // UI Events
+  // UI Events
   void OnExit(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
   void OnFileOpen(wxCommandEvent& event);
@@ -46,11 +63,13 @@ private: // Events
   void OnMediaPause(wxMediaEvent& event);
   void OnMediaStop(wxMediaEvent& event);
   void OnMediaFinished(wxMediaEvent& event);
+  
+  // Playlist toggle functionality
+  void OnTogglePlaylist(wxCommandEvent& event);
 };
 
 enum
 {
-
   ID_OPENFILE = wxID_HIGHEST + 1,
   ID_OPEN_FILES,
   ID_PREFS,
@@ -61,7 +80,8 @@ enum
   ID_MEDIA_PAUSE,
   ID_MEDIA_FINISHED,
   ID_MEDIA_CANVAS,
-  ID_MEDIA_CTRL
+  ID_MEDIA_CTRL,
+  ID_TOGGLE_PLAYLIST
 };
 
 #endif // !__WANJPLAYER__HPP

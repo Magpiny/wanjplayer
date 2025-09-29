@@ -1,16 +1,7 @@
-# Build directory
-bin
-build
-
-# git modules
-.git
-.git/
-.git/**/*
-
-assets/sample-media/*
-# Prerequisites
-
-*.d
+# Build directories
+bin/
+build/
+.cache/
 
 # Compiled Object files
 *.slo
@@ -41,3 +32,57 @@ assets/sample-media/*
 *.exe
 *.out
 *.app
+WanjPlayer
+
+# IDE and Editor files
+.vscode/settings.json.user
+.vscode/.ropeproject
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+!*.cmake
+
+# clangd
+.clangd/
+compile_flags.txt
+
+# Prerequisites
+*.d
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+core
+*.core
+
+# Package managers
+conan.lock
+vcpkg_installed/
+
+# Test results
+Testing/
+tests/build/
+
+# Sample media files
+assets/sample-media/
+*.mp3
+*.mp4
+*.avi
+*.mkv
+*.wav
+*.ogg
+
+# Logs
+*.log

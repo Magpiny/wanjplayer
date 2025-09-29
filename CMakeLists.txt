@@ -26,6 +26,7 @@ set(ASSETS_DIR ${PROJECT_ROOT}/assets)
 set(BIN_DIR ${PROJECT_ROOT}/build)
 
 include_directories(${INCLUDE_DIR})
+include_directories(${PROJECT_ROOT}/utils)
 include_directories(${LIBS_DIR}/libvlcpp)
 
 # Find wxWidgets
@@ -34,7 +35,7 @@ find_package(wxWidgets REQUIRED COMPONENTS base core media)
 include(${wxWidgets_USE_FILE})
 
 # Add executable
-add_executable(WanjPlayer 
+add_executable(WanjPlayer
 ${SOURCE_DIR}/wanjplayer.cpp
 ${SOURCE_DIR}/menubar.cpp
 ${SOURCE_DIR}/statusbar.cpp
@@ -43,6 +44,16 @@ ${SOURCE_DIR}/license_dialogbx.cpp
 ${SOURCE_DIR}/media_ctrls.cpp
 ${SOURCE_DIR}/playlist.cpp
 ${SOURCE_DIR}/media_events.cpp
+${SOURCE_DIR}/sidebar.cpp
+${SOURCE_DIR}/canvas.cpp
+${PROJECT_ROOT}/utils/utils.cpp
+${PROJECT_ROOT}/utils/time_formatter.cpp
+${PROJECT_ROOT}/utils/file_utils.cpp
+${PROJECT_ROOT}/utils/queue_manager.cpp
+${PROJECT_ROOT}/utils/log_utils.cpp
+${PROJECT_ROOT}/utils/performance_utils.cpp
+${PROJECT_ROOT}/utils/gui_utils.cpp
+${PROJECT_ROOT}/utils/string_utils.cpp
 )
 
 # Link libraries
@@ -52,12 +63,19 @@ target_link_libraries(WanjPlayer ${wxWidgets_LIBRARIES})
 # target_include_directories(WanjPlayerTests PRIVATE ${LIBS_DIR}/wxWidgets/include)
 
 # set output directory for the binary
-set_target_properties(WanjPlayer PROPERTIES 
+set_target_properties(WanjPlayer PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${BIN_DIR}
 )
 
-# COPY Assets dir to binary dir
+# COPY Assets dir to binary dir and ensure icon is discoverable
 file(COPY assets DESTINATION ${BIN_DIR})
+file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+# Ensure icon is available in multiple locations for discoverability
+configure_file(${PROJECT_ROOT}/assets/logo/wanjplayer-64x64.png
+               ${CMAKE_CURRENT_BINARY_DIR}/wanjplayer-64x64.png COPYONLY)
+configure_file(${PROJECT_ROOT}/assets/logo/wanjplayer-64x64.png
+               ${BIN_DIR}/wanjplayer-64x64.png COPYONLY)
 
 # Add Tests
 
@@ -65,7 +83,7 @@ file(COPY assets DESTINATION ${BIN_DIR})
 
 # Add test executable
 # add_executable(WanjPlayerTests
-    # $(TESTS_DIR)/test_main.cpp
+# $(TESTS_DIR)/test_main.cpp
 #)
 # Link test libraries #target_link_libraries(WanjPlayerTests ${wxWidgets_LIBRARIES})
 #target_link_libraries(WanjPlayerTests ${LIBS_DIR}/wxWidgets/lib/libwx_baseu-3.1.so)  # Adjust path if necessary

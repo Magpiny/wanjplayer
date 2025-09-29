@@ -1,0 +1,55 @@
+CompileFlags:
+  Add:
+    # Additional flags for better analysis
+    - -Wall
+    - -Wextra
+    - -Wno-unused-parameter
+    - -Wno-sign-compare
+    # Ensure C++23 standard is recognized
+    - -std=c++23
+  Remove:
+    # Remove flags that might confuse clangd
+    - -W*
+    - -f*
+    # Keep essential warnings but remove overly pedantic ones
+  CompilationDatabase: .
+
+Index:
+  # Index project headers for better navigation
+  Background: Build
+  StandardLibrary: Yes
+
+InlayHints:
+  # Show type hints for better code understanding
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
+
+Hover:
+  # Show detailed information on hover
+  ShowAKA: true
+
+Diagnostics:
+  # Configure diagnostics for wxWidgets development
+  Suppress:
+    # Suppress common wxWidgets false positives
+    - unused-parameter
+    - sign-compare
+    - deprecated-declarations
+  ClangTidy:
+    Add:
+      - readability-*
+      - modernize-*
+      - performance-*
+      - bugprone-*
+    Remove:
+      # Remove checks that conflict with wxWidgets patterns
+      - modernize-use-trailing-return-type
+      - readability-named-parameter
+      - readability-magic-numbers
+
+Completion:
+  AllScopes: true
+  IncludeIneligibleResults: false
+
+SemanticHighlighting: true

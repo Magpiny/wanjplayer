@@ -1,0 +1,27 @@
+STATUS BAR TIMER TEST CHECKLIST
+===============================
+
+□ Load test files (File → Open Files)
+□ Start playback of first file
+□ Verify status bar column 2 shows: 00:00 / XX:XX format
+□ Watch counter for 10 seconds - should update every second
+□ Verify format: 00:01, 00:02, 00:03, ..., 00:09, 00:10
+□ Pause playback - counter should freeze
+□ Resume playback - counter should continue updating
+□ Click position slider to seek - counter should jump immediately
+□ Load longer file and verify minute rollover (00:59 → 01:00)
+□ Test with file over 1 hour (if available) - verify HH:MM:SS format
+
+EXPECTED STATUS BAR LAYOUT:
+Column 0: [System Messages]
+Column 1: [filename.mp3]
+Column 2: [00:15 / 03:45]  ← THIS SHOULD UPDATE EVERY SECOND
+Column 3: [Playing]
+
+PASS CRITERIA:
+✓ Counter updates precisely every 1 second during playback
+✓ Counter shows current position / total duration
+✓ Counter synchronizes with position slider
+✓ Counter pauses when media is paused
+✓ Counter updates immediately when seeking
+✓ Format is consistent (MM:SS or HH:MM:SS)

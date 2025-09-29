@@ -1,0 +1,47 @@
+{
+  "configurations": [
+    {
+      "name": "Linux",
+      "includePath": [
+        "${workspaceFolder}/include",
+        "${workspaceFolder}/libs/libvlcpp",
+        "/usr/local/include/wx-3.2",
+        "/usr/local/lib/wx/include/gtk3-unicode-3.2",
+        "/usr/include/gtk-3.0",
+        "/usr/include/glib-2.0",
+        "/usr/lib/x86_64-linux-gnu/glib-2.0/include",
+        "/usr/include/pango-1.0",
+        "/usr/include/cairo",
+        "/usr/include/gdk-pixbuf-2.0",
+        "/usr/include/atk-1.0",
+        "${workspaceFolder}/**"
+      ],
+      "defines": [
+        "WXUSINGDLL",
+        "_FILE_OFFSET_BITS=64",
+        "__WXGTK3__",
+        "__WXGTK__",
+        "PROJECT_VERSION=\"0.1.0\"",
+        "PROJECT_AUTHOR=\"Wanjare Samuel\"",
+        "PROJECT_EMAIL=\"samuelwanjare@protonmail.com\"",
+        "PROJECT_DESCRIPTION=\"A C++ music player using wxWidgets and libvlcpp\""
+      ],
+      "compilerPath": "/usr/bin/g++",
+      "cStandard": "c17",
+      "cppStandard": "c++23",
+      "intelliSenseMode": "linux-gcc-x64",
+      "compileCommands": "${workspaceFolder}/compile_commands.json",
+      "configurationProvider": "ms-vscode.cmake-tools",
+      "browse": {
+        "path": [
+          "${workspaceFolder}",
+          "/usr/local/include",
+          "/usr/include"
+        ],
+        "limitSymbolsToIncludedHeaders": true,
+        "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+      }
+    }
+  ],
+  "version": 4
+}

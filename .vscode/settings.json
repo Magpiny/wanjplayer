@@ -1,0 +1,87 @@
+{
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "clangd.onConfigChanged": "restart",
+  "clangd.arguments": [
+    "--header-insertion=never",
+    "--completion-style=detailed",
+    "--function-arg-placeholders",
+    "--fallback-style=file",
+    "--background-index",
+    "--clang-tidy",
+    "--compile-commands-dir=${workspaceFolder}",
+    "--query-driver=/usr/bin/c++,/usr/bin/gcc,/usr/bin/clang++",
+    "--log=verbose"
+  ],
+  "clangd.path": "/usr/bin/clangd",
+  "clangd.checkUpdates": false,
+  "files.associations": {
+    "*.hpp": "cpp",
+    "*.cpp": "cpp",
+    "*.h": "cpp",
+    "*.c": "cpp",
+    "iostream": "cpp",
+    "vector": "cpp",
+    "string": "cpp",
+    "memory": "cpp",
+    "functional": "cpp",
+    "algorithm": "cpp",
+    "wx.h": "cpp"
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnType": false,
+  "editor.formatOnPaste": true,
+  "editor.defaultFormatter": "xaver.clang-format",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.rulers": [80],
+  "editor.wordWrap": "off",
+  "editor.semanticHighlighting.enabled": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "cmake.configureOnOpen": false,
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+  "cmake.generator": "Unix Makefiles",
+  "cmake.exportCompileCommandsFile": true,
+  "cmake.configureArgs": [
+    "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+    "-DCMAKE_BUILD_TYPE=Debug",
+    "-DCMAKE_CXX_STANDARD=23"
+  ],
+  "files.exclude": {
+    "**/build": false,
+    "**/.cache": true,
+    "**/compile_commands.json": false
+  },
+  "search.exclude": {
+    "**/build/**": false,
+    "**/.cache/**": true
+  },
+  "clang-format.executable": "/usr/bin/clang-format",
+  "clang-format.style": "file",
+  "clang-format.fallbackStyle": "Google",
+  "clang-tidy.executable": "/usr/bin/clang-tidy",
+  "clang-tidy.compilerArgs": [],
+  "clang-tidy.buildPath": "${workspaceFolder}/build",
+  "extensions.ignoreRecommendations": false,
+  "C_Cpp.errorSquiggles": "disabled",
+  "C_Cpp.autocomplete": "disabled",
+  "C_Cpp.suggestSnippets": false,
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "bash",
+      "args": [],
+      "icon": "terminal-bash"
+    }
+  },
+  "git.ignoreLimitWarning": true,
+  "workbench.colorCustomizations": {
+    "editorRuler.foreground": "#484848"
+  },
+  "breadcrumbs.enabled": true,
+  "outline.showVariables": false,
+  "outline.showFunctions": true,
+  "outline.showClasses": true,
+  "outline.showNamespaces": true
+}

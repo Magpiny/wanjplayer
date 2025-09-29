@@ -4,6 +4,7 @@
 #include "media_ctrls.hpp"
 #include "playlist.hpp"
 #include "wanjplayer.hpp"
+#include "utils.hpp"
 
 void
 PlayerFrame::OnExit(wxCommandEvent& event)
@@ -39,15 +40,24 @@ PlayerFrame::OnFileOpen(wxCommandEvent& event)
 
   // Check if the media is audio or video
   wxFileName file_name(file_path);
+  wxString extension = file_name.GetExt().Lower();
 
-  // Play media
-  if (media_ctrl && media_ctrl->Load(file_path)) {
+  // Log the file being loaded
+  wxLogMessage("Attempting to load media file: %s", file_path);
+  wxLogMessage("File extension: %s", extension);
 
-    media_ctrl->Play();
-
-  } else {
-    wxLogError("Failed to load media");
+  // Clear playlist and add this single file
+  playlist->ClearPlayQueue();
+  playlist->AddItem(file_path);
+  
+  // Show in status bar
+  if (status_bar) {
+    wxFileName fname(file_path);
+    status_bar->set_system_message("Loading: " + fname.GetName());
   }
+  
+  // Play the file
+  playlist->PlayItemAtIndex(0);
 };
 
 void
@@ -71,16 +81,21 @@ PlayerFrame::OnFilesOpen(wxCommandEvent& event)
   wxArrayString paths;
   open_file_dialog.GetPaths(paths);
 
+  // Clear existing playlist and add new files
+  playlist->ClearPlayQueue();
+  
   // Add files to the playlist
   for (const wxString& path : paths) {
-    playlist->add_item(path);
+    playlist->AddItem(path);
   }
-  // Bind event to play next item when current one finishes
-  Bind(wxEVT_MEDIA_FINISHED,
-       &PlayerFrame::OnMediaFinished,
-       this,
-       ID_MEDIA_FINISHED);
-  playlist->play_next_item_in_queue();
+  
+  // Start playing the first file if any files were added
+  if (!paths.IsEmpty()) {
+    if (status_bar) {
+      status_bar->set_system_message(wxString::Format("Loaded %zu files", paths.GetCount()));
+    }
+    playlist->PlayItemAtIndex(0);
+  }
 }
 
 void
@@ -95,7 +110,7 @@ PlayerFrame::OnLicense(wxCommandEvent& event)
 {
   gui::LicenseDialog license_dialog =
     gui::LicenseDialog(this, "License Agreement");
-  license_dialog.load_license("../assets/LICENSE");
+  license_dialog.load_license("assets/LICENSE");
   license_dialog.DoLayoutAdaptation();
   license_dialog.ShowModal();
 };
@@ -103,65 +118,125 @@ PlayerFrame::OnLicense(wxCommandEvent& event)
 void
 PlayerFrame::OnMediaLoaded(wxMediaEvent& event)
 {
-  // playlist->play_next_item_in_queue();
+  wxLogMessage("Media loaded event triggered");
+  
+  if (media_ctrl) {
+    wxFileOffset length = media_ctrl->Length();
+    wxLogMessage("Media duration: %lld ms", length);
+    
+    // Update media controls with new duration
+    if (player_ctrls) {
+      player_ctrls->UpdateDuration();
+    }
+    
+    // Update status bar with file information
+    if (status_bar && playlist) {
+      wxString current_file = playlist->GetCurrentItem();
+      wxFileName fname(current_file);
+      status_bar->update_file_info(current_file, length);
+      status_bar->update_playback_info("Loaded");
+      status_bar->set_system_message("Loaded: " + fname.GetName());
+    }
+    
+    // Check if this is a video file by trying to get video size
+    wxSize videoSize = media_ctrl->GetBestSize();
+    if (videoSize.GetWidth() > 0 && videoSize.GetHeight() > 0) {
+      wxLogMessage("Video detected - Size: %dx%d", videoSize.GetWidth(), videoSize.GetHeight());
+    } else {
+      wxLogMessage("Audio-only media detected");
+    }
+  }
+  event.Skip();
 }
 
 void
 PlayerFrame::OnMediaStop(wxMediaEvent& event)
 {
-  // Show the static bitmap when media stops playing
-  media_ctrl->Refresh();
+  wxLogMessage("Media stopped");
+  
+  // Update status bar
+  if (status_bar) {
+    status_bar->update_playback_info("Stopped");
+    status_bar->set_system_message("Stopped");
+  }
+  
+  // Refresh the media control display
+  if (media_ctrl) {
+    media_ctrl->Refresh();
+  }
+  event.Skip();
 }
 
 void
 PlayerFrame::OnMediaFinished(wxMediaEvent& event)
 {
-  playlist->play_next_item_in_queue();
-
+  wxLogMessage("Media playback finished, playing next item in playlist");
+  
+  if (status_bar) {
+    status_bar->update_playback_info("Finished");
+  }
+  
+  if (playlist && playlist->HasNext()) {
+    playlist->PlayNextItem();
+    if (status_bar) {
+      status_bar->set_system_message("Next track");
+    }
+  } else {
+    if (status_bar) {
+      status_bar->set_system_message("End of playlist");
+      status_bar->update_playback_info("Stopped");
+    }
+  }
   event.Skip();
 }
 
 void
 PlayerFrame::OnMediaPlay(wxMediaEvent& event)
 {
-  // Display media file name and the playback rate
+  wxLogMessage("Media play event triggered");
+  
+  if (media_ctrl) {
+    // Update duration when playback starts
+    if (player_ctrls) {
+      player_ctrls->UpdateDuration();
+    }
+    
+    // Update status bar and ensure timer-based updates start
+    if (status_bar) {
+      status_bar->update_playback_info("Playing");
+      
+      // Initialize status bar with current position (should be 0s at start)
+      if (playlist) {
+        wxString current_file = playlist->GetCurrentItem();
+        if (!current_file.IsEmpty()) {
+          wxFileName fname(current_file);
+          status_bar->set_system_message("Playing: " + fname.GetName());
+          wxFileOffset duration = media_ctrl->Length();
+          if (duration > 0) {
+            wxString initial_display = "0s / " + utils::TimeFormatter::FormatTime(duration);
+            status_bar->set_duration_display(initial_display);
+          }
+        }
+      }
+    }
+  }
+  event.Skip();
 }
 
 void
 PlayerFrame::OnMediaPause(wxMediaEvent& event)
 {
-  player_ctrls->Show();
+  wxLogMessage("Media paused");
+  
+  // Update status bar
+  if (status_bar) {
+    status_bar->update_playback_info("Paused");
+    status_bar->set_system_message("Paused");
+  }
+  
+  event.Skip();
 }
 
-// Button events
 
-void
-gui::player::MediaControls::OnPlay(wxCommandEvent& event)
-{
-  _pmedia_ctrl->Play();
-};
 
-void
-gui::player::MediaControls::OnStop(wxCommandEvent& event)
-{
-  _pmedia_ctrl->Stop();
-};
-
-void
-gui::player::MediaControls::OnPause(wxCommandEvent& event)
-{
-  _pmedia_ctrl->Pause();
-};
-
-void
-gui::player::MediaControls::OnVolumeChange(wxCommandEvent& event)
-{
-  double media_volume = slider_volume->GetValue() / 100.0;
-  _pmedia_ctrl->SetVolume(media_volume);
-};
-
-void
-gui::player::MediaControls::OnNext(wxCommandEvent& event) {};
-
-void
-gui::player::MediaControls::OnPrevious(wxCommandEvent& event) {};
+// These button event implementations are now in media_ctrls.cpp

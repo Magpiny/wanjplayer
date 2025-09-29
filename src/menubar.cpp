@@ -12,6 +12,9 @@ gui::Menubar::create_menubar()
   menu_file->AppendSeparator();
   menu_file->Append(wxID_EXIT);
 
+  wxMenu* menu_view = new wxMenu;
+  menu_view->Append(ID_TOGGLE_PLAYLIST, "&Toggle Playlist\tF9");
+
   wxMenu* menu_help = new wxMenu;
   menu_help->Append(ID_PREFS, "&Preferences");
   menu_help->Append(wxID_ABOUT);
@@ -19,6 +22,7 @@ gui::Menubar::create_menubar()
 
   wxMenuBar* menuBar = new wxMenuBar;
   menuBar->Append(menu_file, "&File");
+  menuBar->Append(menu_view, "&View");
   menuBar->Append(menu_help, "&Help");
 
   _parent->SetMenuBar(menuBar);

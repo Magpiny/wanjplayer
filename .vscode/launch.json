@@ -1,0 +1,143 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug WanjPlayer",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/WanjPlayer",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/build",
+      "environment": [
+        {
+          "name": "DISPLAY",
+          "value": "${env:DISPLAY}"
+        },
+        {
+          "name": "XDG_RUNTIME_DIR",
+          "value": "${env:XDG_RUNTIME_DIR}"
+        }
+      ],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Set Disassembly Flavor to Intel",
+          "text": "-gdb-set disassembly-flavor intel",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "Build WanjPlayer",
+      "miDebuggerPath": "/usr/bin/gdb",
+      "logging": {
+        "moduleLoad": false,
+        "trace": false,
+        "engineLogging": false,
+        "programOutput": true,
+        "exceptions": true
+      },
+      "sourceFileMap": {
+        "/build/glibc-YYA7BZ": "/usr/src/glibc"
+      }
+    },
+    {
+      "name": "Debug WanjPlayer (with core dump)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/WanjPlayer",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/build",
+      "environment": [
+        {
+          "name": "DISPLAY",
+          "value": "${env:DISPLAY}"
+        },
+        {
+          "name": "XDG_RUNTIME_DIR",
+          "value": "${env:XDG_RUNTIME_DIR}"
+        }
+      ],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Set Disassembly Flavor to Intel",
+          "text": "-gdb-set disassembly-flavor intel",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Enable core dumps",
+          "text": "-gdb-set logging on",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "Build WanjPlayer",
+      "miDebuggerPath": "/usr/bin/gdb",
+      "coreDumpPath": "${workspaceFolder}/core",
+      "logging": {
+        "moduleLoad": true,
+        "trace": true,
+        "engineLogging": true,
+        "programOutput": true,
+        "exceptions": true
+      }
+    },
+    {
+      "name": "Debug WanjPlayer (Release)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/WanjPlayer",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/build",
+      "environment": [
+        {
+          "name": "DISPLAY",
+          "value": "${env:DISPLAY}"
+        },
+        {
+          "name": "XDG_RUNTIME_DIR",
+          "value": "${env:XDG_RUNTIME_DIR}"
+        }
+      ],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "miDebuggerPath": "/usr/bin/gdb"
+    },
+    {
+      "name": "Attach to Process",
+      "type": "cppdbg",
+      "request": "attach",
+      "program": "${workspaceFolder}/build/WanjPlayer",
+      "processId": "${command:pickProcess}",
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "miDebuggerPath": "/usr/bin/gdb"
+    }
+  ]
+}
