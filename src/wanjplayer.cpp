@@ -7,6 +7,8 @@
 #include "utils.hpp"
 #include <algorithm>
 #include <memory>
+#include <wx/dir.h>
+#include <wx/iconbndl.h>
 
 wxIMPLEMENT_APP(WanjPlayer);
 
@@ -17,7 +19,6 @@ WanjPlayer::OnInit()
     return false;
 
   // Set essential environment variables for video compatibility
-  wxSetEnv("GDK_BACKEND", "x11");
   wxSetEnv("GDK_BACKEND", "x11");
   wxSetEnv("GST_GL_DISABLED", "1");
   wxSetEnv("LIBGL_ALWAYS_SOFTWARE", "1");
@@ -46,13 +47,25 @@ PlayerFrame::PlayerFrame()
   utils::LogUtils::LogInfo("Initializing PlayerFrame");
   
   // SET APP Icon
-  wxIcon icon;
-  if (!icon.LoadFile("assets/logo/wanjplayer-64x64.png",
-                     wxBITMAP_TYPE_PNG)) {
-    utils::LogUtils::LogError("Failed to load application icon");
+  wxIconBundle icons;
+  wxString icon_dir = "assets/logo/";
+
+  if (!wxDirExists(icon_dir)) {
+    icon_dir = "../assets/logo/";
+  }
+
+  if (wxDirExists(icon_dir)) {
+    icons.AddIcon(icon_dir + "wanjplayer-16x16.png", wxBITMAP_TYPE_PNG);
+    icons.AddIcon(icon_dir + "wanjplayer-32x32.png", wxBITMAP_TYPE_PNG);
+    icons.AddIcon(icon_dir + "wanjplayer-64x64.png", wxBITMAP_TYPE_PNG);
+    icons.AddIcon(icon_dir + "wanjplayer-256x256.png", wxBITMAP_TYPE_PNG);
+  }
+
+  if (!icons.IsEmpty()) {
+    SetIcons(icons);
+    utils::LogUtils::LogInfo("Application icons loaded successfully");
   } else {
-    SetIcon(icon);
-    utils::LogUtils::LogInfo("Application icon loaded successfully");
+    utils::LogUtils::LogError("Failed to load application icons. Icon directory not found.");
   }
 
   /**

@@ -2,6 +2,7 @@
 bin/
 build/
 .cache/
+COMMIT_MESSAGE.txt
 
 # Compiled Object files
 *.slo

@@ -1,11 +1,17 @@
-fix: update GitHub Actions to v4 to resolve deprecation warnings
+feat: Overhaul of the Player's visual state and build process
 
-Updated all deprecated v3 actions to v4:
-- actions/checkout@v3 → actions/checkout@v4
-- actions/cache@v3 → actions/cache@v4
-- actions/upload-artifact@v3 → actions/upload-artifact@v4
+This commit introduces several fixes and improvements to the UI and build process.
 
-This resolves the CI failure caused by GitHub's deprecation of v3
-artifact actions as announced in April 2024.
+Player Animation State:
+The player canvas now correctly reflects the playback state:
+- An idle animation is displayed when the application is launched, when media is stopped, or when a playlist finishes.
+- The audio waveform visualization is now correctly paused when playback is paused and resumes when playback continues.
+- Previously, the visualization would continue animating when paused, and would not switch to the idle screen when a playlist ended.
 
-Refs: https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/
+Application Icon:
+- The application icon loading has been made more robust. It now uses a `wxIconBundle` with multiple icon sizes (16, 32, 64, 256px) to ensure correct display on various X11 window managers and desktop environments.
+- The logic for finding the assets directory is now more resilient, checking both the current and parent directories.
+- A redundant `wxSetEnv` call was also removed.
+
+Build Process:
+- A build failure was resolved by moving `sidebar.hpp` from the `src/` directory to the `include/` directory, making the header file locations consistent.

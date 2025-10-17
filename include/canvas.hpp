@@ -37,6 +37,7 @@ public:
     // Audio visualization
     void StartAudioVisualization(const wxString& filename);
     void StopAudioVisualization();
+    void PauseAudioVisualization();
     void UpdateVisualizationData(const std::vector<float>& frequency_data);
 
     // Video display

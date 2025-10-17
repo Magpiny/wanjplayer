@@ -213,6 +213,9 @@ PlayerFrame::OnMediaFinished(wxMediaEvent& event)
       status_bar->set_system_message("End of playlist");
       status_bar->update_playback_info("Stopped");
     }
+    if (player_canvas) {
+      player_canvas->SetDisplayMode(gui::PlayerCanvas::DisplayMode::IDLE);
+    }
   }
   event.Skip();
 }
@@ -246,7 +249,7 @@ PlayerFrame::OnMediaPlay(wxMediaEvent& event)
           if (media_book) {
             if (IsAudioFile(current_file)) {
               media_book->ChangeSelection(1);
-              player_canvas->SetDisplayMode(gui::PlayerCanvas::DisplayMode::AUDIO_VIS);
+              player_canvas->StartAudioVisualization(current_file);
             } else {
               media_book->ChangeSelection(0);
             }
@@ -269,8 +272,10 @@ PlayerFrame::OnMediaPause(wxMediaEvent& event)
     status_bar->set_system_message("Paused");
   }
   
-  // Keep visualization running but could reduce update frequency
-  // The visualization will continue showing the waveform pattern
+  // Pause audio visualization
+  if (player_canvas && player_canvas->GetDisplayMode() == gui::PlayerCanvas::DisplayMode::AUDIO_VIS) {
+    player_canvas->PauseAudioVisualization();
+  }
   
   event.Skip();
 }

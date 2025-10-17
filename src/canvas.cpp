@@ -123,6 +123,13 @@ void PlayerCanvas::StopAudioVisualization()
     std::fill(waveform_data.begin(), waveform_data.end(), 0.0f);
 }
 
+void PlayerCanvas::PauseAudioVisualization()
+{
+    if (visualization_timer.IsRunning()) {
+        visualization_timer.Stop();
+    }
+}
+
 void PlayerCanvas::UpdateVisualizationData(const std::vector<float>& freq_data)
 {
     if (current_mode == DisplayMode::AUDIO_VIS) {
