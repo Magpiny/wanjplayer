@@ -28,7 +28,7 @@ jobs:
             wxwidgets-prefix: /usr/local
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
@@ -45,7 +45,7 @@ jobs:
 
       - name: Cache apt packages
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /var/cache/apt/archives
           key: ${{ runner.os }}-apt-cache-${{ hashFiles('**/c-cpp.yml') }}
@@ -66,7 +66,7 @@ jobs:
       - name: Cache wxWidgets (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         id: cache-wxwidgets
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ matrix.wxwidgets-prefix }}
           key: ${{ runner.os }}-wxwidgets-${{ env.WXWIDGETS_VERSION }}
@@ -115,7 +115,7 @@ jobs:
           cmake --build ${{github.workspace}}/build --target package --config ${{env.BUILD_TYPE}}
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: media-player-${{ matrix.os }}
           path: |
