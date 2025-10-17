@@ -44,8 +44,10 @@ ${SOURCE_DIR}/license_dialogbx.cpp
 ${SOURCE_DIR}/media_ctrls.cpp
 ${SOURCE_DIR}/playlist.cpp
 ${SOURCE_DIR}/media_events.cpp
-${SOURCE_DIR}/sidebar.cpp
+${SOURCE_DIR}/main_layout.cpp
 ${SOURCE_DIR}/canvas.cpp
+${SOURCE_DIR}/preferences.cpp
+${SOURCE_DIR}/player_ui_control.cpp
 ${PROJECT_ROOT}/utils/utils.cpp
 ${PROJECT_ROOT}/utils/time_formatter.cpp
 ${PROJECT_ROOT}/utils/file_utils.cpp

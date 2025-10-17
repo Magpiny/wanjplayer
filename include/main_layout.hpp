@@ -1,5 +1,5 @@
-#ifndef __SIDEBAR__HPP
-#define __SIDEBAR__HPP
+#ifndef __MAIN_LAYOUT__HPP
+#define __MAIN_LAYOUT__HPP
 
 #include "wanjplayer.hpp"
 #include "playlist.hpp"
@@ -7,12 +7,15 @@
 #include "statusbar.hpp"
 #include "canvas.hpp"
 #include "utils.hpp"
+#include "player_ui_control.hpp"
 
 #include <wx/simplebook.h>
 
 namespace gui {
 
-class Sidebar
+class PlayerUIControl; // Forward declaration
+
+class MainLayout
 {
 private:
     wxFrame* parent_frame;
@@ -20,7 +23,6 @@ private:
     wxPanel* playlist_pane;
     wxPanel* video_canvas_pane;
     wxButton* toggle_playlist_btn;
-    wxSimplebook* media_book;
     
     // GUI styling properties
     wxColour background_color;
@@ -33,8 +35,7 @@ private:
     gui::player::Playlist* playlist;
     gui::player::MediaControls* media_controls;
     gui::StatusBar* status_bar;
-    wxMediaCtrl* media_ctrl;
-    gui::PlayerCanvas* player_canvas;
+    PlayerUIControl* player_ui_control;
     
     // Layout properties
     int default_playlist_width;
@@ -43,8 +44,8 @@ private:
     double sash_gravity;
 
 public:
-    Sidebar(wxFrame* parent);
-    ~Sidebar();
+    MainLayout(wxFrame* parent);
+    ~MainLayout();
     
     // Main GUI creation methods
     void CreateMainLayout();
@@ -73,9 +74,7 @@ public:
     wxPanel* GetVideoPane() const { return video_canvas_pane; }
     gui::player::Playlist* GetPlaylist() const { return playlist; }
     gui::player::MediaControls* GetMediaControls() const { return media_controls; }
-    wxMediaCtrl* GetMediaCtrl() const { return media_ctrl; }
-    gui::PlayerCanvas* GetPlayerCanvas() const { return player_canvas; }
-    wxSimplebook* GetMediaBook() const { return media_book; }
+    PlayerUIControl* GetPlayerUIControl() const { return player_ui_control; }
     
     // Component setters
     void SetPlaylist(gui::player::Playlist* pl) { playlist = pl; }
@@ -124,8 +123,8 @@ private:
     static constexpr int PANEL_BORDER = 2;
 };
 
-// Sidebar theme configuration
-struct SidebarTheme {
+// MainLayout theme configuration
+struct MainLayoutTheme {
     wxColour background_color;
     wxColour text_color;
     wxColour accent_color;
@@ -138,8 +137,8 @@ struct SidebarTheme {
     bool use_rounded_corners;
 };
 
-// Factory class for creating themed sidebars
-class SidebarFactory {
+// Factory class for creating themed layouts
+class MainLayoutFactory {
 public:
     enum class ThemeType {
         DEFAULT,
@@ -149,11 +148,11 @@ public:
         MODERN
     };
     
-    static Sidebar* CreateSidebar(wxFrame* parent, ThemeType theme = ThemeType::DEFAULT);
-    static SidebarTheme GetTheme(ThemeType theme);
-    static void ApplyTheme(Sidebar* sidebar, const SidebarTheme& theme);
+    static MainLayout* CreateMainLayout(wxFrame* parent, ThemeType theme = ThemeType::DEFAULT);
+    static MainLayoutTheme GetTheme(ThemeType theme);
+    static void ApplyTheme(MainLayout* main_layout, const MainLayoutTheme& theme);
 };
 
 }
 
-#endif // __SIDEBAR__HPP
+#endif // __MAIN_LAYOUT__HPP

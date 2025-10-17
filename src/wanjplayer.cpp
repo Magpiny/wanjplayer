@@ -3,12 +3,13 @@
 #include "player_ui.hpp"
 #include "statusbar.hpp"
 #include "widgets.hpp"
-#include "sidebar.hpp"
+#include "main_layout.hpp"
 #include "utils.hpp"
 #include <algorithm>
 #include <memory>
 #include <wx/dir.h>
 #include <wx/iconbndl.h>
+#include <wx/config.h>
 
 wxIMPLEMENT_APP(WanjPlayer);
 
@@ -18,12 +19,29 @@ WanjPlayer::OnInit()
   if (!wxApp::OnInit())
     return false;
 
+  // Initialize config
+  wxConfigBase::Set(new wxConfig("WanjPlayer", wxEmptyString, wxEmptyString, wxEmptyString, wxCONFIG_USE_SUBDIR));
+  wxConfigBase* config = wxConfigBase::Get();
+
+  // Apply Logging settings
+  config->SetPath("/Logging");
+  utils::LogUtils::SetLogLevel(static_cast<utils::LogUtils::LogLevel>(config->Read("LogLevel", (long)utils::LogUtils::LogLevel::INFO)));
+  utils::LogUtils::EnableFileOutput(config->Read("FileLoggingEnabled", false), config->Read("LogFilePath", utils::LogUtils::GetDefaultLogFileName()));
+  utils::LogUtils::SetMaxLogFileSize(config->Read("MaxLogSizeMB", 10L) * 1024 * 1024);
+  utils::LogUtils::SetMaxLogFiles(config->Read("MaxLogFiles", 5L));
+
+  // Apply Performance settings
+  config->SetPath("/Performance");
+  utils::PerformanceUtils::EnableProfiling(config->Read("ProfilingEnabled", true));
+  utils::PerformanceUtils::SetMaxCacheSize(config->Read("MaxCacheSizeMB", 100L) * 1024 * 1024);
+
   // Set essential environment variables for video compatibility
   wxSetEnv("GDK_BACKEND", "x11");
   wxSetEnv("GST_GL_DISABLED", "1");
   wxSetEnv("LIBGL_ALWAYS_SOFTWARE", "1");
   wxSetEnv("GST_VIDEO_SINK", "ximagesink");
   wxSetEnv("GST_PLUGIN_FEATURE_DISABLE", "glimagesink,glsinkbin,gtkglsink");
+  wxSetEnv("GST_DEBUG", "3");
 
   utils::LogUtils::LogInfo("WanjPlayer starting up");
   
@@ -41,8 +59,8 @@ PlayerFrame::PlayerFrame()
             wxSize(950, 700))
   , playlist_visible(true)
   , playlist_pane(nullptr)
-  , sidebar(nullptr)
-  , player_canvas(nullptr)
+  , main_layout(nullptr)
+  , player_ui_control(nullptr)
 {
   utils::LogUtils::LogInfo("Initializing PlayerFrame");
   
@@ -77,31 +95,29 @@ PlayerFrame::PlayerFrame()
   utils::LogUtils::LogInfo("Menubar created");
 
   /**
-   * CREATE THE SIDEBAR AND MAIN LAYOUT
+   * CREATE THE MAIN LAYOUT
    */
-  utils::LogUtils::LogInfo("Creating Sidebar");
-  sidebar = new gui::Sidebar(this);
-  if (!sidebar) {
-    utils::LogUtils::LogError("Failed to create sidebar");
+  utils::LogUtils::LogInfo("Creating MainLayout");
+  main_layout = new gui::MainLayout(this);
+  if (!main_layout) {
+    utils::LogUtils::LogError("Failed to create main layout");
     return;
   }
-  utils::LogUtils::LogInfo("Sidebar created");
+  utils::LogUtils::LogInfo("MainLayout created");
   
-  // Create the main layout using the sidebar
+  // Create the main layout using the main_layout
   utils::LogUtils::LogInfo("Creating main layout");
-  sidebar->CreateMainLayout();
+  main_layout->CreateMainLayout();
   utils::LogUtils::LogInfo("Main layout created");
   
-  // Get references to components created by sidebar
+  // Get references to components created by main_layout
   utils::LogUtils::LogInfo("Getting references to components");
-  splitter = sidebar->GetMainSplitter();
-  playlist_pane = sidebar->GetPlaylistPane();
-  video_canvas_pane = sidebar->GetVideoPane();
-  playlist = sidebar->GetPlaylist();
-  player_ctrls = sidebar->GetMediaControls();
-  media_ctrl = sidebar->GetMediaCtrl();
-  player_canvas = sidebar->GetPlayerCanvas();
-  media_book = sidebar->GetMediaBook();
+  splitter = main_layout->GetMainSplitter();
+  playlist_pane = main_layout->GetPlaylistPane();
+  video_canvas_pane = main_layout->GetVideoPane();
+  playlist = main_layout->GetPlaylist();
+  player_ctrls = main_layout->GetMediaControls();
+  player_ui_control = main_layout->GetPlayerUIControl();
   utils::LogUtils::LogInfo("References to components obtained");
 
   /**
@@ -112,11 +128,11 @@ PlayerFrame::PlayerFrame()
   status_bar->create_statusbar();
   utils::LogUtils::LogInfo("StatusBar created");
   
-  // Connect status bar to sidebar components
-  sidebar->SetStatusBar(status_bar);
+  // Connect status bar to main_layout components
+  main_layout->SetStatusBar(status_bar);
   
   // Connect all components
-  sidebar->ConnectComponents();
+  main_layout->ConnectComponents();
   
   // Show video backend status in status bar
   status_bar->set_system_message("Ready - Video mode: Wayland-safe");
@@ -128,7 +144,15 @@ PlayerFrame::PlayerFrame()
   BindMediaEvents();
   
   // Setup accessibility
-  sidebar->SetupAccessibility();
+  main_layout->SetupAccessibility();
+
+  // Restore window geometry and transparency
+  wxConfigBase* config = wxConfig::Get();
+  config->SetPath("/General");
+  if (config->Read("RememberGeometry", true)) {
+      utils::GuiUtils::RestoreWindowGeometry(this, "PlayerFrame");
+  }
+  SetTransparent(config->Read("Transparency", 255L));
   
   utils::LogUtils::LogInfo("PlayerFrame initialization complete");
 }
@@ -142,7 +166,7 @@ void PlayerFrame::BindMenuEvents()
   Bind(wxEVT_MENU, &PlayerFrame::OnLicense, this, ID_LICENSE);
   Bind(wxEVT_MENU, &PlayerFrame::OnAbout, this, wxID_ABOUT);
   
-  // Playlist toggle is now handled by sidebar
+  // Playlist toggle is now handled by main_layout
   Bind(wxEVT_MENU, &PlayerFrame::OnTogglePlaylist, this, ID_TOGGLE_PLAYLIST);
 }
 
@@ -157,16 +181,23 @@ void PlayerFrame::BindMediaEvents()
 
 void PlayerFrame::OnTogglePlaylist(wxCommandEvent& event)
 {
-  if (sidebar) {
-    sidebar->TogglePlaylistVisibility();
+  if (main_layout) {
+    main_layout->TogglePlaylistVisibility();
   }
   event.Skip();
 }
 
 PlayerFrame::~PlayerFrame()
 {
+  // Save window geometry
+  wxConfigBase* config = wxConfig::Get();
+  config->SetPath("/General");
+  if (config->Read("RememberGeometry", true)) {
+      utils::GuiUtils::SaveWindowGeometry(this, "PlayerFrame");
+  }
+
   utils::LogUtils::LogInfo("PlayerFrame shutting down");
   
   // Components are automatically cleaned up by wxWidgets
-  // The sidebar will save its layout settings in its destructor
+  // The main_layout will save its layout settings in its destructor
 }

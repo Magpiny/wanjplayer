@@ -1,4 +1,4 @@
-#include "sidebar.hpp"
+#include "main_layout.hpp"
 #include "menubar.hpp"
 #include "utils.hpp"
 #include <wx/splitter.h>
@@ -7,22 +7,21 @@
 #include <wx/sizer.h>
 #include <wx/settings.h>
 #include <wx/config.h>
+#include <wx/statbox.h>
 
 namespace gui {
 
-// Sidebar implementation
-Sidebar::Sidebar(wxFrame* parent)
+// MainLayout implementation
+MainLayout::MainLayout(wxFrame* parent)
     : parent_frame(parent)
     , main_splitter(nullptr)
     , playlist_pane(nullptr)
     , video_canvas_pane(nullptr)
     , toggle_playlist_btn(nullptr)
-    , media_book(nullptr)
     , playlist(nullptr)
     , media_controls(nullptr)
     , status_bar(nullptr)
-    , media_ctrl(nullptr)
-    , player_canvas(nullptr)
+    , player_ui_control(nullptr)
     , default_playlist_width(DEFAULT_PLAYLIST_WIDTH)
     , playlist_visible(true)
     , minimum_pane_size(MINIMUM_PANE_SIZE)
@@ -32,7 +31,7 @@ Sidebar::Sidebar(wxFrame* parent)
     LoadLayoutSettings();
 }
 
-Sidebar::~Sidebar()
+MainLayout::~MainLayout()
 {
     SaveLayoutSettings();
     
@@ -40,44 +39,44 @@ Sidebar::~Sidebar()
     // No manual deletion needed for GUI components
 }
 
-void Sidebar::InitializeTheme()
+void MainLayout::InitializeTheme()
 {
     LoadSystemTheme();
     UpdateFonts();
 }
 
-void Sidebar::LoadSystemTheme()
+void MainLayout::LoadSystemTheme()
 {
     background_color = GetDefaultBackgroundColor();
     text_color = GetDefaultTextColor();
     accent_color = GetDefaultAccentColor();
 }
 
-wxColour Sidebar::GetDefaultBackgroundColor()
+wxColour MainLayout::GetDefaultBackgroundColor()
 {
     return utils::GuiUtils::GetSystemColor(wxSYS_COLOUR_WINDOW);
 }
 
-wxColour Sidebar::GetDefaultTextColor()
+wxColour MainLayout::GetDefaultTextColor()
 {
     return utils::GuiUtils::GetSystemColor(wxSYS_COLOUR_WINDOWTEXT);
 }
 
-wxColour Sidebar::GetDefaultAccentColor()
+wxColour MainLayout::GetDefaultAccentColor()
 {
     return utils::GuiUtils::GetSystemColor(wxSYS_COLOUR_HIGHLIGHT);
 }
 
-void Sidebar::UpdateFonts()
+void MainLayout::UpdateFonts()
 {
     default_font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
     title_font = utils::GuiUtils::GetScaledFont(default_font, 1.1);
     title_font.SetWeight(wxFONTWEIGHT_BOLD);
 }
 
-void Sidebar::CreateMainLayout()
+void MainLayout::CreateMainLayout()
 {
-    utils::LogUtils::LogInfo("Creating main sidebar layout");
+    utils::LogUtils::LogInfo("Creating main layout");
     
     // Create the main splitter window
     utils::LogUtils::LogInfo("Creating splitter window");
@@ -116,10 +115,10 @@ void Sidebar::CreateMainLayout()
     main_sizer->Add(main_splitter, 1, wxEXPAND);
     parent_frame->SetSizer(main_sizer);
     
-    utils::LogUtils::LogInfo("Main sidebar layout created successfully");
+    utils::LogUtils::LogInfo("Main layout created successfully");
 }
 
-void Sidebar::SetupSplitterWindow()
+void MainLayout::SetupSplitterWindow()
 {
     main_splitter = new wxSplitterWindow(parent_frame, wxID_ANY);
     if (!main_splitter) {
@@ -134,7 +133,7 @@ void Sidebar::SetupSplitterWindow()
     ApplyThemeToWindow(main_splitter);
 }
 
-void Sidebar::CreatePlaylistPane()
+void MainLayout::CreatePlaylistPane()
 {
     playlist_pane = new wxPanel(main_splitter, wxID_ANY);
     if (!playlist_pane) {
@@ -157,7 +156,7 @@ void Sidebar::CreatePlaylistPane()
     utils::LogUtils::LogInfo("Playlist pane created");
 }
 
-void Sidebar::CreateToggleButton()
+void MainLayout::CreateToggleButton()
 {
     toggle_playlist_btn = new wxButton(playlist_pane, wxID_ANY, "Hide Playlist", 
                                       wxDefaultPosition, wxSize(-1, TOGGLE_BUTTON_HEIGHT));
@@ -167,7 +166,7 @@ void Sidebar::CreateToggleButton()
     }
 }
 
-void Sidebar::SetupPlaylistSizer()
+void MainLayout::SetupPlaylistSizer()
 {
     wxBoxSizer* playlist_sizer = new wxBoxSizer(wxVERTICAL);
     
@@ -182,7 +181,7 @@ void Sidebar::SetupPlaylistSizer()
     playlist_pane->SetSizer(playlist_sizer);
 }
 
-void Sidebar::CreateVideoPane()
+void MainLayout::CreateVideoPane()
 {
     video_canvas_pane = new wxPanel(main_splitter, ID_MEDIA_CANVAS);
     if (!video_canvas_pane) {
@@ -190,35 +189,12 @@ void Sidebar::CreateVideoPane()
         return;
     }
 
-    media_book = new wxSimplebook(video_canvas_pane, wxID_ANY);
-
-    // Create PlayerCanvas for audio/video visualization
-    player_canvas = new gui::PlayerCanvas(media_book, wxID_ANY);
-    if (!player_canvas) {
-        utils::LogUtils::LogError("Failed to create player canvas");
+    // Create PlayerUIControl
+    player_ui_control = new PlayerUIControl(video_canvas_pane, wxID_ANY);
+    if (!player_ui_control) {
+        utils::LogUtils::LogError("Failed to create player UI control");
         return;
     }
-    
-    // Create media control
-    media_ctrl = new wxMediaCtrl(media_book,
-                                ID_MEDIA_CTRL,
-                                wxEmptyString,
-                                wxDefaultPosition,
-                                wxDefaultSize,
-                                wxMC_NO_AUTORESIZE);
-    
-    if (!media_ctrl) {
-        utils::LogUtils::LogError("Failed to create media control");
-        return;
-    }
-
-    media_book->AddPage(media_ctrl, "Video");
-    media_book->AddPage(player_canvas, "Audio");
-    
-    // Apply earth brown and sky blue theme colors
-    player_canvas->SetBackgroundColor(wxColour(101, 67, 33));  // Dark earth brown
-    player_canvas->SetAccentColor(wxColour(135, 206, 250));    // Light sky blue
-    player_canvas->SetTextColor(wxColour(245, 245, 220));      // Beige text for readability
     
     // Create media controls
     CreateMediaControls();
@@ -232,9 +208,13 @@ void Sidebar::CreateVideoPane()
     utils::LogUtils::LogInfo("Video pane created");
 }
 
-void Sidebar::CreateMediaControls()
+void MainLayout::CreateMediaControls()
 {
-    media_controls = new gui::player::MediaControls(video_canvas_pane, media_ctrl);
+    if (!player_ui_control) {
+        utils::LogUtils::LogError("Player UI control is not initialized");
+        return;
+    }
+    media_controls = new gui::player::MediaControls(video_canvas_pane, player_ui_control->GetMediaCtrl());
     
     if (!media_controls) {
         utils::LogUtils::LogError("Failed to create media controls");
@@ -244,22 +224,23 @@ void Sidebar::CreateMediaControls()
     ApplyThemeToWindow(media_controls);
 }
 
-void Sidebar::SetupVideoSizer()
+void MainLayout::SetupVideoSizer()
 {
     wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
-    
-    if (media_book) {
-        video_sizer->Add(media_book, 1, wxEXPAND);
+
+    if (player_ui_control) {
+        video_sizer->Add(player_ui_control, 1, wxEXPAND);
     }
-    
+
     if (media_controls) {
         video_sizer->Add(media_controls, 0, wxEXPAND);
     }
-    
+
     video_canvas_pane->SetSizer(video_sizer);
+    video_canvas_pane->Layout();
 }
 
-void Sidebar::ApplyModernStyling()
+void MainLayout::ApplyModernStyling()
 {
     // Apply modern styling to all components
     if (main_splitter) {
@@ -283,7 +264,7 @@ void Sidebar::ApplyModernStyling()
     }
 }
 
-void Sidebar::ApplyThemeToWindow(wxWindow* window)
+void MainLayout::ApplyThemeToWindow(wxWindow* window)
 {
     if (!window) return;
     
@@ -293,7 +274,7 @@ void Sidebar::ApplyThemeToWindow(wxWindow* window)
     window->Refresh();
 }
 
-void Sidebar::ApplyPanelStyling(wxPanel* panel)
+void MainLayout::ApplyPanelStyling(wxPanel* panel)
 {
     if (!panel) return;
     
@@ -305,7 +286,7 @@ void Sidebar::ApplyPanelStyling(wxPanel* panel)
     panel->SetBackgroundStyle(wxBG_STYLE_PAINT);
 }
 
-void Sidebar::ApplyButtonStyling(wxButton* button)
+void MainLayout::ApplyButtonStyling(wxButton* button)
 {
     if (!button) return;
     
@@ -314,7 +295,7 @@ void Sidebar::ApplyButtonStyling(wxButton* button)
     button->SetFont(default_font);
 }
 
-void Sidebar::SetCustomColors(const wxColour& bg, const wxColour& text, const wxColour& accent)
+void MainLayout::SetCustomColors(const wxColour& bg, const wxColour& text, const wxColour& accent)
 {
     background_color = bg;
     text_color = text;
@@ -323,19 +304,19 @@ void Sidebar::SetCustomColors(const wxColour& bg, const wxColour& text, const wx
     ApplyModernStyling();
 }
 
-void Sidebar::SetupEventBindings()
+void MainLayout::SetupEventBindings()
 {
     if (!parent_frame) return;
     
     // Bind toggle playlist button
     if (toggle_playlist_btn) {
-        toggle_playlist_btn->Bind(wxEVT_BUTTON, &Sidebar::OnTogglePlaylist, this);
+        toggle_playlist_btn->Bind(wxEVT_BUTTON, &MainLayout::OnTogglePlaylist, this);
     }
     
     // Bind splitter events
     if (main_splitter) {
         parent_frame->Bind(wxEVT_SPLITTER_SASH_POS_CHANGED, 
-                          &Sidebar::OnSplitterSashPosChanged, this,
+                          &MainLayout::OnSplitterSashPosChanged, this,
                           main_splitter->GetId());
     }
     
@@ -350,12 +331,14 @@ void Sidebar::SetupEventBindings()
     }
 }
 
-void Sidebar::ConnectComponents()
+void MainLayout::ConnectComponents()
 {
     // Connect playlist and media controls
     if (media_controls && playlist) {
         media_controls->SetPlaylist(playlist);
-        playlist->SetMediaCtrl(media_ctrl);
+        if (player_ui_control) {
+            playlist->SetMediaCtrl(player_ui_control->GetMediaCtrl());
+        }
     }
     
     // Connect status bar to media controls
@@ -366,7 +349,7 @@ void Sidebar::ConnectComponents()
     utils::LogUtils::LogInfo("Components connected successfully");
 }
 
-void Sidebar::TogglePlaylistVisibility()
+void MainLayout::TogglePlaylistVisibility()
 {
     if (playlist_visible) {
         HidePlaylist();
@@ -375,7 +358,7 @@ void Sidebar::TogglePlaylistVisibility()
     }
 }
 
-void Sidebar::ShowPlaylist()
+void MainLayout::ShowPlaylist()
 {
     if (!main_splitter || !playlist_pane || !video_canvas_pane) return;
     
@@ -397,7 +380,7 @@ void Sidebar::ShowPlaylist()
     }
 }
 
-void Sidebar::HidePlaylist()
+void MainLayout::HidePlaylist()
 {
     if (!main_splitter || !video_canvas_pane) return;
     
@@ -422,7 +405,7 @@ void Sidebar::HidePlaylist()
     }
 }
 
-void Sidebar::ResizePlaylistPane(int width)
+void MainLayout::ResizePlaylistPane(int width)
 {
     if (!main_splitter || !playlist_visible) return;
     
@@ -432,7 +415,7 @@ void Sidebar::ResizePlaylistPane(int width)
     }
 }
 
-void Sidebar::UpdateLayout()
+void MainLayout::UpdateLayout()
 {
     if (main_splitter) {
         main_splitter->UpdateSize();
@@ -443,9 +426,9 @@ void Sidebar::UpdateLayout()
     }
 }
 
-void Sidebar::OnTogglePlaylist(wxCommandEvent& event)
+void MainLayout::OnTogglePlaylist(wxCommandEvent& event)
 {
-    wxLogMessage("Sidebar: Toggle playlist button clicked");
+    wxLogMessage("MainLayout: Toggle playlist button clicked");
     TogglePlaylistVisibility();
     UpdateLayout();
     
@@ -461,7 +444,7 @@ void Sidebar::OnTogglePlaylist(wxCommandEvent& event)
     event.Skip();
 }
 
-void Sidebar::OnSplitterSashPosChanged(wxSplitterEvent& event)
+void MainLayout::OnSplitterSashPosChanged(wxSplitterEvent& event)
 {
     if (playlist_visible) {
         default_playlist_width = event.GetSashPosition();
@@ -469,13 +452,13 @@ void Sidebar::OnSplitterSashPosChanged(wxSplitterEvent& event)
     event.Skip();
 }
 
-void Sidebar::OnPlaylistPaneSize(wxSizeEvent& event)
+void MainLayout::OnPlaylistPaneSize(wxSizeEvent& event)
 {
     UpdateLayout();
     event.Skip();
 }
 
-void Sidebar::AnimatePlaylistToggle(bool show)
+void MainLayout::AnimatePlaylistToggle(bool show)
 {
     // Simple animation implementation
     // Could be enhanced with more sophisticated transitions
@@ -487,7 +470,7 @@ void Sidebar::AnimatePlaylistToggle(bool show)
     UpdateLayout();
 }
 
-void Sidebar::SetTransitionEffect(bool enable)
+void MainLayout::SetTransitionEffect(bool enable)
 {
     // Placeholder for transition effects
     // Could be implemented with timer-based animations
@@ -495,7 +478,7 @@ void Sidebar::SetTransitionEffect(bool enable)
                                              enable ? "enabled" : "disabled"));
 }
 
-void Sidebar::SetupAccessibility()
+void MainLayout::SetupAccessibility()
 {
     // Setup accessibility labels and descriptions
     if (toggle_playlist_btn) {
@@ -511,7 +494,7 @@ void Sidebar::SetupAccessibility()
     }
 }
 
-void Sidebar::UpdateAccessibilityLabels()
+void MainLayout::UpdateAccessibilityLabels()
 {
     if (toggle_playlist_btn) {
         wxString tooltip = playlist_visible ? "Hide playlist panel" : "Show playlist panel";
@@ -519,7 +502,7 @@ void Sidebar::UpdateAccessibilityLabels()
     }
 }
 
-void Sidebar::SaveLayoutSettings()
+void MainLayout::SaveLayoutSettings()
 {
     wxConfig config("WanjPlayer");
     
@@ -530,7 +513,7 @@ void Sidebar::SaveLayoutSettings()
     utils::LogUtils::LogDebug("Layout settings saved");
 }
 
-void Sidebar::LoadLayoutSettings()
+void MainLayout::LoadLayoutSettings()
 {
     wxConfig config("WanjPlayer");
     
@@ -541,24 +524,24 @@ void Sidebar::LoadLayoutSettings()
     utils::LogUtils::LogDebug("Layout settings loaded");
 }
 
-// SidebarFactory implementation
-Sidebar* SidebarFactory::CreateSidebar(wxFrame* parent, ThemeType theme)
+// MainLayoutFactory implementation
+MainLayout* MainLayoutFactory::CreateMainLayout(wxFrame* parent, ThemeType theme)
 {
-    Sidebar* sidebar = new Sidebar(parent);
+    MainLayout* main_layout = new MainLayout(parent);
     
-    if (sidebar) {
-        SidebarTheme theme_config = GetTheme(theme);
-        ApplyTheme(sidebar, theme_config);
+    if (main_layout) {
+        MainLayoutTheme theme_config = GetTheme(theme);
+        ApplyTheme(main_layout, theme_config);
         
-        utils::LogUtils::LogInfo("Sidebar created with theme");
+        utils::LogUtils::LogInfo("MainLayout created with theme");
     }
     
-    return sidebar;
+    return main_layout;
 }
 
-SidebarTheme SidebarFactory::GetTheme(ThemeType theme)
+MainLayoutTheme MainLayoutFactory::GetTheme(ThemeType theme)
 {
-    SidebarTheme config;
+    MainLayoutTheme config;
     
     switch (theme) {
         case ThemeType::DARK:
@@ -611,13 +594,13 @@ SidebarTheme SidebarFactory::GetTheme(ThemeType theme)
     return config;
 }
 
-void SidebarFactory::ApplyTheme(Sidebar* sidebar, const SidebarTheme& theme)
+void MainLayoutFactory::ApplyTheme(MainLayout* main_layout, const MainLayoutTheme& theme)
 {
-    if (!sidebar) return;
+    if (!main_layout) return;
     
-    sidebar->SetCustomColors(theme.background_color, theme.text_color, theme.accent_color);
+    main_layout->SetCustomColors(theme.background_color, theme.text_color, theme.accent_color);
     
-    utils::LogUtils::LogInfo("Theme applied to sidebar");
+    utils::LogUtils::LogInfo("Theme applied to main_layout");
 }
 
 }

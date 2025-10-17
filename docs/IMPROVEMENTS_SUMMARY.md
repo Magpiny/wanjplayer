@@ -51,7 +51,7 @@ Column Layout:
 - `src/media_events.cpp` - Integrated status bar updates with media events
 - `src/wanjplayer.cpp` - Updated status bar initialization
 
-### 3. Collapsible Playlist Sidebar ✅
+### 3. Collapsible Playlist ✅
 **Problem**: Playlist always visible, preventing fullscreen video experience.
 
 **Requirements**: Make playlist hideable for distraction-free video viewing.

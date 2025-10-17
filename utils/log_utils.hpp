@@ -77,6 +77,7 @@ public:
     static LogLevel StringToLogLevel(const wxString& level_str);
     static wxString GetTimestamp();
     static wxString FormatLogMessage(LogLevel level, const wxString& message);
+    static wxString GetDefaultLogFileName();
     
 private:
     static LogLevel current_log_level;
@@ -94,7 +95,6 @@ private:
     static void WriteToConsole(LogLevel level, const wxString& formatted_message);
     static void CheckAndRotateLogFile();
     static void CreateLogDirectory();
-    static wxString GetDefaultLogFileName();
 };
 
 // RAII class for function logging

@@ -158,7 +158,7 @@ void OnPositionSliderChange(wxCommandEvent& event) {
 
 ## User Interface Improvements
 
-### Playlist Sidebar
+### Playlist
 - **Visual Current Track**: Currently playing track is highlighted
 - **Clickable Items**: Double-click any item to play it immediately
 - **Keyboard Controls**: Space to play, Delete to remove items

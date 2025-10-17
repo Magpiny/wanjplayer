@@ -48,7 +48,7 @@ This document summarizes all the fixes implemented to resolve the critical issue
 
 ### 3. ✅ **Playlist Manual Resizing - RESTORED**
 
-**Problem**: Playlist sidebar became fixed-width and couldn't be manually resized by dragging.
+**Problem**: Playlist became fixed-width and couldn't be manually resized by dragging.
 
 **Root Cause**: Overly restrictive splitter settings that prevented manual resizing.
 
@@ -60,7 +60,7 @@ This document summarizes all the fixes implemented to resolve the critical issue
 **Files Modified**:
 - `src/wanjplayer.cpp` - Updated splitter configuration
 
-**Result**: Users can now drag to resize playlist sidebar manually AND still use toggle functionality.
+**Result**: Users can now drag to resize playlist manually AND still use toggle functionality.
 
 ### 4. ✅ **Status Bar Log Messages - IMPLEMENTED**
 

@@ -114,7 +114,7 @@ The main launcher automatically detects your display system (Wayland/X11) and co
 - **Column 3**: Playback status (Playing/Paused/Stopped/etc.)
 - **Real-time Updates**: Duration counter updates every second during playback
 
-### Collapsible Playlist Sidebar
+### Collapsible Playlist
 - **Fullscreen Video Mode**: Hide playlist for distraction-free video viewing
 - **Multiple Toggle Methods**:
   - Click "Hide/Show Playlist" button
@@ -134,7 +134,7 @@ The main launcher automatically detects your display system (Wayland/X11) and co
 
 ### Loading Multiple Files
 1. **File → Open Files** (Ctrl+Shift+O) - Load multiple media files
-2. Files appear in playlist sidebar
+2. Files appear in playlist
 3. Playback starts automatically with first track
 4. Status bar shows file information
 

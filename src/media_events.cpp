@@ -6,6 +6,7 @@
 #include "wanjplayer.hpp"
 #include "canvas.hpp"
 #include "utils.hpp"
+#include "player_ui_control.hpp"
 
 namespace {
 bool IsAudioFile(const wxString& path) {
@@ -108,11 +109,13 @@ PlayerFrame::OnFilesOpen(wxCommandEvent& event)
   }
 }
 
+#include "preferences.hpp"
+
 void
 PlayerFrame::OnPreferences(wxCommandEvent& event)
 {
-  wxMessageBox(
-    "Opens App Preferences", "App preferences", wxOK | wxICON_INFORMATION);
+  PreferencesDialog prefs(this);
+  prefs.ShowModal();
 };
 
 void
@@ -128,8 +131,7 @@ PlayerFrame::OnLicense(wxCommandEvent& event)
 void
 PlayerFrame::OnMediaLoaded(wxMediaEvent& event)
 {
-  wxLogMessage("Media loaded event triggered");
-  
+  wxMediaCtrl* media_ctrl = player_ui_control->GetMediaCtrl();
   if (media_ctrl) {
     wxFileOffset length = media_ctrl->Length();
     wxLogMessage("Media duration: %lld ms", length);
@@ -150,19 +152,16 @@ PlayerFrame::OnMediaLoaded(wxMediaEvent& event)
     
     // Check if this is a video file
     wxString current_file = playlist->GetCurrentItem();
-    wxSize videoSize = media_ctrl->GetBestSize();
 
-    if (!IsAudioFile(current_file) && videoSize.GetWidth() > 0 && videoSize.GetHeight() > 0) {
-      wxLogMessage("Video detected - Size: %dx%d", videoSize.GetWidth(), videoSize.GetHeight());
-      if (media_book) {
-        media_book->ChangeSelection(0);
+    if (utils::FileUtils::IsVideoFile(current_file)) {
+      wxLogMessage("Video file detected: %s", current_file);
+      if (player_ui_control) {
+        player_ui_control->ShowVideoCanvas();
       }
     } else {
       wxLogMessage("Audio-only media detected");
-      if (media_book) {
-        media_book->ChangeSelection(1);
-        player_canvas->StartAudioVisualization(current_file);
-        wxLogMessage("Started waveform visualization for: %s", current_file);
+      if (player_ui_control) {
+        player_ui_control->ShowAudioCanvas();
       }
     }
   }
@@ -180,15 +179,11 @@ PlayerFrame::OnMediaStop(wxMediaEvent& event)
     status_bar->set_system_message("Stopped");
   }
   
-  // Stop audio visualization
-  if (media_book) {
-    media_book->ChangeSelection(1);
-    player_canvas->StopAudioVisualization();
-    player_canvas->SetDisplayMode(gui::PlayerCanvas::DisplayMode::IDLE);
+  if (player_ui_control) {
+      player_ui_control->ShowAudioCanvas();
   }
   
-  // Refresh the media control display
-  if (media_ctrl) {
+    wxMediaCtrl* media_ctrl = player_ui_control->GetMediaCtrl();  if (media_ctrl) {
     media_ctrl->Refresh();
   }
   event.Skip();
@@ -213,8 +208,8 @@ PlayerFrame::OnMediaFinished(wxMediaEvent& event)
       status_bar->set_system_message("End of playlist");
       status_bar->update_playback_info("Stopped");
     }
-    if (player_canvas) {
-      player_canvas->SetDisplayMode(gui::PlayerCanvas::DisplayMode::IDLE);
+    if (player_ui_control) {
+      player_ui_control->ShowAudioCanvas();
     }
   }
   event.Skip();
@@ -225,6 +220,7 @@ PlayerFrame::OnMediaPlay(wxMediaEvent& event)
 {
   wxLogMessage("Media play event triggered");
   
+  wxMediaCtrl* media_ctrl = player_ui_control->GetMediaCtrl();
   if (media_ctrl) {
     // Update duration when playback starts
     if (player_ctrls) {
@@ -246,12 +242,11 @@ PlayerFrame::OnMediaPlay(wxMediaEvent& event)
             wxString initial_display = "0s / " + utils::TimeFormatter::FormatTime(duration);
             status_bar->set_duration_display(initial_display);
           }
-          if (media_book) {
-            if (IsAudioFile(current_file)) {
-              media_book->ChangeSelection(1);
-              player_canvas->StartAudioVisualization(current_file);
+          if (player_ui_control) {
+            if (utils::FileUtils::IsVideoFile(current_file)) {
+              player_ui_control->ShowVideoCanvas();
             } else {
-              media_book->ChangeSelection(0);
+              player_ui_control->ShowAudioCanvas();
             }
           }
         }
@@ -273,9 +268,9 @@ PlayerFrame::OnMediaPause(wxMediaEvent& event)
   }
   
   // Pause audio visualization
-  if (player_canvas && player_canvas->GetDisplayMode() == gui::PlayerCanvas::DisplayMode::AUDIO_VIS) {
-    player_canvas->PauseAudioVisualization();
-  }
+  // if (player_canvas && player_canvas->GetDisplayMode() == gui::PlayerCanvas::DisplayMode::AUDIO_VIS) {
+  //   player_canvas->PauseAudioVisualization();
+  // }
   
   event.Skip();
 }

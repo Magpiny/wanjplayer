@@ -3,7 +3,10 @@ bin/
 build/
 .cache/
 COMMIT_MESSAGE.txt
-
+errormssg.txt
+error.txt
+error.log
+error.log.txt
 # Compiled Object files
 *.slo
 *.lo
