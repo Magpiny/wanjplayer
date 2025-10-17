@@ -13,7 +13,7 @@ gui::About::create_about_page()
   aboutInfo.SetWebSite("https://www.magpiny.dev");
   aboutInfo.AddDeveloper("Samuel Wanjare");
   aboutInfo.AddDocWriter("WSammy");
-  aboutInfo.AddTranslator("Magpiny Bo");
+  aboutInfo.AddTranslator("Magpiny BO");
   aboutInfo.AddArtist("Wanjman");
 
   wxAboutBox(aboutInfo);

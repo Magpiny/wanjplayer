@@ -7,6 +7,8 @@
 #include <memory>
 #include <wx/wx.h>
 
+class wxSimplebook;
+
 namespace gui {
 class StatusBar; // Forward declaration
 class Sidebar;   // Forward declaration
@@ -33,11 +35,13 @@ public:
 private: // UI Components
   wxPanel* video_canvas_pane;
   wxMediaCtrl* media_ctrl;
+  wxSimplebook* media_book;
 
   gui::player::MediaControls* player_ctrls;
   gui::player::Playlist* playlist;
   gui::StatusBar* status_bar;
   gui::Sidebar* sidebar;
+  gui::PlayerCanvas* player_canvas;
   wxSplitterWindow* splitter;
   wxPanel* playlist_pane;
   bool playlist_visible;

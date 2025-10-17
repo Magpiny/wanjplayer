@@ -1,0 +1,46 @@
+ASSERT INFO:
+/home/wanjares/Documents/Devs/cpp/libraries/wxWidgets-3.2.6/src/gtk/bitmap.cpp(541): assert ""width > 0 && height > 0"" failed in Create(): invalid bitmap size
+
+BACKTRACE:
+[1] wxBitmap::Create(int, int, int)
+[2] wxBitmap::Create(wxSize const&, int)
+[3] wxBitmap::wxBitmap(wxSize const&, int)
+[4] wxAppConsoleBase::HandleEvent(wxEvtHandler*, void (wxEvtHandler::*)(wxEvent&), wxEvent&) const
+[5] wxAppConsoleBase::CallEventHandler(wxEvtHandler*, wxEventFunctor&, wxEvent&) const
+[6] wxEvtHandler::ProcessEventIfMatchesId(wxEventTableEntryBase const&, wxEvtHandler*, wxEvent&)
+[7] wxEventHashTable::HandleEvent(wxEvent&, wxEvtHandler*)
+[8] wxEvtHandler::TryHereOnly(wxEvent&)
+[9] wxEvtHandler::TryBeforeAndHere(wxEvent&)
+[10] wxEvtHandler::ProcessEventLocally(wxEvent&)
+[11] wxEvtHandler::ProcessEvent(wxEvent&)
+[12] wxEvtHandler::SafelyProcessEvent(wxEvent&)
+[13] wxWindowBase::HandleWindowEvent(wxEvent&) const
+[14] wxWindow::DoSetSize(int, int, int, int, int)
+[15] wxWindowBase::SetSize(int, int, int, int, int)
+[16] wxSizerItem::SetDimension(wxPoint const&, wxSize const&)
+[17] wxBoxSizer::RepositionChildren(wxSize const&)
+[18] wxSizer::Layout()
+[19] wxSizer::SetDimension(wxPoint const&, wxSize const&)
+[20] wxSizer::SetDimension(int, int, int, int)
+[21] wxWindowBase::Layout()
+[22] wxWindowBase::InternalOnSize(wxSizeEvent&)
+[23] wxAppConsoleBase::HandleEvent(wxEvtHandler*, void (wxEvtHandler::*)(wxEvent&), wxEvent&) const
+[24] wxAppConsoleBase::CallEventHandler(wxEvtHandler*, wxEventFunctor&, wxEvent&) const
+[25] wxEvtHandler::ProcessEventIfMatchesId(wxEventTableEntryBase const&, wxEvtHandler*, wxEvent&)
+[26] wxEventHashTable::HandleEvent(wxEvent&, wxEvtHandler*)
+[27] wxEvtHandler::TryHereOnly(wxEvent&)
+[28] wxEvtHandler::TryBeforeAndHere(wxEvent&)
+[29] wxEvtHandler::ProcessEventLocally(wxEvent&)
+[30] wxEvtHandler::ProcessEvent(wxEvent&)
+[31] wxEvtHandler::SafelyProcessEvent(wxEvent&)
+[32] wxWindowBase::HandleWindowEvent(wxEvent&) const
+[33] wxWindow::DoSetSize(int, int, int, int, int)
+[34] wxWindowBase::SetSize(int, int, int, int, int)
+[35] wxSplitterWindow::SizeWindows()
+[36] wxSplitterWindow::SetSashPosition(int, bool)
+[37] wxSplitterWindow::DoSplit(wxSplitMode, wxWindow*, wxWindow*, int)
+[38] wxSplitterWindow::SplitVertically(wxWindow*, wxWindow*, int)
+[39] wxAppConsoleBase::CallOnInit()
+[40] wxEntry(int&, wchar_t**)
+[41] wxEntry(int&, char**)
+[42] __libc_start_main

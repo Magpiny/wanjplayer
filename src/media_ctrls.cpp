@@ -236,6 +236,7 @@ gui::player::MediaControls::OnPositionSliderSeek(wxMouseEvent& event)
 void
 gui::player::MediaControls::OnUpdateTimer(wxTimerEvent& event)
 {
+  utils::PerformanceTimer timer("OnUpdateTimer");
   if (_pmedia_ctrl) {
     // Update media duration if it changed
     wxFileOffset current_duration = _pmedia_ctrl->Length();

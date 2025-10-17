@@ -4,7 +4,17 @@
 #include "media_ctrls.hpp"
 #include "playlist.hpp"
 #include "wanjplayer.hpp"
+#include "canvas.hpp"
 #include "utils.hpp"
+
+namespace {
+bool IsAudioFile(const wxString& path) {
+    if (path.IsEmpty()) return false;
+    wxFileName filename(path);
+    wxString ext = filename.GetExt().Lower();
+    return ext == "mp3" || ext == "wav" || ext == "aac" || ext == "m4a" || ext == "flac" || ext == "ogg";
+}
+} // namespace
 
 void
 PlayerFrame::OnExit(wxCommandEvent& event)
@@ -138,12 +148,22 @@ PlayerFrame::OnMediaLoaded(wxMediaEvent& event)
       status_bar->set_system_message("Loaded: " + fname.GetName());
     }
     
-    // Check if this is a video file by trying to get video size
+    // Check if this is a video file
+    wxString current_file = playlist->GetCurrentItem();
     wxSize videoSize = media_ctrl->GetBestSize();
-    if (videoSize.GetWidth() > 0 && videoSize.GetHeight() > 0) {
+
+    if (!IsAudioFile(current_file) && videoSize.GetWidth() > 0 && videoSize.GetHeight() > 0) {
       wxLogMessage("Video detected - Size: %dx%d", videoSize.GetWidth(), videoSize.GetHeight());
+      if (media_book) {
+        media_book->ChangeSelection(0);
+      }
     } else {
       wxLogMessage("Audio-only media detected");
+      if (media_book) {
+        media_book->ChangeSelection(1);
+        player_canvas->StartAudioVisualization(current_file);
+        wxLogMessage("Started waveform visualization for: %s", current_file);
+      }
     }
   }
   event.Skip();
@@ -158,6 +178,13 @@ PlayerFrame::OnMediaStop(wxMediaEvent& event)
   if (status_bar) {
     status_bar->update_playback_info("Stopped");
     status_bar->set_system_message("Stopped");
+  }
+  
+  // Stop audio visualization
+  if (media_book) {
+    media_book->ChangeSelection(1);
+    player_canvas->StopAudioVisualization();
+    player_canvas->SetDisplayMode(gui::PlayerCanvas::DisplayMode::IDLE);
   }
   
   // Refresh the media control display
@@ -216,6 +243,14 @@ PlayerFrame::OnMediaPlay(wxMediaEvent& event)
             wxString initial_display = "0s / " + utils::TimeFormatter::FormatTime(duration);
             status_bar->set_duration_display(initial_display);
           }
+          if (media_book) {
+            if (IsAudioFile(current_file)) {
+              media_book->ChangeSelection(1);
+              player_canvas->SetDisplayMode(gui::PlayerCanvas::DisplayMode::AUDIO_VIS);
+            } else {
+              media_book->ChangeSelection(0);
+            }
+          }
         }
       }
     }
@@ -233,6 +268,9 @@ PlayerFrame::OnMediaPause(wxMediaEvent& event)
     status_bar->update_playback_info("Paused");
     status_bar->set_system_message("Paused");
   }
+  
+  // Keep visualization running but could reduce update frequency
+  // The visualization will continue showing the waveform pattern
   
   event.Skip();
 }

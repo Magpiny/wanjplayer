@@ -1,4 +1,4 @@
-git #ifndef __CANVAS_HPP
+#ifndef __CANVAS_HPP
 #define __CANVAS_HPP
 
 #include <wx/wx.h>
@@ -30,7 +30,7 @@ public:
     ~PlayerCanvas();
 
     // Main functionality
-    void SetMediaCtrl(wxMediaCtrl* media_ctrl);
+    // void SetMediaCtrl(wxMediaCtrl* ctrl);
     void SetDisplayMode(DisplayMode mode);
     DisplayMode GetDisplayMode() const { return current_mode; }
 
@@ -41,8 +41,7 @@ public:
 
     // Video display
     void OptimizeVideoDisplay();
-    void SetVideoAspectRatio(double ratio);
-    void SetVideoScaleMode(int scale_mode); // 0=fit, 1=fill, 2=stretch
+     // 0=fit, 1=fill, 2=stretch
 
     // Now playing info
     void SetNowPlayingText(const wxString& text);
@@ -99,7 +98,7 @@ protected:
 
 private:
     // Core components
-    wxMediaCtrl* media_ctrl;
+    // wxMediaCtrl* media_ctrl;
     DisplayMode current_mode;
 
     // Audio visualization

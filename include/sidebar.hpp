@@ -5,7 +5,10 @@
 #include "playlist.hpp"
 #include "media_ctrls.hpp"
 #include "statusbar.hpp"
+#include "canvas.hpp"
 #include "utils.hpp"
+
+#include <wx/simplebook.h>
 
 namespace gui {
 
@@ -17,6 +20,7 @@ private:
     wxPanel* playlist_pane;
     wxPanel* video_canvas_pane;
     wxButton* toggle_playlist_btn;
+    wxSimplebook* media_book;
     
     // GUI styling properties
     wxColour background_color;
@@ -30,6 +34,7 @@ private:
     gui::player::MediaControls* media_controls;
     gui::StatusBar* status_bar;
     wxMediaCtrl* media_ctrl;
+    gui::PlayerCanvas* player_canvas;
     
     // Layout properties
     int default_playlist_width;
@@ -69,6 +74,8 @@ public:
     gui::player::Playlist* GetPlaylist() const { return playlist; }
     gui::player::MediaControls* GetMediaControls() const { return media_controls; }
     wxMediaCtrl* GetMediaCtrl() const { return media_ctrl; }
+    gui::PlayerCanvas* GetPlayerCanvas() const { return player_canvas; }
+    wxSimplebook* GetMediaBook() const { return media_book; }
     
     // Component setters
     void SetPlaylist(gui::player::Playlist* pl) { playlist = pl; }

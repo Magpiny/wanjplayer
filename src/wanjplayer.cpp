@@ -18,6 +18,7 @@ WanjPlayer::OnInit()
 
   // Set essential environment variables for video compatibility
   wxSetEnv("GDK_BACKEND", "x11");
+  wxSetEnv("GDK_BACKEND", "x11");
   wxSetEnv("GST_GL_DISABLED", "1");
   wxSetEnv("LIBGL_ALWAYS_SOFTWARE", "1");
   wxSetEnv("GST_VIDEO_SINK", "ximagesink");
@@ -40,6 +41,7 @@ PlayerFrame::PlayerFrame()
   , playlist_visible(true)
   , playlist_pane(nullptr)
   , sidebar(nullptr)
+  , player_canvas(nullptr)
 {
   utils::LogUtils::LogInfo("Initializing PlayerFrame");
   
@@ -56,34 +58,46 @@ PlayerFrame::PlayerFrame()
   /**
    * CREATE THE MENU BAR
    */
+  utils::LogUtils::LogInfo("Creating Menubar");
   gui::Menubar* player_menubar = new gui::Menubar(this);
   player_menubar->create_menubar();
+  utils::LogUtils::LogInfo("Menubar created");
 
   /**
    * CREATE THE SIDEBAR AND MAIN LAYOUT
    */
+  utils::LogUtils::LogInfo("Creating Sidebar");
   sidebar = new gui::Sidebar(this);
   if (!sidebar) {
     utils::LogUtils::LogError("Failed to create sidebar");
     return;
   }
+  utils::LogUtils::LogInfo("Sidebar created");
   
   // Create the main layout using the sidebar
+  utils::LogUtils::LogInfo("Creating main layout");
   sidebar->CreateMainLayout();
+  utils::LogUtils::LogInfo("Main layout created");
   
   // Get references to components created by sidebar
+  utils::LogUtils::LogInfo("Getting references to components");
   splitter = sidebar->GetMainSplitter();
   playlist_pane = sidebar->GetPlaylistPane();
   video_canvas_pane = sidebar->GetVideoPane();
   playlist = sidebar->GetPlaylist();
   player_ctrls = sidebar->GetMediaControls();
   media_ctrl = sidebar->GetMediaCtrl();
+  player_canvas = sidebar->GetPlayerCanvas();
+  media_book = sidebar->GetMediaBook();
+  utils::LogUtils::LogInfo("References to components obtained");
 
   /**
    * CREATE THE STATUS BAR
    */
+  utils::LogUtils::LogInfo("Creating StatusBar");
   status_bar = new gui::StatusBar(this);
   status_bar->create_statusbar();
+  utils::LogUtils::LogInfo("StatusBar created");
   
   // Connect status bar to sidebar components
   sidebar->SetStatusBar(status_bar);

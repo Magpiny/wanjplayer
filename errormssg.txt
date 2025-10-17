@@ -1,0 +1,12 @@
+ASSERT INFO:
+/home/wanjares/Documents/Devs/cpp/libraries/wxWidgets-3.2.6/src/common/sizer.cpp(887): assert "CheckExpectedParentIs(w, m_containingWindow)" failed in SetContainingWindow(): Windows managed by the sizer associated with the given window must have this window as parent, otherwise they will not be repositioned correctly.
+
+Please use the window wxPanel@0x55e5a3141ce0 ("panel") with which this sizer is associated, as the parent when creating the window wxMediaCtrl@0x55e5a31435c0 ("mediaCtrl") managed by it.
+
+BACKTRACE:
+[1] wxSizer::SetContainingWindow(wxWindow*)
+[2] wxWindowBase::SetSizer(wxSizer*, bool)
+[3] wxAppConsoleBase::CallOnInit()
+[4] wxEntry(int&, wchar_t**)
+[5] wxEntry(int&, char**)
+[6] __libc_start_main

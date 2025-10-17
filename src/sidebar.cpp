@@ -17,10 +17,12 @@ Sidebar::Sidebar(wxFrame* parent)
     , playlist_pane(nullptr)
     , video_canvas_pane(nullptr)
     , toggle_playlist_btn(nullptr)
+    , media_book(nullptr)
     , playlist(nullptr)
     , media_controls(nullptr)
     , status_bar(nullptr)
     , media_ctrl(nullptr)
+    , player_canvas(nullptr)
     , default_playlist_width(DEFAULT_PLAYLIST_WIDTH)
     , playlist_visible(true)
     , minimum_pane_size(MINIMUM_PANE_SIZE)
@@ -78,24 +80,36 @@ void Sidebar::CreateMainLayout()
     utils::LogUtils::LogInfo("Creating main sidebar layout");
     
     // Create the main splitter window
+    utils::LogUtils::LogInfo("Creating splitter window");
     SetupSplitterWindow();
+    utils::LogUtils::LogInfo("Splitter window created");
     
     // Create the playlist pane (left side)
+    utils::LogUtils::LogInfo("Creating playlist pane");
     CreatePlaylistPane();
+    utils::LogUtils::LogInfo("Playlist pane created");
     
     // Create the video pane (right side)
+    utils::LogUtils::LogInfo("Creating video pane");
     CreateVideoPane();
+    utils::LogUtils::LogInfo("Video pane created");
     
     // Setup the splitter with both panes
+    utils::LogUtils::LogInfo("Splitting panes");
     main_splitter->SplitVertically(playlist_pane, video_canvas_pane, default_playlist_width);
     main_splitter->SetMinimumPaneSize(minimum_pane_size);
     main_splitter->SetSashGravity(sash_gravity);
+    utils::LogUtils::LogInfo("Panes split");
     
     // Apply modern styling
+    utils::LogUtils::LogInfo("Applying modern styling");
     ApplyModernStyling();
+    utils::LogUtils::LogInfo("Modern styling applied");
     
     // Setup event bindings
+    utils::LogUtils::LogInfo("Setting up event bindings");
     SetupEventBindings();
+    utils::LogUtils::LogInfo("Event bindings set up");
     
     // Layout the splitter on the parent frame
     wxBoxSizer* main_sizer = new wxBoxSizer(wxVERTICAL);
@@ -175,9 +189,18 @@ void Sidebar::CreateVideoPane()
         utils::LogUtils::LogError("Failed to create video canvas pane");
         return;
     }
+
+    media_book = new wxSimplebook(video_canvas_pane, wxID_ANY);
+
+    // Create PlayerCanvas for audio/video visualization
+    player_canvas = new gui::PlayerCanvas(media_book, wxID_ANY);
+    if (!player_canvas) {
+        utils::LogUtils::LogError("Failed to create player canvas");
+        return;
+    }
     
     // Create media control
-    media_ctrl = new wxMediaCtrl(video_canvas_pane,
+    media_ctrl = new wxMediaCtrl(media_book,
                                 ID_MEDIA_CTRL,
                                 wxEmptyString,
                                 wxDefaultPosition,
@@ -188,6 +211,14 @@ void Sidebar::CreateVideoPane()
         utils::LogUtils::LogError("Failed to create media control");
         return;
     }
+
+    media_book->AddPage(media_ctrl, "Video");
+    media_book->AddPage(player_canvas, "Audio");
+    
+    // Apply earth brown and sky blue theme colors
+    player_canvas->SetBackgroundColor(wxColour(101, 67, 33));  // Dark earth brown
+    player_canvas->SetAccentColor(wxColour(135, 206, 250));    // Light sky blue
+    player_canvas->SetTextColor(wxColour(245, 245, 220));      // Beige text for readability
     
     // Create media controls
     CreateMediaControls();
@@ -217,12 +248,12 @@ void Sidebar::SetupVideoSizer()
 {
     wxBoxSizer* video_sizer = new wxBoxSizer(wxVERTICAL);
     
-    if (media_ctrl) {
-        video_sizer->Add(media_ctrl, 9.4, wxEXPAND);
+    if (media_book) {
+        video_sizer->Add(media_book, 1, wxEXPAND);
     }
     
     if (media_controls) {
-        video_sizer->Add(media_controls, 0.6, wxEXPAND);
+        video_sizer->Add(media_controls, 0, wxEXPAND);
     }
     
     video_canvas_pane->SetSizer(video_sizer);

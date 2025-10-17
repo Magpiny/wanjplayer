@@ -26,7 +26,7 @@ namespace utils {
 // Static member definitions
 std::map<wxString, PerformanceUtils::OperationStats> PerformanceUtils::operation_stats;
 bool PerformanceUtils::monitoring_active = false;
-bool PerformanceUtils::profiling_enabled = false;
+bool PerformanceUtils::profiling_enabled = true;
 size_t PerformanceUtils::peak_memory_usage = 0;
 size_t PerformanceUtils::max_cache_size = 100 * 1024 * 1024; // 100MB default
 std::chrono::high_resolution_clock::time_point PerformanceUtils::monitoring_start_time;
